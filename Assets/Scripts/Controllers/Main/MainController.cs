@@ -11,8 +11,9 @@ public class MainController : MonoBehaviour
     private void Awake()
     {
         _controllers = new List<BaseController>();
-        _controllers.Add(new InputController(this));
-        _controllers.Add(new PlayerController(this));
+        _controllers.Add(new InputController());
+        _controllers.Add(new PlayerController());
+        _controllers.Add(new LevelController());
     }
 
     private void Start()
