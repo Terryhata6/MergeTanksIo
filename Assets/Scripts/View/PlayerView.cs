@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class PlayerView : BaseObjectView
 
   #region Fields
   [SerializeField] private PlayerState _state = PlayerState.Idle;
-
+  
   #region {Author:Doonn}
   // Player Level Up
   [SerializeField, Range(1, 5)] private int _level = 1;
@@ -18,7 +19,7 @@ public class PlayerView : BaseObjectView
 
 
   [SerializeField] private Rigidbody _playerRigidbody;
-
+  [SerializeField] private List<GameObject> _tankMeshes;
 
   #endregion
 
@@ -52,6 +53,25 @@ public class PlayerView : BaseObjectView
 
   }
 
+  public void ChangeTankMesh(int index)
+  {
+    for (int i = 0; i < _tankMeshes.Count; i++)
+    {
+      _tankMeshes[i].SetActive(false);
+    }
+
+    _tankMeshes[index].SetActive(true);
+  }
+
+  private void OnTriggerEnter(Collider other)
+  {
+    if (other.gameObject.CompareTag("Collectable"))
+    {
+      ChangeTankMesh(4);
+      Destroy(other.gameObject);
+    }
+  }
+
   #region {Author:Doonn}
   // Мега ГовноТопКодКостыль
   private int _count = 0;
@@ -68,6 +88,7 @@ public class PlayerView : BaseObjectView
       }
     }
   }
+  
   
 
   private static void DoSomething()
