@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class InputController : BaseController
 {
+    public InputController(MainController main) { }
     private Touch _currentTouch;
     
     public override void Initialize()

@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class MainController : MonoBehaviour
 {
-    private List<BaseController> _controllers;
-
+   private List<BaseController> _controllers;
+ 
 
     private void Awake()
     {
         _controllers = new List<BaseController>();
-        _controllers.Add(new InputController());
-        _controllers.Add(new PlayerController());
+        _controllers.Add(new InputController(this));
+        _controllers.Add(new PlayerController(this));
     }
 
     private void Start()
@@ -38,6 +38,14 @@ public class MainController : MonoBehaviour
         }
     }
 
+     public void AddController(BaseController controller)
+    {
+        if (!_controllers.Contains(controller))
+        {
+            _controllers.Add(controller);
+        }
+    }
+
     public T GetController<T>() where T : BaseController
     {
         foreach (BaseController obj in _controllers)
@@ -58,9 +66,9 @@ public class MainController : MonoBehaviour
     /// </summary>
     public void stupid()
     {
-        GetController<BaseController>();
-        InputController a = new InputController();
-        a = GetController<InputController>();
+        //GetController<BaseController>();
+        //InputController a = new InputController();
+       // a = GetController<InputController>();
     }
 
     #endregion
