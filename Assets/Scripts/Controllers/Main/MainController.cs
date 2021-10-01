@@ -13,6 +13,7 @@ public class MainController : MonoBehaviour
         _controllers = new List<BaseController>();
         _controllers.Add(new InputController());
         _controllers.Add(new PlayerController());
+        _controllers.Add(new LevelController());
     }
 
     private void Start()
