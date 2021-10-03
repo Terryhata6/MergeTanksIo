@@ -13,19 +13,20 @@ public class PlayerController : BaseController
 
   public Vector2 PositionDelta => _positionDelta;
   public Vector2 PositionBegan => _beganPosition;
-  private int _currentLevel;
+  
   #endregion
 
   private IPlayerState _state;
   private Dictionary<PlayerState, IPlayerState> _stateList = new Dictionary<PlayerState, IPlayerState>();
 
 
-  
+
 
   public PlayerController(MainController main)
   {
     _stateList.Add(PlayerState.Idle, new PlayerIdleStateModel());
     _stateList.Add(PlayerState.Move, new PlayerMoveStateModel());
+    _stateList.Add(PlayerState.Attack, new PlayerAttackStateModel());
   }
 
 
@@ -45,29 +46,11 @@ public class PlayerController : BaseController
     InputEvents.Current.OnTouchEnded += SetIdle;
     InputEvents.Current.OnTouchMoved += SetMove;
 
-    _currentLevel = Player.Level;
-    Player.Test(_currentLevel);
-    
   }
 
-  private void gege(int level)
-  {
-    Debug.Log(level);
-  }
-  
   public override void Execute()
   {
     base.Execute();
-
-    if(_currentLevel == Player.Level)
-    {
-      
-    } else {
-      _currentLevel = Player.Level;
-      Player.Test(_currentLevel);
-    }
-
-
 
     switch (Player.State)
     {
@@ -81,6 +64,9 @@ public class PlayerController : BaseController
           _state = _stateList[PlayerState.Move];
           break;
         }
+      case PlayerState.Attack:
+        _state = _stateList[PlayerState.Attack];
+        break;
     }
 
     _state.Execute(this, _player);
@@ -100,16 +86,19 @@ public class PlayerController : BaseController
     _player.SetState(state);
   }
 
-  // Попахивает Моим Говно Кодом
-  public void SetIdle(Vector2 delta) // <<< Не Понятно Зачем Нужен (Vector2 delta)
+  public void SetIdle(Vector2 delta) 
   {
     SetPlayerState(PlayerState.Idle);
   }
-  //..end
 
   public void SetMove(Vector2 delta)
   {
     SetPlayerState(PlayerState.Move);
     _positionDelta = delta;
+  }
+
+  public void SetAttack()
+  {
+    SetPlayerState(PlayerState.Attack);
   }
 }
