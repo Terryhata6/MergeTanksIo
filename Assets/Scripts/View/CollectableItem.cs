@@ -7,35 +7,19 @@ public class CollectableItem : MonoBehaviour, ICollectableItem
     [SerializeField] private Transform _obj;
     public int Points { get; set; }
     private ParticleSystem.Particle _temp;
-    private List<ParticleSystem.Particle> enter = new List<ParticleSystem.Particle>();
-
-    void Awake()
+    private List<ParticleSystem.Particle> _enter = new List<ParticleSystem.Particle>();
+    void OnParticleCollision(GameObject other)
     {
-
-
-    }
-
-    void OnParticleTrigger()
-    {
-        
-
-        // get
-        int numEnter = _collectables.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
-        if (numEnter > 0)
+        _obj = other.gameObject.transform;
+        _collectables.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, _enter);
+        int number = _enter.Count;
+        Debug.Log(_obj.position);
+        for (int i = 0; i<_enter.Count; i++)
         {
-            Debug.Log("EEEEEEEEE");
-        }
 
-        // iterate
-        for (int i = 0; i < numEnter; i++)
-        {
-            _temp = enter[i];
-            _temp.startColor = new Color32(255, 0, 0, 255);
-            _temp.position = Vector3.MoveTowards(_temp.position,_obj.position,0.2f);
-            enter[i] = _temp;
+            _temp = _enter[i];
+            _temp.position = Vector3.MoveTowards(_temp.position,  _temp.position - _obj.position, 10);
         }
-
-        // set
-        _collectables.SetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
     }
+    
 }
