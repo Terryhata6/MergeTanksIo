@@ -11,6 +11,9 @@ public class PlayerView : MonoBehaviour
         
     }
 
-    
+    public void GetPoints()
+    {
+
+    }
     
 }
