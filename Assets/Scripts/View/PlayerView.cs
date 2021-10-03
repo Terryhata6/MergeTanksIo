@@ -60,6 +60,7 @@ public class PlayerView : BaseObjectView
       _tankMeshes[i].SetActive(false);
     }
 
+
     _tankMeshes[index].SetActive(true);
   }
 
@@ -73,7 +74,7 @@ public class PlayerView : BaseObjectView
   }
 
   #region {Author:Doonn}
-  // Мега ГовноТопКодКостыль
+
   private int _count = 0;
 
   public int Count 
@@ -176,4 +177,11 @@ public class PlayerView : BaseObjectView
   }
   //..End
   #endregion
+
+    public void GetPoints()
+    {
+
+    }
+    
+
 }
