@@ -8,6 +8,11 @@ public class ObjectPool<T> where T : Component
     private GameObject _parent;
     private T _temp;
 
+    public ObjectPool()
+    {
+        _examples = new List<T>();
+    }
+
     public void Initialize(List<T> examples, float size) //Инициализация со списком разных префабов
     {
         _parent = new GameObject($"{typeof(T)} Pool");
@@ -23,7 +28,6 @@ public class ObjectPool<T> where T : Component
     {
         _parent = new GameObject($"{typeof(T)} Pool");
         _objects = new Queue<T>();
-        _examples = new List<T>();
         _examples.Add(example);
         CleanPool();
         for (int i = 0; i < size; i++)
@@ -31,9 +35,10 @@ public class ObjectPool<T> where T : Component
             FillPool(example);
         }
     }
+
     private void FillPool(T example) //Метод создания внесения префаба в пул , можно сделать публичным и использовать отдельно 
     {
-        _temp = Object.Instantiate(example, _parent.transform);
+        _temp = GameObject.Instantiate(example, _parent.transform);
         _temp.gameObject.SetActive(false);
         _objects.Enqueue(_temp);
     }
@@ -61,10 +66,6 @@ public class ObjectPool<T> where T : Component
     }
     private void CleanPool()
     {
-        for (int i = 0; i < _objects.Count; i++)
-        {
-            _temp = _objects.Dequeue();
-            Object.Destroy(_temp);
-        }
+        GameObject.Destroy(_parent);
     }
 }
