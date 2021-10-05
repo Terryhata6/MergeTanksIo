@@ -14,6 +14,7 @@ public class MainController : MonoBehaviour
         _controllers.Add(new InputController());
         _controllers.Add(new PlayerController());
         _controllers.Add(new LevelController());
+        _controllers.Add(new CollectableController());
     }
 
     private void Start()
