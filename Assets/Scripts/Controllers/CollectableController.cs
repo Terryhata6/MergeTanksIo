@@ -21,7 +21,7 @@ public class CollectableController : BaseController
 
     public override void Execute()
     {
-        FindKilledParticle();
+        FindBirthParticle();
         for (int i = 0; i < _activeColl.Count; i++)
         {
             if (CheckActive(i))
@@ -36,15 +36,14 @@ public class CollectableController : BaseController
         _pool.Initialize(_particle.Prefabs, _particle.System.main.maxParticles);
     }
 
-    private void FindKilledParticle()
+    private void FindBirthParticle()
     {
         for (_index = 0; _index < _num; _index++)
         {
-            if (_coll[_index].remainingLifetime == 0f)
+            if (_coll[_index].remainingLifetime == _particle.System.main.startLifetimeMultiplier)
             {;
                 _temp = _pool.GetObject();
                 _temp.transform.position = _coll[_index].position + Vector3.up;
-                _temp.Target = _particle.Target;
                 _activeColl.Add(_temp);
             }
         }
