@@ -22,7 +22,7 @@ public class PlayerController : BaseController
 
 
 
-  public PlayerController(MainController main)
+  public PlayerController()
   {
     _stateList.Add(PlayerState.Idle, new PlayerIdleStateModel());
     _stateList.Add(PlayerState.Move, new PlayerMoveStateModel());
