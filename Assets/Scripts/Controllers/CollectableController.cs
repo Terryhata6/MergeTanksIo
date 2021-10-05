@@ -5,14 +5,16 @@ public class CollectableController : BaseController
 {
     private Particles _particle;
     private CollectableItem _temp;
-    private ObjectPool<CollectableItem> _pool  = new ObjectPool<CollectableItem>();
-    private List<CollectableItem> _activeColl = new List<CollectableItem>();
+    private ObjectPool<CollectableItem> _pool;    
+    private List<CollectableItem> _activeColl;
     private ParticleSystem.Particle[] _coll;
     private int _num = 0;
     private int _index;
 
     public override void Initialize()
     {
+        _pool = new ObjectPool<CollectableItem>();
+        _activeColl = new List<CollectableItem>();
         _coll = new ParticleSystem.Particle[_particle.System.main.maxParticles];
         PoolInit();
     }
@@ -31,15 +33,7 @@ public class CollectableController : BaseController
 
     private void PoolInit()
     {
-        for (_index = 0; _index < _particle.System.main.maxParticles * 0.5f; _index++)
-        {
-            _pool.PutObjects(GetRandomPrefab(), 2);
-        }
-    }
-
-    private CollectableItem GetRandomPrefab()
-    {
-        return _particle.Prefabs[Random.Range(0, _particle.Prefabs.Count)];
+        _pool.Initialize(_particle.Prefabs, _particle.System.main.maxParticles);
     }
 
     private void FindKilledParticle()
