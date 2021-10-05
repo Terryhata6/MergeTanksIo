@@ -395,7 +395,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &506816880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,8 +409,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PoolCount: 10
-  PoolAutoExpand: 0
-  PoolPrefab: {fileID: 7207553639443047900, guid: d7865222734e9414cb2912326e8f9270, type: 3}
+  PoolAutoExpand: 1
+  PoolPrefab: {fileID: 0}
 --- !u!4 &506816881
 Transform:
   m_ObjectHideFlags: 0
@@ -1916,7 +1916,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e53294eccb00fc44dbba8356e94300b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isShoot: 1
+  isShooting: 0
+  Delay: 1
 --- !u!4 &2101252585
 Transform:
   m_ObjectHideFlags: 0

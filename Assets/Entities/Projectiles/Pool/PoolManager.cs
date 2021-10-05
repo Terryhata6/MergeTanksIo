@@ -20,6 +20,10 @@ public class PoolManager<T> where T : MonoBehaviour
     public PoolManager (T prefab, int count, Transform container)
     {
         Prefab = prefab;
+        if (Prefab == null)
+        {
+            throw new System.Exception ($"Пулл не установлен {typeof(T)}: Тобишь на прифабе {typeof(GameObject)} Должен Висеть Скрипт {typeof(T)}"); 
+        }
         Container = container;
         CreatePool (count);
     }

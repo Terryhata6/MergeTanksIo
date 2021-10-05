@@ -18,7 +18,7 @@ public class PlayerMoveStateModel : BasePlayerStateModel
     Vector3 vectorDirection = new Vector3(_vectorMove2D.x, 0, _vectorMove2D.y);
     player.Rotation = Quaternion.LookRotation(vectorDirection, Vector3.up);
 
-    Vector3 trans = Vector3.forward * _magnitude * 0.02f * player.MovementSpeed * Time.deltaTime;
+    Vector3 trans = Vector3.forward * _magnitude * 0.01f * player.MovementSpeed * Time.deltaTime;
     player.Transform.Translate(trans);
 
   }
