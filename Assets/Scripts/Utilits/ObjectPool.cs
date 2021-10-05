@@ -23,6 +23,8 @@ public class ObjectPool<T> where T : Component
     {
         _parent = new GameObject($"{typeof(T)} Pool");
         _objects = new Queue<T>();
+        _examples = new List<T>();
+        _examples.Add(example);
         CleanPool();
         for (int i = 0; i < size; i++)
         {
@@ -38,6 +40,10 @@ public class ObjectPool<T> where T : Component
 
     private T GetRandomExample()
     {
+        if (_examples.Count == 0)
+        {
+            return null;
+        }
         return _examples[Random.Range(0, _examples.Count)];
     }
 
@@ -45,6 +51,7 @@ public class ObjectPool<T> where T : Component
     {
         if (_objects.Count == 0)
         {
+            if (GetRandomExample() == null) return null;
             FillPool(GetRandomExample());
         }
         _temp = _objects.Dequeue();
