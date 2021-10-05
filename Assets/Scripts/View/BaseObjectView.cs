@@ -16,5 +16,5 @@ public class BaseObjectView : MonoBehaviour
     [SerializeField] private float MaxHealth = 100;
     [SerializeField] private float Health = 100;
     */
-
+   
 }

@@ -14,9 +14,6 @@ public class PlayerMoveStateModel : BasePlayerStateModel
 
     _vectorMove2D = controller.PositionDelta - controller.PositionBegan;
     _magnitude = Vector3.ClampMagnitude(_vectorMove2D, 100f).magnitude;
-    
-
-    
 
     Vector3 vectorDirection = new Vector3(_vectorMove2D.x, 0, _vectorMove2D.y);
     player.Rotation = Quaternion.LookRotation(vectorDirection, Vector3.up);
