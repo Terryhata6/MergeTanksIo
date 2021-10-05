@@ -5,16 +5,18 @@ public class CollectableController : BaseController
 {
     private Particles _particle;
     private CollectableItem _temp;
-    private ObjectPool<CollectableItem> _pool  = new ObjectPool<CollectableItem>();
-    private List<CollectableItem> _activeColl = new List<CollectableItem>();
+    private ObjectPool<CollectableItem> _pool;    
+    private List<CollectableItem> _activeColl;
     private ParticleSystem.Particle[] _coll;
     private int _num = 0;
     private int _index;
 
     public override void Initialize()
     {
-        // _coll = new ParticleSystem.Particle[_particle.System.main.maxParticles];
-        // PoolInit();
+        _pool = new ObjectPool<CollectableItem>();
+        _activeColl = new List<CollectableItem>();
+        _coll = new ParticleSystem.Particle[_particle.System.main.maxParticles];
+        PoolInit();
     }
 
     public override void Execute()
@@ -31,30 +33,22 @@ public class CollectableController : BaseController
 
     private void PoolInit()
     {
-        for (_index = 0; _index < _particle.System.main.maxParticles * 0.5f; _index++)
-        {
-            _pool.PutObjects(GetRandomPrefab(), 2);
-        }
-    }
-
-    private CollectableItem GetRandomPrefab()
-    {
-        return _particle.Prefabs[Random.Range(0, _particle.Prefabs.Count)];
+        _pool.Initialize(_particle.Prefabs, _particle.System.main.maxParticles);
     }
 
     private void FindKilledParticle()
     {
-        // for (_index = 0; _index < _num; _index++)
-        // {
-        //     if (_coll[_index].remainingLifetime == 0f)
-        //     {;
-        //         _temp = _pool.GetObject();
-        //         _temp.transform.position = _coll[_index].position + Vector3.up;
-        //         _temp.Target = _particle.Target;
-        //         _activeColl.Add(_temp);
-        //     }
-        // }
-        // _num = _particle.System.GetParticles(_coll);
+        for (_index = 0; _index < _num; _index++)
+        {
+            if (_coll[_index].remainingLifetime == 0f)
+            {;
+                _temp = _pool.GetObject();
+                _temp.transform.position = _coll[_index].position + Vector3.up;
+                _temp.Target = _particle.Target;
+                _activeColl.Add(_temp);
+            }
+        }
+        _num = _particle.System.GetParticles(_coll);
     }
 
     private void MoveCollectable(CollectableItem c)
