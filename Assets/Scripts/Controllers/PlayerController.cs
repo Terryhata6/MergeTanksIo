@@ -70,7 +70,6 @@ public class PlayerController : BaseController
     }
 
     _state.Execute(this, _player);
-
   }
 
 

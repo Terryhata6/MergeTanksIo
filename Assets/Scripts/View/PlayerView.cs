@@ -48,13 +48,12 @@ public class PlayerView : BaseObjectView
   {
     if (_playerRigidbody == null)
       _playerRigidbody = GetComponent<Rigidbody> ();
+
+    TankShotProjectileRecordTransform ();
   }
 
   // Start is called before the first frame update
-  void Start ()
-  {
-    TankShotProjectileRecordTransform ();
-  }
+  void Start () { }
 
   public void SetState (PlayerState state)
   {
@@ -63,10 +62,10 @@ public class PlayerView : BaseObjectView
 
   public void ChangeTankMesh (int index)
   {
-      for (int i = 0; i < _tankMeshes.Count; i++)
-      {
-        _tankMeshes[i].SetActive (false);
-      }
+    for (int i = 0; i < _tankMeshes.Count; i++)
+    {
+      _tankMeshes[i].SetActive (false);
+    }
 
     _tankMeshes[index - 1].SetActive (true);
   }
@@ -76,11 +75,12 @@ public class PlayerView : BaseObjectView
     if (other.gameObject.CompareTag ("Collectable"))
     {
 
-      if (Level >= 5) return; // Хард Код >> (Level >= 5)
+      if (Level >= 5) return; // << Хард Код (Level >= 5)
 
       _level++;
 
       ChangeTankMesh (Level);
+      TankShotProjectileRecordTransform ();
       Destroy (other.gameObject);
     }
   }
@@ -89,7 +89,7 @@ public class PlayerView : BaseObjectView
 
   #region {Author:Doonn}
   // Запись Трансформов от куда вылетают Снаряды
-  private void TankShotProjectileRecordTransform ()
+  public void TankShotProjectileRecordTransform ()
   {
     bool checkListIsEmpty = _tankMeshes.TrueForAll (x => x != null);
     if (!checkListIsEmpty)
@@ -98,14 +98,24 @@ public class PlayerView : BaseObjectView
       return;
     }
 
+
     foreach (GameObject Tank in _tankMeshes)
     {
-      int CountChild = Tank.transform.childCount;
-      for (int i = 0; i < CountChild; i++)
+      if (Tank.activeInHierarchy)
       {
-        _shotProjectileTransform.Add (Tank.transform.GetChild (i));
+        _shotProjectileTransform.Clear();
+        int CountChild = Tank.transform.childCount;
+        for (int i = 0; i < CountChild; i++)
+        {
+          _shotProjectileTransform.Add (Tank.transform.GetChild (i));
+        }
       }
     }
+  }
+
+  public void Attack ()
+  {
+    // Медот Для Стрельбы
   }
   #endregion
 }
