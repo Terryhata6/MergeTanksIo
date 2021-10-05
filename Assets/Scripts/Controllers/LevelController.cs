@@ -6,17 +6,25 @@ public class LevelController : BaseController
 {
     [SerializeField] private List<GameObject> _levels = new List<GameObject>();
     private Queue<Transform> _spawns = new Queue<Transform>();
+    private List<Transform> _temp = new List<Transform>();
     private GameObject _currentLevel;
-
+    private int j;
+    private Transform _spawn;
 
     public override void Execute()
     {
         base.Execute();
         if (Input.GetKeyDown(KeyCode.N))
         {
-            var n = _spawns.Dequeue();
-            Debug.Log(n.position);
-            _spawns.Enqueue(n);
+            Debug.Log(GetSpawnPoint());
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            LevelEvents.Current.LevelStarted();
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            LevelEvents.Current.LevelEnded();
         }
     }
 
@@ -26,6 +34,7 @@ public class LevelController : BaseController
         Debug.Log("LevelController Start");
         LevelEvents.Current.OnLevelStarted += ChangeLevel;
         LevelEvents.Current.OnLevelEnded += DisableLevel;
+        LevelEvents.Current.OnLevelStarted += ShuffleSpawns;
 
     }
 
@@ -54,9 +63,28 @@ public class LevelController : BaseController
     {
         return Random.Range(0,_levels.Count);
     }
+
+    private void ShuffleSpawns()
+    {
+        Debug.Log("shuffled");
+        for (int i = _temp.Count - 1; i>=1; i--)
+        {
+            j = Random.Range(0, i + 1);
+            _spawns.Enqueue(_temp[j]);
+            _temp.RemoveAt(j);
+        }
+    }
+
+    public Transform GetSpawnPoint()
+    {
+        _spawn = _spawns.Dequeue();
+        _spawns.Enqueue(_spawn);
+        return _spawn;
+    }
+
     public void AddSpawnPoint(Transform spawn)
     {
-        _spawns.Enqueue(spawn);
+        _temp.Add(spawn);
     }
 
     public void SetLevels(List<GameObject> levels)
