@@ -13,47 +13,49 @@ public class CollectableController : BaseController
 
     public override void Initialize()
     {
+        LevelEvents.Current.OnItemCollected += SetMovingCoin;
         _pool = new ObjectPool<CollectableItem>();
-        // _activeColl = new List<CollectableItem>();
-        // _coll = new ParticleSystem.Particle[_particle.System.main.maxParticles];
-        // PoolInit();
+        _activeColl = new List<CollectableItem>();
+        _coll = new ParticleSystem.Particle[_particle?.System.main.maxParticles ?? 0];
+        PoolInit();
     }
 
     public override void Execute()
     {
-        // FindKilledParticle();
-        // for (int i = 0; i < _activeColl.Count; i++)
-        // {
-        //     if (CheckActive(i))
-        //     {
-        //         MoveCollectable(_activeColl[i]);
-        //     }
-        // }
+        FindBirthParticle();                // поиск только что родившихся партиклов
+        for (int i = 0; i < _activeColl.Count; i++)
+        {
+            if (CheckActive(i))  // проверка на то, что движущийся coin все еще активен и не достиг своей цели
+            {
+                MoveCollectable(_activeColl[i]); // движение coin
+            }
+        }
     }
 
     private void PoolInit()
     {
+        if (_particle != null)
         _pool.Initialize(_particle.Prefabs, _particle.System.main.maxParticles);
     }
 
-    private void FindKilledParticle()
+    private void FindBirthParticle()
     {
-        // for (_index = 0; _index < _num; _index++)
-        // {
-        //     if (_coll[_index].remainingLifetime == 0f)
-        //     {;
-        //         _temp = _pool.GetObject();
-        //         _temp.transform.position = _coll[_index].position + Vector3.up;
-        //         _temp.Target = _particle.Target;
-        //         _activeColl.Add(_temp);
-        //     }
-        // }
-        // _num = _particle.System.GetParticles(_coll);
+        for (_index = 0; _index < _num; _index++)
+        {
+            if (_coll[_index].remainingLifetime == _particle.System.main.startLifetimeMultiplier) // при рождении партикла на его месте помещается coin
+            {
+                _temp = _pool.GetObject();
+                _temp.transform.position = _coll[_index].position + Vector3.up;
+                _temp.gameObject.layer = 6;
+                _temp.gameObject.tag = "Collectable";
+            }
+        }
+        _num = _particle?.System.GetParticles(_coll) ?? 0;
     }
 
-    private void MoveCollectable(CollectableItem c)
+    private void MoveCollectable(CollectableItem col)
     {
-        //c.transform.position = Vector3.MoveTowards(c.transform.position, c.Target.position, Time.deltaTime);
+        col.transform.position = Vector3.MoveTowards(col.transform.position, col.Target.position, Time.deltaTime);
     }
 
     private bool CheckActive(int num)
@@ -64,6 +66,11 @@ public class CollectableController : BaseController
             return false;
         }
         return true;
+    }
+
+    private void SetMovingCoin(CollectableItem coin) // Установка движущегося coin(когда игрок подбирает коин он движется к игроку)
+    {
+        _activeColl.Add(coin);
     }
 
     public void SetParticles(Particles ps)

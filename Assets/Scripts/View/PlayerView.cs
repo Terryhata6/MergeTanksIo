@@ -85,7 +85,7 @@ public class PlayerView : BaseObjectView
 
       ChangeTankMesh (Level);
       TankShotProjectileRecordTransform ();
-      Destroy (other.gameObject);
+            other.gameObject.SetActive(false);
     }
   }
 
