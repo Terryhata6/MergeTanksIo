@@ -38,7 +38,9 @@ public class CollectableController : BaseController
     {
         Debug.Log("pOOL INIT");
         if (_particle != null)
-        _pool.Initialize(_particle.Prefabs, _particle.System.main.maxParticles);
+        {
+            _pool.Initialize(_particle.Prefabs, _particle.System.main.maxParticles);
+        }
     }
 
     private void FindBirthParticle()
@@ -50,7 +52,7 @@ public class CollectableController : BaseController
                 _temp = _pool.GetObject();
                 _temp.transform.position = _coll[_index].position + Vector3.up * 0.5f;
                 _temp.gameObject.layer = 6;
-                _temp.gameObject.tag = "Collectable";
+                _temp.tag = "Collectable";
             }
         }
         _num = _particle?.System.GetParticles(_coll) ?? 0;
