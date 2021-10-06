@@ -5,126 +5,124 @@ using UnityEngine;
 
 public class PlayerView : BaseObjectView
 {
+    #region Fields
 
-  #region Fields
-  [SerializeField] private PlayerState _state = PlayerState.Idle;
+    [SerializeField] private PlayerState _state = PlayerState.Idle;
 
-  #region {Author:Doonn}
-  // Player Level Up
-  [SerializeField, Range (1, 5)] private int _level = 1;
-  public int Level => _level;
+    #region {Author:Doonn}
 
-  // Attack Range
-  private float _attackRange;
-  public float AttackRange => _attackRange;
+    // Player Level Up
+    [SerializeField, Range(1, 5)] private int _level = 1;
+    public int Level => _level;
 
-  // Shot Project Transform
-  [SerializeField] private List<Transform> _shotProjectileTransform;
-  public List<Transform> ShotProjectileTransform => _shotProjectileTransform;
+    // Attack Range
+    private float _attackRange;
+    public float AttackRange => _attackRange;
 
-  [SerializeField] private List<TankData> _ListTankData = new List<TankData>();
-  //..End
-  #endregion
+    // Shot Project Transform
+    [SerializeField] private List<Transform> _shotProjectileTransform;
+    public List<Transform> ShotProjectileTransform => _shotProjectileTransform;
 
-  [SerializeField, Range (3f, 10f)] private float _movementSpeed = 3.0f;
+    [SerializeField] private List<TankData> _ListTankData = new List<TankData>();
+    //..End
 
-  [SerializeField] private Rigidbody _playerRigidbody;
-  [SerializeField] private List<GameObject> _tankMeshes;
+    #endregion
 
+    [SerializeField, Range(3f, 10f)] private float _movementSpeed = 3.0f;
 
-  #endregion
+    [SerializeField] private Rigidbody _playerRigidbody;
+    [SerializeField] private List<GameObject> _tankMeshes;
 
-  #region AccsessModifyers
+    #endregion
 
-  public float MovementSpeed => _movementSpeed;
+    #region AccsessModifyers
 
-
-  public PlayerState State => _state;
+    public float MovementSpeed => _movementSpeed;
 
 
-  public Rigidbody Rigidbody => _playerRigidbody;
+    public PlayerState State => _state;
 
-  #endregion
 
-  public void Awake ()
-  {
-    if (_playerRigidbody == null)
-      _playerRigidbody = GetComponent<Rigidbody> ();
+    public Rigidbody Rigidbody => _playerRigidbody;
 
-    TankShotProjectileRecordTransform ();
-  }
+    #endregion
 
-  // Start is called before the first frame update
-    
-  void Start () { }
-
-  public void SetState (PlayerState state)
-  {
-    _state = state;
-    
-  }
-
-  public void ChangeTankMesh (int index)
-  {
-    for (int i = 0; i < _tankMeshes.Count; i++)
+    public void Awake()
     {
-      _tankMeshes[i].SetActive (false);
+        if (_playerRigidbody == null)
+            _playerRigidbody = GetComponent<Rigidbody>();
+
+        TankShotProjectileRecordTransform();
     }
 
-    _tankMeshes[index - 1].SetActive (true);
-  }
+    // Start is called before the first frame update
 
-  private void  OnCollisionEnter(Collision other)
-  {
-        Debug.Log("ss");
-    if (other.gameObject.CompareTag ("Collectable"))
+    void Start()
     {
-
-      if (Level >= 5) return; // << Хард Код (Level >= 5)
-
-      _level++;
-
-      ChangeTankMesh (Level);
-      TankShotProjectileRecordTransform ();
-      other.gameObject.SetActive(false);
-    }
-  }
-
-
-
-  #region {Author:Doonn}
-  // Запись Трансформов от куда вылетают Снаряды
-  public void TankShotProjectileRecordTransform ()
-  {
-    bool checkListIsEmpty = _tankMeshes.TrueForAll (x => x != null);
-    if (!checkListIsEmpty)
-    {
-      Debug.Log ("List Slot Empty");
-      return;
     }
 
-
-    foreach (GameObject Tank in _tankMeshes)
+    public void SetState(PlayerState state)
     {
-      if (Tank.activeInHierarchy)
-      {
-        _shotProjectileTransform.Clear();
-        int CountChild = Tank.transform.childCount;
-        for (int i = 0; i < CountChild; i++)
+        _state = state;
+    }
+
+    public void ChangeTankMesh(int index)
+    {
+        for (int i = 0; i < _tankMeshes.Count; i++)
         {
-          _shotProjectileTransform.Add (Tank.transform.GetChild (i));
+            _tankMeshes[i].SetActive(false);
         }
-      }
+
+        _tankMeshes[index - 1].SetActive(true);
     }
-  }
 
-  public void Attack ()
-  {
-    // Медот Для Стрельбы
-  }
-  #endregion
+    private void OnCollisionEnter(Collision other)
+    {
+        Debug.Log("ss");
+        if (other.gameObject.CompareTag("Collectable"))
+        {
+            if (Level >= 5) return; // << Хард Код (Level >= 5)
+
+            _level++;
+
+            ChangeTankMesh(Level);
+            TankShotProjectileRecordTransform();
+            other.gameObject.SetActive(false);
+        }
+    }
 
 
+    #region {Author:Doonn}
 
-  
+    // Запись Трансформов от куда вылетают Снаряды
+    public void TankShotProjectileRecordTransform()
+    {
+        bool checkListIsEmpty = _tankMeshes.TrueForAll(x => x != null);
+        if (!checkListIsEmpty)
+        {
+            Debug.Log("List Slot Empty");
+            return;
+        }
+
+
+        foreach (GameObject Tank in _tankMeshes)
+        {
+            if (Tank.activeInHierarchy)
+            {
+                _shotProjectileTransform.Clear();
+                int CountChild = Tank.transform.childCount;
+                for (int i = 0; i < CountChild; i++)
+                {
+                    _shotProjectileTransform.Add(Tank.transform.GetChild(i));
+                }
+            }
+        }
+    }
+
+    public void Attack()
+    {
+        // Медот Для Стрельбы
+    }
+
+    #endregion
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class ShotProjectile : MonoBehaviour
 {
     private float _speed = 15;
@@ -13,7 +14,9 @@ public class ShotProjectile : MonoBehaviour
     
     private ObjectPool<Projectile> _pool;
     private List<Transform> _obj;
-
+    private PlayerView _player;
+    private Projectile _temporalProjectile;
+    
     public void SetObjectPools(ObjectPool<Projectile> pool)
     {
         _pool = pool;
@@ -21,47 +24,52 @@ public class ShotProjectile : MonoBehaviour
 
     private void Start ()
     {
-        StartCoroutine (Shooting ());
+        if (TryGetComponent(out _player))
+        {
+            StartCoroutine (Shooting ());
+        }
+        else
+        {
+            Debug.Log("PlayerView not found", this.gameObject);
+            return;
+        }
     }
-
 
     IEnumerator Shooting ()
     {
         while (true)
         {
+            List<Transform> obj = new List<Transform> ();
             if (_isShooting)
             {
-                List<Transform> obj = new List<Transform> ();
-                obj = GameObject.FindObjectOfType<PlayerView> ().ShotProjectileTransform;
+                obj = _player.ShotProjectileTransform;
                 for (int i = 0; i < obj.Count; i++)
                 {
-
-                    Vector3 pos = obj[i].transform.position;
-                    Quaternion rot = obj[i].transform.rotation;
-                    var tt = _pool.GetObject ();
-                    tt.transform.position = pos;
-                    tt.transform.rotation = rot;
+                    ShootPooledProjectile(obj[i].transform.position, obj[i].transform.rotation);
                 }
                 yield return new WaitForSeconds (_delay);
             }
 
             if (_sequentialShots)
             {
-                List<Transform> obj = new List<Transform> ();
-                obj = GameObject.FindObjectOfType<PlayerView> ().ShotProjectileTransform;
+                obj = _player.ShotProjectileTransform;
                 for (int i = 0; i < obj.Count; i++)
                 {
-
-                    Vector3 pos = obj[i].transform.position;
-                    Quaternion rot = obj[i].transform.rotation;
-                    var tt = _pool.GetObject ();
-                    tt.transform.position = pos;
-                    tt.transform.rotation = rot;
+                    ShootPooledProjectile(obj[i].transform.position, obj[i].transform.rotation);
                     yield return new WaitForSeconds (_delay / obj.Count);
                 }
                 yield return new WaitForSeconds (_delay);
             }
             yield return new WaitForEndOfFrame ();
         }
+    }
+
+    
+    private Projectile ShootPooledProjectile(Vector3 position, Quaternion rotation)
+    {
+        _temporalProjectile = _pool.GetObject();
+        _temporalProjectile.transform.position = position;
+        _temporalProjectile.transform.rotation = rotation;
+        return _temporalProjectile;
     }
 }

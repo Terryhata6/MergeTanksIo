@@ -6,12 +6,13 @@ using UnityEngine;
 public class MainController : MonoBehaviour
 {
    private List<BaseController> _controllers;
- 
+   [SerializeField] private bool _useMouse;
 
+   public bool UseMouse => _useMouse;
     private void Awake()
     {
         _controllers = new List<BaseController>();
-        _controllers.Add(new InputController());
+        _controllers.Add(new InputController().SetMainController(this));
         _controllers.Add(new PlayerController());
         _controllers.Add(new LevelController());
         _controllers.Add(new CollectableController());
