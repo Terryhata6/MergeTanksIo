@@ -13,7 +13,9 @@ public class CollectableController : BaseController
 
     public override void Initialize()
     {
+        LevelEvents.Current.OnLevelChanged += PoolInit;
         LevelEvents.Current.OnItemCollected += SetMovingCoin;
+
         _pool = new ObjectPool<CollectableItem>();
         _activeColl = new List<CollectableItem>();
         _coll = new ParticleSystem.Particle[_particle?.System.main.maxParticles ?? 0];
@@ -34,6 +36,7 @@ public class CollectableController : BaseController
 
     private void PoolInit()
     {
+        Debug.Log("pOOL INIT");
         if (_particle != null)
         _pool.Initialize(_particle.Prefabs, _particle.System.main.maxParticles);
     }
@@ -45,7 +48,7 @@ public class CollectableController : BaseController
             if (_coll[_index].remainingLifetime == _particle.System.main.startLifetimeMultiplier) // при рождении партикла на его месте помещается coin
             {
                 _temp = _pool.GetObject();
-                _temp.transform.position = _coll[_index].position + Vector3.up;
+                _temp.transform.position = _coll[_index].position + Vector3.up * 0.5f;
                 _temp.gameObject.layer = 6;
                 _temp.gameObject.tag = "Collectable";
             }
@@ -55,7 +58,7 @@ public class CollectableController : BaseController
 
     private void MoveCollectable(CollectableItem col)
     {
-        col.transform.position = Vector3.MoveTowards(col.transform.position, col.Target.position, Time.deltaTime);
+        col.transform.position = Vector3.MoveTowards(col.transform.position, col.Target.position + Vector3.up * 0.5f, Time.deltaTime * 2f);
     }
 
     private bool CheckActive(int num)
@@ -75,6 +78,7 @@ public class CollectableController : BaseController
 
     public void SetParticles(Particles ps)
     {
+        Debug.Log("pARTICLES Set");
         _particle = ps;
     }
 }

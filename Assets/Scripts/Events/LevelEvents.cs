@@ -17,6 +17,12 @@ public class LevelEvents
         OnLevelStarted?.Invoke();
     }
 
+    public event Action OnLevelChanged;
+    public void LevelChanged()
+    {
+        OnLevelChanged?.Invoke();
+    }
+
     public event Action<CollectableItem> OnItemCollected;
     public void ItemCollected(CollectableItem coin)
     {

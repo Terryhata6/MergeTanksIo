@@ -74,8 +74,9 @@ public class PlayerView : BaseObjectView
     _tankMeshes[index - 1].SetActive (true);
   }
 
-  private void OnTriggerEnter (Collider other)
+  private void  OnCollisionEnter(Collision other)
   {
+        Debug.Log("ss");
     if (other.gameObject.CompareTag ("Collectable"))
     {
 
@@ -85,7 +86,7 @@ public class PlayerView : BaseObjectView
 
       ChangeTankMesh (Level);
       TankShotProjectileRecordTransform ();
-            other.gameObject.SetActive(false);
+      other.gameObject.SetActive(false);
     }
   }
 
