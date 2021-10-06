@@ -8,7 +8,12 @@ public class PoolProjectile : MonoBehaviour
     public Projectile Projectile;
     private void Start ()
     {
-        var tt = GameObject.FindObjectOfType<Projectile>();
-        _projectiles.PutObjects (tt, 100);
+        var tt = GameObject.FindObjectOfType<Projectile> ();
+        _projectiles.Initialize (Projectile, 100);
+    }
+
+    public Projectile GetProjectile ()
+    {
+        return _projectiles.GetObject();
     }
 }

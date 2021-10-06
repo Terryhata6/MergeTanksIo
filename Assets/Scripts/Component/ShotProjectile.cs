@@ -8,9 +8,10 @@ public class ShotProjectile : MonoBehaviour
     public float Speed => _speed;
 
     [SerializeField] private bool isShooting;
+    [SerializeField] private bool SequentialShots;
     [SerializeField] private float Delay = 1f;
     private PoolObjects _pool;
-
+    private List<Transform> _obj;
     // private void Awake ()
     // {
     //    _pool = new PoolObjects();
@@ -19,6 +20,7 @@ public class ShotProjectile : MonoBehaviour
     private void Start ()
     {
         _pool = GameObject.FindObjectOfType<PoolObjects> ();
+        _obj = GameObject.FindObjectOfType<PlayerView> ().ShotProjectileTransform;
 
         StartCoroutine (Shooting ());
     }
@@ -40,6 +42,23 @@ public class ShotProjectile : MonoBehaviour
                     var tt = _pool.GetObject ();
                     tt.transform.position = pos;
                     tt.transform.rotation = rot;
+                }
+                yield return new WaitForSeconds (Delay);
+            }
+
+            if (SequentialShots)
+            {
+                List<Transform> obj = new List<Transform> ();
+                obj = GameObject.FindObjectOfType<PlayerView> ().ShotProjectileTransform;
+                for (int i = 0; i < obj.Count; i++)
+                {
+
+                    Vector3 pos = obj[i].transform.position;
+                    Quaternion rot = obj[i].transform.rotation;
+                    var tt = _pool.GetObject ();
+                    tt.transform.position = pos;
+                    tt.transform.rotation = rot;
+                    yield return new WaitForSeconds (Delay / obj.Count);
                 }
                 yield return new WaitForSeconds (Delay);
             }

@@ -14,21 +14,21 @@ public class CollectableController : BaseController
     public override void Initialize()
     {
         _pool = new ObjectPool<CollectableItem>();
-        _activeColl = new List<CollectableItem>();
-        _coll = new ParticleSystem.Particle[_particle.System.main.maxParticles];
-        PoolInit();
+        // _activeColl = new List<CollectableItem>();
+        // _coll = new ParticleSystem.Particle[_particle.System.main.maxParticles];
+        // PoolInit();
     }
 
     public override void Execute()
     {
-        FindKilledParticle();
-        for (int i = 0; i < _activeColl.Count; i++)
-        {
-            if (CheckActive(i))
-            {
-                MoveCollectable(_activeColl[i]);
-            }
-        }
+        // FindKilledParticle();
+        // for (int i = 0; i < _activeColl.Count; i++)
+        // {
+        //     if (CheckActive(i))
+        //     {
+        //         MoveCollectable(_activeColl[i]);
+        //     }
+        // }
     }
 
     private void PoolInit()
@@ -38,17 +38,17 @@ public class CollectableController : BaseController
 
     private void FindKilledParticle()
     {
-        for (_index = 0; _index < _num; _index++)
-        {
-            if (_coll[_index].remainingLifetime == 0f)
-            {;
-                _temp = _pool.GetObject();
-                _temp.transform.position = _coll[_index].position + Vector3.up;
-                _temp.Target = _particle.Target;
-                _activeColl.Add(_temp);
-            }
-        }
-        _num = _particle.System.GetParticles(_coll);
+        // for (_index = 0; _index < _num; _index++)
+        // {
+        //     if (_coll[_index].remainingLifetime == 0f)
+        //     {;
+        //         _temp = _pool.GetObject();
+        //         _temp.transform.position = _coll[_index].position + Vector3.up;
+        //         _temp.Target = _particle.Target;
+        //         _activeColl.Add(_temp);
+        //     }
+        // }
+        // _num = _particle.System.GetParticles(_coll);
     }
 
     private void MoveCollectable(CollectableItem c)

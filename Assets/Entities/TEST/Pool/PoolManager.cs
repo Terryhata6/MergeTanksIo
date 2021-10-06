@@ -9,6 +9,7 @@ public class PoolManager<T> where T : MonoBehaviour
     public bool AutoExpand { get; set; }
     public Transform Container { get; }
     private List<T> _pool;
+    public List<T> Pool => _pool;
 
     public PoolManager (T prefab, int count)
     {
