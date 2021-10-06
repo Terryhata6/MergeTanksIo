@@ -4,10 +4,21 @@ using UnityEngine;
 public class CollectableItem : MonoBehaviour, ICollectableItem
 {
     private Transform _target;
-    public int Points { get; set; }
+    private int _points = 1;
+    public int Points // Дописать логику занесения количества поинтов
+    {
+        get => _points;
+        set => _points = value;
+    } 
     public Transform Target
     {
         get => _target;
         set => _target = value;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        _target = other.transform;              // когда игрок приближается к коину, он становится целью для коина, к которой он летит
+        LevelEvents.Current.ItemCollected(this);
     }
 }

@@ -15,9 +15,8 @@ public class ObjectPool<T> where T : Component
 
     public void Initialize(List<T> examples, float size) //Инициализация со списком разных префабов
     {
-        _parent = new GameObject($"{typeof(T)} Pool");
-        _objects = new Queue<T>();
         CleanPool();
+        _parent = new GameObject($"{typeof(T)} Pool");
         _examples = examples;
         for (int i = 0; i < size; i++)
         {
@@ -26,10 +25,9 @@ public class ObjectPool<T> where T : Component
     }
     public void Initialize(T example, float size) // Инициализация с одним префабом
     {
-        _parent = new GameObject($"{typeof(T)} Pool");
-        _objects = new Queue<T>();
-        _examples.Add(example);
         CleanPool();
+        _parent = new GameObject($"{typeof(T)} Pool");
+        _examples.Add(example);
         for (int i = 0; i < size; i++)
         {
             FillPool(example);
@@ -66,6 +64,7 @@ public class ObjectPool<T> where T : Component
     }
     private void CleanPool()
     {
-        GameObject.Destroy(_parent);
+        _examples = new List<T>();
+        _objects = new Queue<T>();
     }
 }
