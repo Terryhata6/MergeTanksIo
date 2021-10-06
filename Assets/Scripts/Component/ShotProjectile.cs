@@ -7,21 +7,20 @@ public class ShotProjectile : MonoBehaviour
     private float _speed = 15;
     public float Speed => _speed;
 
-    [SerializeField] private bool isShooting;
-    [SerializeField] private bool SequentialShots;
-    [SerializeField] private float Delay = 1f;
-    private PoolObjects _pool;
+    [SerializeField] private bool _isShooting;
+    [SerializeField] private bool _sequentialShots;
+    [SerializeField] private float _delay = 1f;
+    
+    private ObjectPool<Projectile> _pool;
     private List<Transform> _obj;
-    // private void Awake ()
-    // {
-    //    _pool = new PoolObjects();
-    // }
+
+    public void SetObjectPools(ObjectPool<Projectile> pool)
+    {
+        _pool = pool;
+    }
 
     private void Start ()
     {
-        _pool = GameObject.FindObjectOfType<PoolObjects> ();
-        _obj = GameObject.FindObjectOfType<PlayerView> ().ShotProjectileTransform;
-
         StartCoroutine (Shooting ());
     }
 
@@ -30,7 +29,7 @@ public class ShotProjectile : MonoBehaviour
     {
         while (true)
         {
-            if (isShooting)
+            if (_isShooting)
             {
                 List<Transform> obj = new List<Transform> ();
                 obj = GameObject.FindObjectOfType<PlayerView> ().ShotProjectileTransform;
@@ -43,10 +42,10 @@ public class ShotProjectile : MonoBehaviour
                     tt.transform.position = pos;
                     tt.transform.rotation = rot;
                 }
-                yield return new WaitForSeconds (Delay);
+                yield return new WaitForSeconds (_delay);
             }
 
-            if (SequentialShots)
+            if (_sequentialShots)
             {
                 List<Transform> obj = new List<Transform> ();
                 obj = GameObject.FindObjectOfType<PlayerView> ().ShotProjectileTransform;
@@ -58,9 +57,9 @@ public class ShotProjectile : MonoBehaviour
                     var tt = _pool.GetObject ();
                     tt.transform.position = pos;
                     tt.transform.rotation = rot;
-                    yield return new WaitForSeconds (Delay / obj.Count);
+                    yield return new WaitForSeconds (_delay / obj.Count);
                 }
-                yield return new WaitForSeconds (Delay);
+                yield return new WaitForSeconds (_delay);
             }
             yield return new WaitForEndOfFrame ();
         }
