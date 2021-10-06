@@ -5,11 +5,10 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public float Speed;
-
-    // Update is called once per frame
-    void Update()
+    private ProjectileController _projectileController;
+    public void MoveProjectile ()
     {
         float newSpeed = Speed * Time.deltaTime;
-        transform.Translate(transform.forward * newSpeed, Space.World);
+        transform.Translate (transform.forward * newSpeed, Space.World);
     }
 }

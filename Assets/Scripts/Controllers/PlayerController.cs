@@ -8,8 +8,8 @@ public class PlayerController : BaseController
   public PlayerView Player => _player;
 
   #region {Author:Doonn}
-  private Vector2 _positionDelta = Vector2.zero;
-  private Vector2 _beganPosition = Vector2.zero;
+  private Vector2 _positionDelta;
+  private Vector2 _beganPosition;
 
   public Vector2 PositionDelta => _positionDelta;
   public Vector2 PositionBegan => _beganPosition;

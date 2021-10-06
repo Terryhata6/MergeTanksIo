@@ -11,15 +11,26 @@ public class PoolObjects : MonoBehaviour
 
     private PoolManager<Projectile> _pool;
 
+    public List<Projectile> ListProjectile;
+
     private void Start ()
     {
-        _pool = new PoolManager<Projectile>(PoolPrefab, PoolCount, transform);
+        _pool = new PoolManager<Projectile> (PoolPrefab, PoolCount, transform);
+
+
         _pool.AutoExpand = PoolAutoExpand;
+
+        ListProjectile = _pool.Pool;
     }
 
-    public Projectile GetObject()
+    public Projectile GetObject ()
     {
-        return _pool.GetFreeObject();
+        return _pool.GetFreeObject ();
 
+    }
+
+    public List<Projectile> GetList()
+    {
+        return ListProjectile;
     }
 }

@@ -21,6 +21,8 @@ public class PlayerView : BaseObjectView
   // Shot Project Transform
   [SerializeField] private List<Transform> _shotProjectileTransform;
   public List<Transform> ShotProjectileTransform => _shotProjectileTransform;
+
+  [SerializeField] private List<TankData> _ListTankData = new List<TankData>();
   //..End
   #endregion
 
@@ -53,11 +55,13 @@ public class PlayerView : BaseObjectView
   }
 
   // Start is called before the first frame update
+    
   void Start () { }
 
   public void SetState (PlayerState state)
   {
     _state = state;
+    
   }
 
   public void ChangeTankMesh (int index)
@@ -119,4 +123,8 @@ public class PlayerView : BaseObjectView
     // Медот Для Стрельбы
   }
   #endregion
+
+
+
+  
 }
