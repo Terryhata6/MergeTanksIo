@@ -17,6 +17,7 @@ public class MainController : MonoBehaviour
         _controllers.Add(new LevelController());
         _controllers.Add(new CollectableController());
         _controllers.Add(new ProjectileController()); //<< Doonn
+        _controllers.Add(new UIController());
     }
 
     private void Start()
