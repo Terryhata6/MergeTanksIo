@@ -81,12 +81,12 @@ public class PlayerView : BaseObjectView
         Debug.Log("ss");
         if (other.gameObject.CompareTag("Collectable"))
         {
-            if (Level >= 5) return; // << Хард Код (Level >= 5)
-
-            _level++;
-
-            ChangeTankMesh(Level);
-            TankShotProjectileRecordTransform();
+            // if (Level >= 5) return; // << Хард Код (Level >= 5)
+            //
+            // _level++;
+            //
+            // ChangeTankMesh(Level);
+            // TankShotProjectileRecordTransform();
             other.gameObject.SetActive(false);
         }
     }
@@ -97,7 +97,7 @@ public class PlayerView : BaseObjectView
     // Запись Трансформов от куда вылетают Снаряды
     public void TankShotProjectileRecordTransform()
     {
-        bool checkListIsEmpty = _tankMeshes.TrueForAll(x => x != null);
+        bool checkListIsEmpty = _tankMeshes?.TrueForAll(x => x != null) ?? false;
         if (!checkListIsEmpty)
         {
             Debug.Log("List Slot Empty");

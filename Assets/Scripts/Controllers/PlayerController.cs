@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : BaseController
+public class PlayerController : BaseController, IObjectExecuter
 {
     private PlayerView _player;
 
@@ -27,7 +27,12 @@ public class PlayerController : BaseController
         _stateList.Add(PlayerState.Move, new PlayerMoveStateModel());
         _stateList.Add(PlayerState.Attack, new PlayerAttackStateModel());
     }
+    
+    //InputEvents.Current.OnTouchBegan += SetBeganPosition;
+    //InputEvents.Current.OnTouchEnded += SetIdle;
+    //InputEvents.Current.OnTouchMoved += SetMove;
 
+    
 
     public override void Initialize()
     {
@@ -40,7 +45,7 @@ public class PlayerController : BaseController
         {
             Debug.Log("Не сработало");
         }
-
+        
         InputEvents.Current.OnTouchBegan += SetBeganPosition;
         InputEvents.Current.OnTouchEnded += SetIdle;
         InputEvents.Current.OnTouchMoved += SetMove;
@@ -85,6 +90,7 @@ public class PlayerController : BaseController
 
     public void SetPlayerState(PlayerState state)
     {
+        if (_player == null) return;
         _player.SetState(state);
     }
 
@@ -103,4 +109,16 @@ public class PlayerController : BaseController
     {
         SetPlayerState(PlayerState.Attack);
     }
+
+    public void AddObj(GameObject obj)
+    {
+        obj.AddComponent<PlayerView>();
+        _player = obj.GetComponent<PlayerView>();
+    }
+
+    public void RemoveObj(GameObject obj)
+    {
+        _player = null;
+    }
 }
+

@@ -10,31 +10,38 @@ public class ObjectPool<T> where T : Component
 
     public ObjectPool()
     {
+        _objects = new Queue<T>();
         _examples = new List<T>();
     }
 
     public void Initialize(List<T> examples, float size) //Инициализация со списком разных префабов
     {
         CleanPool();
-        _parent = new GameObject($"{typeof(T)} Pool");
-        _examples = examples;
-        for (int i = 0; i < size; i++)
+        if (examples.Count > 0)
         {
-            FillPool(GetRandomExample());
+            _parent = new GameObject($"{typeof(T)} Pool");
+            _examples = examples;
+            for (int i = 0; i < size; i++)
+            {
+                FillPool(GetRandomExample());
+            }
         }
     }
     public void Initialize(T example, float size) // Инициализация с одним префабом
     {
         CleanPool();
-        _parent = new GameObject($"{typeof(T)} Pool");
-        _examples.Add(example);
-        for (int i = 0; i < size; i++)
+        if (example)
         {
-            FillPool(example);
+            _parent = new GameObject($"{typeof(T)} Pool");
+            _examples.Add(example);
+            for (int i = 0; i < size; i++)
+            {
+                FillPool(example);
+            }
         }
     }
 
-    private void FillPool(T example) //Метод создания внесения префаба в пул , можно сделать публичным и использовать отдельно 
+    private void FillPool(T example) //Метод создания и внесения префаба в пул , можно сделать публичным и использовать отдельно 
     {
         _temp = GameObject.Instantiate(example, _parent.transform);
         _temp.gameObject.SetActive(false);
@@ -62,9 +69,13 @@ public class ObjectPool<T> where T : Component
         _temp.gameObject.SetActive(true);
         return _temp;
     }
-    private void CleanPool()
+    public void CleanPool()
     {
-        _examples = new List<T>();
-        _objects = new Queue<T>();
+        if (_parent)
+        {
+            GameObject.Destroy((_parent));
+        }
+        _examples.Clear();
+        _objects.Clear();
     }
 }

@@ -8,6 +8,8 @@ public class CollectableController : BaseController
     private ObjectPool<CollectableItem> _pool;    
     private List<CollectableItem> _activeColl;
     private ParticleSystem.Particle[] _coll;
+    private Vector3 _particlePos;
+    private float _lifeTime = 0f;
     private int _num = 0;
     private int _index;
 
@@ -15,11 +17,10 @@ public class CollectableController : BaseController
     {
         LevelEvents.Current.OnLevelChanged += PoolInit;
         LevelEvents.Current.OnItemCollected += SetMovingCoin;
+        LevelEvents.Current.OnParticlesAppear += SetParticles;
 
         _pool = new ObjectPool<CollectableItem>();
         _activeColl = new List<CollectableItem>();
-        _coll = new ParticleSystem.Particle[_particle?.System.main.maxParticles ?? 0];
-        PoolInit();
     }
 
     public override void Execute()
@@ -36,9 +37,10 @@ public class CollectableController : BaseController
 
     private void PoolInit()
     {
-        Debug.Log("pOOL INIT");
-        if (_particle != null)
+        _pool.CleanPool();
+        if (_particle)
         {
+            Debug.Log("pOOL INIT");
             _pool.Initialize(_particle.Prefabs, _particle.System.main.maxParticles);
         }
     }
@@ -47,15 +49,22 @@ public class CollectableController : BaseController
     {
         for (_index = 0; _index < _num; _index++)
         {
-            if (_coll[_index].remainingLifetime == _particle.System.main.startLifetimeMultiplier) // при рождении партикла на его месте помещается coin
+            if (_coll[_index].remainingLifetime == _lifeTime) // при рождении партикла на его месте помещается coin
             {
                 _temp = _pool.GetObject();
-                _temp.transform.position = _coll[_index].position + Vector3.up * 0.5f;
-                _temp.gameObject.layer = 6;
-                _temp.tag = "Collectable";
+                if (_temp)
+                {
+                    _temp.transform.position = _coll[_index].position + _particlePos;
+                    _temp.gameObject.layer = 6;
+                    _temp.tag = "Collectable";
+                }
             }
         }
-        _num = _particle?.System.GetParticles(_coll) ?? 0;
+        if (_particle)
+        {
+            _num = _particle?.System.GetParticles(_coll) ?? 0;
+        }
+
     }
 
     private void MoveCollectable(CollectableItem col)
@@ -80,7 +89,13 @@ public class CollectableController : BaseController
 
     public void SetParticles(Particles ps)
     {
-        Debug.Log("pARTICLES Set");
-        _particle = ps;
+        if (ps)
+        {
+            Debug.Log("Particles set"); 
+            _particle = ps;
+            _particlePos = ps.transform.position;
+            _coll = new ParticleSystem.Particle[_particle?.System.main.maxParticles ?? 0];
+            _lifeTime = _particle?.System.main.startLifetimeMultiplier ?? 0f;
+        }
     }
 }
