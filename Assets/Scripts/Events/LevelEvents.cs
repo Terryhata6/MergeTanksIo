@@ -1,24 +1,23 @@
 using System;
-using UnityEngine.Events;
 
 
 public class LevelEvents
 {
     public static LevelEvents Current = new LevelEvents();
 
-    public event UnityAction OnLevelEnded;
+    public event Action OnLevelEnded;
     public void LevelEnded()
     {
         OnLevelEnded?.Invoke();
 
     }
-    public event UnityAction OnLevelStarted;
+    public event Action OnLevelStarted;
     public void LevelStarted()
     {
         OnLevelStarted?.Invoke();
     }
 
-    public event UnityAction OnLevelChanged;
+    public event Action OnLevelChanged;
     public void LevelChanged()
     {
         OnLevelChanged?.Invoke();
@@ -30,22 +29,28 @@ public class LevelEvents
         OnItemCollected?.Invoke(coin);
     }
 
-    public event Action<Particles> OnParticlesAppear;
-
-    public void ParticlesAppear(Particles particles)
+    //Events used from UI
+    public event Action OnLevelComplete;
+    public void LevelComplete()
     {
-        OnParticlesAppear?.Invoke(particles);
+        OnLevelComplete?.Invoke();
     }
 
-    public event UnityAction<PersonType> OnPlayerSelected;
-
-    public void PlayerSelected()
+    public event Action OnLevelFailed;
+    public void LevelFailed()
     {
-        OnPlayerSelected?.Invoke(PersonType.PlayerDino);
+        OnLevelFailed?.Invoke();
     }
-    
-    
-    
-    
 
+    public event Action OnLevelNext;
+    public void LevelNext()
+    {
+        OnLevelNext?.Invoke();
+    }
+
+    public event Action OnLevelRestart;
+    public void LevelRestart()
+    {
+        OnLevelRestart?.Invoke();
+    }
 }
