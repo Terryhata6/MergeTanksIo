@@ -23,6 +23,11 @@ public class LevelEvents
         OnLevelChanged?.Invoke();
     }
 
+    public event Action<Particles> OnParticlesAppear;
+    public void ParticlesAppear(Particles ps)
+    {
+        OnParticlesAppear?.Invoke(ps);
+    }
     public event Action<CollectableItem> OnItemCollected;
     public void ItemCollected(CollectableItem coin)
     {

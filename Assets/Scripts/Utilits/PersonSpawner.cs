@@ -30,7 +30,7 @@ public class PersonSpawner : MonoBehaviour
         _spawns = new Queue<Transform>();
         ShuffleSpawns();
         
-        LevelEvents.Current.OnPlayerSelected += Spawn;
+
         LevelEvents.Current.OnLevelStarted += SpawnEnemies;
     }
 
