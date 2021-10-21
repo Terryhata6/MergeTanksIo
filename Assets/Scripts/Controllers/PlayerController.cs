@@ -18,27 +18,27 @@ public class PlayerController : BaseController
     #endregion
 
     private IPlayerState _state;
-    private Dictionary<PlayerState, IPlayerState> _stateList = new Dictionary<PlayerState, IPlayerState>();
+    private Dictionary<PlayerState, IPlayerState> _stateList = new Dictionary<PlayerState, IPlayerState> ();
 
 
-    public PlayerController()
+    public PlayerController ()
     {
-        _stateList.Add(PlayerState.Idle, new PlayerIdleStateModel());
-        _stateList.Add(PlayerState.Move, new PlayerMoveStateModel());
-        _stateList.Add(PlayerState.Attack, new PlayerAttackStateModel());
+        _stateList.Add (PlayerState.Idle, new PlayerIdleStateModel ());
+        _stateList.Add (PlayerState.Move, new PlayerMoveStateModel ());
+        _stateList.Add (PlayerState.Attack, new PlayerAttackStateModel ());
     }
 
 
-    public override void Initialize()
+    public override void Initialize ()
     {
-        _player = GameObject.FindObjectOfType<PlayerView>();
+        _player = GameObject.FindObjectOfType<PlayerView> ();
         if (_player != null)
         {
-            Debug.Log(_player.gameObject.name);
+            Debug.Log (_player.gameObject.name);
         }
         else
         {
-            Debug.Log("Не сработало");
+            Debug.Log ("Не сработало");
         }
 
         InputEvents.Current.OnTouchBegan += SetBeganPosition;
@@ -46,61 +46,71 @@ public class PlayerController : BaseController
         InputEvents.Current.OnTouchMoved += SetMove;
     }
 
-    public override void Execute()
+    public override void Execute ()
     {
-        base.Execute();
+        base.Execute ();
         if (Player == null)
         {
             return;
         }
 
-
         switch (Player.State)
         {
+            // case PlayerState.Awaiting:
+            //     {
+            //         _state = _stateList[PlayerState.Awaiting];
+            //         break;
+            //     }
             case PlayerState.Idle:
-            {
-                _state = _stateList[PlayerState.Idle];
-                break;
-            }
+                {
+                    _state = _stateList[PlayerState.Idle];
+                    break;
+                }
             case PlayerState.Move:
-            {
-                _state = _stateList[PlayerState.Move];
-                break;
-            }
+                {
+                    _state = _stateList[PlayerState.Move];
+                    break;
+                }
             case PlayerState.Attack:
-                _state = _stateList[PlayerState.Attack];
-                break;
+                {
+                    //_state = _stateList[PlayerState.Attack];
+                    break;
+                }
+                // case PlayerState.Dead:
+                //     _state = _stateList[PlayerState.Dead];
+                //     break;
         }
 
-        _state.Execute(this, _player);
+        _player.Attack();
+        _state.Execute (this, _player);
     }
 
 
-    private void SetBeganPosition(Vector2 position)
+    private void SetBeganPosition (Vector2 position)
     {
         _beganPosition = position;
-        Debug.Log("Нажалось");
+        Debug.Log ("Нажалось");
     }
 
 
-    public void SetPlayerState(PlayerState state)
+    public void SetPlayerState (PlayerState state)
     {
-        _player.SetState(state);
+        _player.SetState (state);
     }
 
-    public void SetIdle(Vector2 delta)
+    public void SetIdle (Vector2 delta)
     {
-        SetPlayerState(PlayerState.Idle);
+        SetPlayerState (PlayerState.Idle);
     }
 
-    public void SetMove(Vector2 delta)
+    public void SetMove (Vector2 delta)
     {
-        SetPlayerState(PlayerState.Move);
+        SetPlayerState (PlayerState.Move);
         _positionDelta = delta;
     }
 
-    public void SetAttack()
+    public void SetAttack ()
     {
-        SetPlayerState(PlayerState.Attack);
+        SetPlayerState (PlayerState.Attack);
     }
 }
