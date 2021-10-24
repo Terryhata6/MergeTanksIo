@@ -7,21 +7,14 @@ public class LevelController : BaseController
     private LevelConfig _currentLevel;
     private GameObject _levelPrefab;
     private int j;
-
-    public override void Execute()
-    {
-        base.Execute();
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            LevelEvents.Current.LevelEnded();
-        }
-    }
+    
 
     public override void Initialize()
     {
         base.Initialize();
         Debug.Log("LevelController Start");
-        LevelEvents.Current.OnLevelEnded += ChangeLevel;
+        LevelEvents.Current.OnLevelNext += ChangeLevel;
+        ChangeLevel();
 
     }
 

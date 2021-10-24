@@ -10,129 +10,122 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -2034110724, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
-  m_Name: Fan17XZ
+  m_Name: WizardSensor
   m_EditorClassIdentifier: 
   PlanarSensor:
     receptors:
     - structure:
         Position: {x: 0, y: 0, z: 0}
-        Direction: {x: 0, y: 0, z: 1}
+        Direction: {x: 0, y: 1, z: 0}
         Magnitude: 1
         Sensitivity: 90
       id: 0
-      neighbourIDs: 1000000001000000
+      neighbourIDs: 0f00000001000000
     - structure:
         Position: {x: 0, y: 0, z: 0}
-        Direction: {x: 0.19509007, y: 0, z: 0.98078537}
+        Direction: {x: 0.382683, y: 0.92388, z: 0}
         Magnitude: 1
         Sensitivity: 90
       id: 1
       neighbourIDs: 0000000002000000
     - structure:
         Position: {x: 0, y: 0, z: 0}
-        Direction: {x: 0.38268292, y: 0, z: 0.92387974}
+        Direction: {x: 0.707107, y: 0.707107, z: 0}
         Magnitude: 1
         Sensitivity: 90
       id: 2
       neighbourIDs: 0100000003000000
     - structure:
         Position: {x: 0, y: 0, z: 0}
-        Direction: {x: 0.55556995, y: 0, z: 0.83146983}
+        Direction: {x: 0.92388, y: 0.382683, z: 0}
         Magnitude: 1
         Sensitivity: 90
       id: 3
       neighbourIDs: 0200000004000000
     - structure:
         Position: {x: 0, y: 0, z: 0}
-        Direction: {x: 0.70710677, y: 0, z: 0.70710677}
+        Direction: {x: 1, y: 0, z: 0}
         Magnitude: 1
         Sensitivity: 90
       id: 4
       neighbourIDs: 0300000005000000
     - structure:
-        Position: {x: 0, y: 0, z: 0}
-        Direction: {x: 0.83146983, y: 0, z: 0.55556995}
+        Position: {x: 0, y: -0, z: 0}
+        Direction: {x: 0.92388, y: -0.382683, z: 0}
         Magnitude: 1
         Sensitivity: 90
       id: 5
       neighbourIDs: 0400000006000000
     - structure:
-        Position: {x: 0, y: 0, z: 0}
-        Direction: {x: 0.92387974, y: 0, z: 0.38268292}
-        Magnitude: 0.75
+        Position: {x: 0, y: -0, z: 0}
+        Direction: {x: 0.707107, y: -0.707107, z: 0}
+        Magnitude: 1
         Sensitivity: 90
       id: 6
       neighbourIDs: 0500000007000000
     - structure:
-        Position: {x: 0, y: 0, z: 0}
-        Direction: {x: 0.98078537, y: 0, z: 0.19509007}
-        Magnitude: 0.5
+        Position: {x: 0, y: -0, z: 0}
+        Direction: {x: 0.382683, y: -0.92388, z: 0}
+        Magnitude: 1
         Sensitivity: 90
       id: 7
       neighbourIDs: 0600000008000000
     - structure:
-        Position: {x: 0, y: 0, z: 0}
-        Direction: {x: 1, y: 0, z: 0}
-        Magnitude: 0.25
+        Position: {x: 0, y: -0, z: 0}
+        Direction: {x: 0, y: -1, z: 0}
+        Magnitude: 1
         Sensitivity: 90
       id: 8
-      neighbourIDs: 07000000ffffffff
+      neighbourIDs: 0700000009000000
     - structure:
-        Position: {x: 0, y: 0, z: 0}
-        Direction: {x: -1, y: 0, z: 0}
-        Magnitude: 0.25
+        Position: {x: -0, y: -0, z: 0}
+        Direction: {x: -0.382683, y: -0.92388, z: 0}
+        Magnitude: 1
         Sensitivity: 90
       id: 9
-      neighbourIDs: ffffffff0a000000
+      neighbourIDs: 080000000a000000
     - structure:
-        Position: {x: 0, y: 0, z: 0}
-        Direction: {x: -0.98078537, y: 0, z: 0.19509007}
-        Magnitude: 0.5
+        Position: {x: -0, y: -0, z: 0}
+        Direction: {x: -0.707107, y: -0.707107, z: 0}
+        Magnitude: 1
         Sensitivity: 90
       id: 10
       neighbourIDs: 090000000b000000
     - structure:
-        Position: {x: 0, y: 0, z: 0}
-        Direction: {x: -0.92387974, y: 0, z: 0.38268292}
-        Magnitude: 0.75
+        Position: {x: -0, y: -0, z: 0}
+        Direction: {x: -0.92388, y: -0.382683, z: 0}
+        Magnitude: 1
         Sensitivity: 90
       id: 11
       neighbourIDs: 0a0000000c000000
     - structure:
-        Position: {x: 0, y: 0, z: 0}
-        Direction: {x: -0.83146983, y: 0, z: 0.55556995}
+        Position: {x: -0, y: -0, z: 0}
+        Direction: {x: -1, y: -0, z: 0}
         Magnitude: 1
         Sensitivity: 90
       id: 12
       neighbourIDs: 0b0000000d000000
     - structure:
-        Position: {x: 0, y: 0, z: 0}
-        Direction: {x: -0.70710677, y: 0, z: 0.70710677}
+        Position: {x: -0, y: 0, z: 0}
+        Direction: {x: -0.92388, y: 0.382683, z: 0}
         Magnitude: 1
         Sensitivity: 90
       id: 13
       neighbourIDs: 0c0000000e000000
     - structure:
-        Position: {x: 0, y: 0, z: 0}
-        Direction: {x: -0.55556995, y: 0, z: 0.83146983}
+        Position: {x: -0, y: 0, z: 0}
+        Direction: {x: -0.707107, y: 0.707107, z: 0}
         Magnitude: 1
         Sensitivity: 90
       id: 14
       neighbourIDs: 0d0000000f000000
     - structure:
-        Position: {x: 0, y: 0, z: 0}
-        Direction: {x: -0.38268292, y: 0, z: 0.92387974}
+        Position: {x: -0, y: 0, z: 0}
+        Direction: {x: -0.382683, y: 0.92388, z: 0}
         Magnitude: 1
         Sensitivity: 90
       id: 15
-      neighbourIDs: 0e00000010000000
-    - structure:
-        Position: {x: 0, y: 0, z: 0}
-        Direction: {x: -0.19509007, y: 0, z: 0.98078537}
-        Magnitude: 1
-        Sensitivity: 90
-      id: 16
-      neighbourIDs: 0f00000000000000
-    planarOrientation: 1
-    rotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
-    inverseRotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
+      neighbourIDs: 0e00000000000000
+    planarOrientation: 0
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+    inverseRotation: {x: 0, y: 0, z: 0, w: 1}
