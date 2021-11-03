@@ -10,6 +10,7 @@ public class ProjectileController : BaseController
   private List<Shooter> _shotProjectileList = new List<Shooter> ();
   private List<Projectile> _projectileList = new List<Projectile> ();
 
+
   public override void Initialize ()
   {
     base.Initialize ();
@@ -22,7 +23,7 @@ public class ProjectileController : BaseController
   public override void Execute ()
   {
     base.Execute ();
-
+     
     foreach (var shooter in _shotProjectileList)
     {
       foreach (var projectile in shooter.ProjectileList)

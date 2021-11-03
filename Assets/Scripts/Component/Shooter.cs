@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Shooter : MonoBehaviour
 {
-    [SerializeField] private float _speedProjectile = 15;
+    [SerializeField] private float _speedProjectile = 10;
     public float SpeedProjectile => _speedProjectile;
 
     [SerializeField] private float _damage = 10;
@@ -14,84 +14,87 @@ public class Shooter : MonoBehaviour
     [SerializeField] private bool _isShooting;
     private bool _sequentialShots;
     public bool SequentialShots => _sequentialShots;
-    [SerializeField] private float _shotInterval = 1.0f;
-    public float ShotInterval => _shotInterval;
+    [SerializeField] private float _shootInterval = 1.0f;
+    public float ShootInterval => _shootInterval;
     private float _tempInterval;
 
     private ObjectPool<Projectile> _pool;
-    private List<Transform> _projectileTransList = new List<Transform> ();
+    public ObjectPool<Projectile> Pool => _pool;
+    private List<Transform> _projectileTransList = new List<Transform>();
     private PlayerView _player;
     private Projectile _temporalProjectile;
 
-    private List<Projectile> _projectileList = new List<Projectile> ();
+    [SerializeField] private List<Projectile> _projectileList;
     public List<Projectile> ProjectileList => _projectileList;
 
     private ProjectileController _projectileController;
 
-    private void Start ()
+    private void Start()
     {
-
-
-        if (TryGetComponent (out _player))
+        if (TryGetComponent(out _player))
         {
-            // Добавитсь контроллер ProjectileController
-            _projectileController = GameObject.FindObjectOfType<MainController> ().GetController<ProjectileController> ();
-            _projectileController.AddShooterToList (this);
-            _player.InitializeShooter (this);
+            _projectileController = GameObject.FindObjectOfType<MainController>().GetController<ProjectileController>();
+            _projectileController.AddShooterToList(this);
+            _player.InitializeShooter(this);
             _pool = _projectileController.Pool;
-            Debug.Log (_pool);
-            // StartCoroutine (Shooting ());
+            Debug.Log(_pool);
         }
         else
         {
-            Debug.Log ("PlayerView not found", this.gameObject);
+            Debug.Log("PlayerView not found", this.gameObject);
             return;
         }
+        GameEvents.Current.OnRemoveProjectile += RemoveProjectile;
     }
 
-    public void Shooting (List<AbstractPerk> perks)
+    public void Shooting(List<AbstractPerk> perks)
     {
+        foreach (var perk in perks)
+        {
+            perk.Activate(this);
+        }
 
         if (!_sequentialShots)
         {
-            Volley ();
+            Volley();
         }
         else
         {
-            Sequential ();
+            Sequential();
         }
 
     }
 
-    private void Volley ()
+    private void Volley()
     {
         _tempInterval += Time.deltaTime;
-        if (_tempInterval >= _shotInterval)
+        if (_tempInterval >= _shootInterval)
         {
             _projectileTransList = _player.ShotProjectileTransform;
             for (int i = 0; i < _projectileTransList.Count; i++)
             {
-                _projectileList.Add (ShootPooledProjectile (_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation));
+                _projectileList.Add(ShootPooledProjectile(_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation));
+
             }
-            _tempInterval -= _shotInterval;
+            //_tempInterval -= _shootInterval;
+            _tempInterval = 0;
         }
     }
 
-    private void Sequential ()
+    private void Sequential()
     {
         _projectileTransList = _player.ShotProjectileTransform;
         for (int i = 0; i < _projectileTransList.Count; i++)
         {
             _tempInterval += Time.deltaTime;
-            while (_tempInterval >= _shotInterval / _projectileTransList.Count)
+            while (_tempInterval >= _shootInterval / _projectileTransList.Count)
             {
-                _projectileList.Add (ShootPooledProjectile (_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation));
+                _projectileList.Add(ShootPooledProjectile(_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation));
+
                 _tempInterval = 0;
             }
 
         }
-
-
     }
 
     // public void Shooting ()
@@ -123,23 +126,39 @@ public class Shooter : MonoBehaviour
     // }
 
 
-    private Projectile ShootPooledProjectile (Vector3 position, Quaternion rotation)
+    private Projectile ShootPooledProjectile(Vector3 position, Quaternion rotation)
     {
-        _temporalProjectile = _pool.GetObject ();
+        _temporalProjectile = _pool.GetObject();
         _temporalProjectile.transform.position = position;
         _temporalProjectile.transform.rotation = rotation;
-        _temporalProjectile.SetSpeed (SpeedProjectile);
-        _temporalProjectile.SetDamage (Damage);
+        _temporalProjectile.SetSpeed(SpeedProjectile);
+        _temporalProjectile.SetDamage(Damage);
         return _temporalProjectile;
     }
 
-    public void SetShotInterval (float speedInterval)
+    public void SetShootInterval(float speedInterval)
     {
-        _shotInterval = speedInterval;
+        _shootInterval = speedInterval;
     }
 
-    public void SetFlag (bool flag)
+    public void SetFlag(bool flag)
     {
         _sequentialShots = flag;
+    }
+
+    public void AddProjectile(Projectile projectile)
+    {
+        if (!_projectileList.Contains(projectile))
+        {
+            _projectileList.Add(projectile);
+        }
+    }
+
+    public void RemoveProjectile(Projectile projectile)
+    {
+        if (_projectileList.Contains(projectile))
+        {
+            _projectileList.Remove(projectile);
+        }
     }
 }

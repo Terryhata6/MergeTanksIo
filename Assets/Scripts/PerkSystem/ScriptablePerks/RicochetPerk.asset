@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb377f486dcc60d4393b658ac5e59352, type: 3}
-  m_Name: AddHealth
+  m_Script: {fileID: 11500000, guid: 368d1094642178543884654975759647, type: 3}
+  m_Name: RicochetPerk
   m_EditorClassIdentifier: 
   _name: 
   _description: 
-  _addhealth: 50
+  _typePerk: 1
+  _doOnce: 1
+  _perkID: 0

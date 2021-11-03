@@ -4,5 +4,5 @@ public enum PlayerState
   Idle,
   Move,
   Attack,
- // Dead
+  Dead
 }
