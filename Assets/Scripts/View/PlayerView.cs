@@ -75,6 +75,7 @@ public class PlayerView : BaseObjectView
         ExecutablePerks?.Invoke(view);
     }
 
+ // Test Add Perk
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -120,6 +121,8 @@ public class PlayerView : BaseObjectView
 
         }
     }
+    //..End
+    
     public void InitializeShooter(Shooter shooter)
     {
         _shooter = shooter;

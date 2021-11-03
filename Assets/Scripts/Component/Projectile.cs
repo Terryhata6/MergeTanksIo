@@ -20,11 +20,11 @@ public class Projectile : MonoBehaviour
     // Test
     private void Start()
     {
-        _providerList = new List<AbstractDecorator>();
-        var t = ScriptableObject.CreateInstance<RepulsiveProjectilesPerk>();
-        var z = ScriptableObject.CreateInstance<RicochetPerk>();
-        _providerList.Add(t);
-        _providerList.Add(z);
+        // _providerList = new List<AbstractDecorator>();
+        // var t = ScriptableObject.CreateInstance<RepulsiveProjectilesPerk>();
+        // var z = ScriptableObject.CreateInstance<RicochetPerk>();
+        // _providerList.Add(t);
+        // _providerList.Add(z);
     }
     //..End
 
