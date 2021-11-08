@@ -8,7 +8,7 @@ public class PlayerMoveStateModel : BasePlayerStateModel
   private float _magnitude;
   public override void Execute(PlayerController controller, PlayerView player)
   {
-    //base.Execute(controller, player);
+    base.Execute(controller, player);
 
     //Move
 

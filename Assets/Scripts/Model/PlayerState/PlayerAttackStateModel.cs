@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class PlayerAttackStateModel : BasePlayerStateModel
 {
-    public override void Execute(PlayerController controller, PlayerView view) 
+    public override void Execute (PlayerController controller, PlayerView view)
     {
-        Debug.Log("СТРЕЛЯЮ по МУЭРТОСАМ");
+        base.Execute (controller, view);
+        view.Attack ();
     }
 }

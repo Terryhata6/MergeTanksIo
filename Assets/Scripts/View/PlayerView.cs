@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,14 @@ using UnityEngine;
 
 public class PlayerView : BaseObjectView
 {
+    [SerializeField] private PerkSystem _perkSystem;
+    public PerkSystem PerkSystem => _perkSystem;
+
     #region Fields
+    private Shooter _shooter;
+
+    //[Header("MainStats")]
+    [SerializeField] private List<AbstractPerk> _perkList;
 
     [SerializeField] private PlayerState _state = PlayerState.Idle;
 
@@ -15,16 +23,9 @@ public class PlayerView : BaseObjectView
     [SerializeField, Range(1, 5)] private int _level = 1;
     public int Level => _level;
 
-    // Attack Range
-    private float _attackRange;
-    public float AttackRange => _attackRange;
-
     // Shot Project Transform
     [SerializeField] private List<Transform> _shotProjectileTransform;
     public List<Transform> ShotProjectileTransform => _shotProjectileTransform;
-
-    [SerializeField] private List<TankData> _ListTankData = new List<TankData>();
-    //..End
 
     #endregion
 
@@ -47,18 +48,85 @@ public class PlayerView : BaseObjectView
 
     #endregion
 
+    #region Player Stats
+    [SerializeField] private float _health;
+    public float Health => _health;
+
+    [SerializeField] private float _maxHealth;
+    public float MaxHealth => _maxHealth;
+    #endregion
+
     public void Awake()
     {
         if (_playerRigidbody == null)
             _playerRigidbody = GetComponent<Rigidbody>();
 
         TankShotProjectileRecordTransform();
+
     }
 
     // Start is called before the first frame update
 
-    void Start()
+    void Start() { }
+    //<< Test Perk Add, Remove
+    public event Action<PlayerView> ExecutablePerks;
+    public void ExecutePerks(PlayerView view)
     {
+        ExecutablePerks?.Invoke(view);
+    }
+
+ // Test Add Perk
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // if (_perkList.Count == 0) return;
+            // int lastIndex = _perkList.Count - 1;
+            // RemovePerk (lastIndex);
+            int lastIndex = _perkSystem.PerkList.Count - 1;
+            AbstractPerk newPerk = _perkSystem.PerkList[lastIndex];
+            _perkSystem.RemovePerk(newPerk);
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            // AddPerk (ScriptableObject.CreateInstance<AddHealthPerk> ());
+            _perkSystem.AddPerk(ScriptableObject.CreateInstance<AddHealthPerk>());
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            //AddPerk (ScriptableObject.CreateInstance<AttackSpeedPerk> ());
+            _perkSystem.AddPerk(ScriptableObject.CreateInstance<AttackSpeedPerk>());
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            //AddPerk (ScriptableObject.CreateInstance<SequentialShootsPerk> ());
+            _perkSystem.AddPerk(ScriptableObject.CreateInstance<SequentialShootsPerk>());
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            // AddPerk (ScriptableObject.CreateInstance<RepulsiveProjectilesPerk> ());
+            _perkSystem.AddPerk(ScriptableObject.CreateInstance<RepulsiveProjectilesPerk>());
+
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            //AddPerk (ScriptableObject.CreateInstance<RicochetPerk> ());
+            _perkSystem.AddPerk(ScriptableObject.CreateInstance<RicochetPerk>());
+
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            //AddPerk (ScriptableObject.CreateInstance<RicochetPerk> ());
+            _perkSystem.AddPerk(ScriptableObject.CreateInstance<RegenHealthPerk>());
+
+        }
+    }
+    //..End
+    
+    public void InitializeShooter(Shooter shooter)
+    {
+        _shooter = shooter;
+        _perkSystem = new PerkSystem(this, _shooter);
     }
 
     public void SetState(PlayerState state)
@@ -78,26 +146,29 @@ public class PlayerView : BaseObjectView
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("ss");
-        if (other.gameObject.layer == (int)Layer.Collectables)
+        if (other.gameObject.CompareTag("Collectable"))
         {
-            // if (Level >= 5) return; // << Хард Код (Level >= 5)
-            //
-            // _level++;
-            //
-            // ChangeTankMesh(Level);
-            // TankShotProjectileRecordTransform();
+
+            if (CheckTankMeshesList(_tankMeshes) == false) return;
+            if (_tankMeshes.Count < 5) return;
+            if (Level >= 5) return; // << Хард Код (Level >= 5)
+
+            _level++;
+            ChangeTankMesh(Level);
+
+            TankShotProjectileRecordTransform();
+
             other.gameObject.SetActive(false);
         }
     }
 
 
-    #region {Author:Doonn}
 
+    #region {Author:Doonn}
     // Запись Трансформов от куда вылетают Снаряды
     public void TankShotProjectileRecordTransform()
     {
-        bool checkListIsEmpty = _tankMeshes?.TrueForAll(x => x != null) ?? false;
+        bool checkListIsEmpty = _tankMeshes.TrueForAll(x => x != null);
         if (!checkListIsEmpty)
         {
             Debug.Log("List Slot Empty");
@@ -119,9 +190,25 @@ public class PlayerView : BaseObjectView
         }
     }
 
+    private bool CheckTankMeshesList(List<GameObject> tankMeshes)
+    {
+        if (tankMeshes.Count == 0) return false;
+
+        foreach (var item in tankMeshes)
+        {
+            if (item == null) return false;
+        }
+        return true;
+    }
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    public void SetHealth(float health)
+    {
+        _health = health;
+    }
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     public void Attack()
     {
-        // Медот Для Стрельбы
+        _shooter.Shooting(_perkSystem.PerkListOnEnable);
     }
 
     #endregion
