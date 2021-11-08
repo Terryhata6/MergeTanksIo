@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : BaseController
+public class PlayerController : BaseController, IObjectExecuter
 {
     private PlayerView _player;
+    private PlayerView _temp;
 
     public PlayerView Player => _player;
 
@@ -113,4 +114,18 @@ public class PlayerController : BaseController
     {
         SetPlayerState (PlayerState.Attack);
     }
+
+    private void PlayerInit(PlayerView player)
+    {
+        player.gameObject.layer = (int) Layer.Players;
+    }
+    public void AddObj(GameObject obj)
+    {
+        obj.AddComponent<PlayerView>();
+        _temp = obj.GetComponent<PlayerView>();
+        _player = _temp;
+        PlayerInit(_temp);
+        GameEvents.Current.EnvironmentUpdated();
+    }
+    
 }
