@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -30,7 +31,16 @@ public class PerkSystem
 
         if (perk.OnEnable)
         {
+            foreach (var item in _perkListOnEnable)
+            {
+                if (item.Level < item.MaxLevel)
+                {
+                    _perkListOnEnable.Add(perk);
+                }
+            }
             _perkListOnEnable.Add(perk);
+            //Sort List a Priority
+            _perkListOnEnable = _perkListOnEnable.OrderBy(x => x.Priority).ToList();
         }
         else
         {
@@ -73,37 +83,21 @@ public class PerkSystem
         }
     }
 
-
-
-    // private void OnActivatePerkAll (PlayerView player, Shooter shooter)
-    // {
-    //     foreach (var perk in _perkList)
-    //     {
-    //         switch (perk.TypePerk)
-    //         {
-    //             case PerkType.Defence:
-    //                 perk.Activate (player);
-    //                 break;
-    //             case PerkType.Offence:
-    //                 perk.Activate (shooter);
-    //                 break;
-    //         }
-    //     }
-    // }
-
-    // private void OnDeactivatePerkAll (PlayerView player, Shooter shooter)
-    // {
-    //     foreach (var perk in _perkList)
-    //     {
-    //         switch (perk.TypePerk)
-    //         {
-    //             case PerkType.Defence:
-    //                 perk.Deactivate (player);
-    //                 break;
-    //             case PerkType.Offence:
-    //                 perk.Deactivate (shooter);
-    //                 break;
-    //         }
-    //     }
-    // }
+    private void CheckLevelPerk(AbstractPerk perk)
+    {
+        foreach (var perkOnEnable in _perkListOnEnable)
+        {
+            if (perkOnEnable.GetType() == perk.GetType()) 
+            {
+                if (perkOnEnable.Level >= perkOnEnable.MaxLevel)
+                {
+                    return;
+                }
+                else
+                {
+                    _perkListOnEnable.Add(perk);
+                }
+            }
+        }
+    }
 }

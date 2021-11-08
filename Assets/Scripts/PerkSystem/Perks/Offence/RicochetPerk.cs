@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Рикошет
-[CreateAssetMenu (fileName = "RicochetPerk", menuName = "ScriptableObjects/Ricochet", order = 1)]
-public class RicochetPerk : AbstractDecorator
+[CreateAssetMenu(fileName = "RicochetPerk", menuName = "ScriptableObjects/Ricochet", order = 1)]
+public class RicochetPerk : AbstractPerk
 {
-   private RicochetPerk ()
+   private RicochetPerk()
    {
       _typePerk = PerkType.Offence;
       _onEnable = true;
+      _priority = 1;
    }
 
-   public override void Activate (Shooter shoot)
+   public override void Activate(Shooter shoot)
    {
       foreach (var item in shoot.ProjectileList)
       {
@@ -20,38 +21,25 @@ public class RicochetPerk : AbstractDecorator
       }
    }
 
-   public override Projectile Active (Projectile projectile, GameObject target)
+   public override void Activ(Projectile projectile, GameObject target)
    {
-      SetProjectile (projectile);
-      SetTarget (target);
-      return Ricoshet (projectile, target);
+      Ricoshet(projectile, target);
    }
 
-   public Projectile Ricoshet (Projectile projectile, GameObject target)
+   public void Ricoshet(Projectile projectile, GameObject target)
    {
-      Ray ray = new Ray (projectile.transform.position, projectile.transform.forward);
+      Ray ray = new Ray(projectile.transform.position, projectile.transform.forward);
       RaycastHit hit;
-      
-      if (Physics.Raycast (ray, out hit))
+
+      if (Physics.Raycast(ray, out hit))
       {
-         projectile.transform.forward = Vector3.Reflect (projectile.transform.forward, hit.normal);
+         projectile.transform.forward = Vector3.Reflect(projectile.transform.forward, hit.normal);
          projectile.transform.position = hit.point;
-         return projectile;
       }
       else
       {
          projectile.transform.position += projectile.transform.forward;
-         return projectile;
       }
 
-   }
-
-   protected override GameObject SetTarget (GameObject target)
-   {
-      return _wrappedTarget = target;
-   }
-   protected override Projectile SetProjectile (Projectile projectile)
-   {
-      return _wrappedProjectile = projectile;
    }
 }

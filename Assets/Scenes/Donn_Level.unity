@@ -1921,7 +1921,6 @@ MonoBehaviour:
   _state: 0
   _level: 1
   _shotProjectileTransform: []
-  _movementSpeed: 3
   _playerRigidbody: {fileID: 2101252581}
   _tankMeshes:
   - {fileID: 1590318115}
@@ -1931,6 +1930,7 @@ MonoBehaviour:
   - {fileID: 1435850813}
   _health: 85.08
   _maxHealth: 100
+  _movementSpeed: 3
 --- !u!54 &2101252581
 Rigidbody:
   m_ObjectHideFlags: 0

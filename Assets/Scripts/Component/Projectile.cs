@@ -4,29 +4,25 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private List<AbstractDecorator> _providerList; //<< Test
+    [SerializeField] private List<AbstractPerk> _modList;
+    public List<AbstractPerk> ModList => _modList;
     private float _speed;
     private float _newSpeed = 0f;
 
     private float _damage;
     private float _delay = 5f;
+    private bool _isHit = false;
+    public bool IsHit => _isHit;
 
+    private GameObject _target;
+    public GameObject Target => _target;
 
     private void OnEnable()
     {
+        _modList = new List<AbstractPerk>();
+
         Invoke("DisableProjectileCoroutine", _delay);
     }
-
-    // Test
-    private void Start()
-    {
-        // _providerList = new List<AbstractDecorator>();
-        // var t = ScriptableObject.CreateInstance<RepulsiveProjectilesPerk>();
-        // var z = ScriptableObject.CreateInstance<RicochetPerk>();
-        // _providerList.Add(t);
-        // _providerList.Add(z);
-    }
-    //..End
 
     public void MoveProjectile()
     {
@@ -34,23 +30,22 @@ public class Projectile : MonoBehaviour
         transform.Translate(transform.forward * _newSpeed, Space.World);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy")) //Enemy
-        {
-            if (_providerList == null || _providerList.Count == 0)
-            {
-                //DisableProjectile ();
-            }
-            else
-            {
-                foreach (var item in _providerList)
-                {
-                    item.Active(this, other.gameObject);
-                }
-            }
-        }
-    }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.CompareTag("Enemy")) //Enemy
+    //     {
+    //         if (_modList == null || _modList.Count == 0) return;
+    //         if (other.gameObject == null) return;
+    //         _isHit = true;
+    //         if (_isHit) _target = other.gameObject;
+    //         if (_target == null) return;
+
+    //         foreach (var mod in _modList)
+    //         {
+    //             mod.Activ(this, other.gameObject);
+    //         }
+    //     }
+    // }
 
     private void DisableProjectileCoroutine()
     {
@@ -59,20 +54,27 @@ public class Projectile : MonoBehaviour
 
     private void DisableProjectile()
     {
-        _providerList = null;
         gameObject.SetActive(false);
+        _isHit = false;
         RemoveProjectile();
+        if (_modList == null) return;
+        _modList = null;
     }
 
     public void RemoveProjectile()
     {
         GameEvents.Current.RemoveProjectile(this);
         gameObject.transform.position = new Vector3(-99f, -99f, -99f);
+        gameObject.transform.localScale = new Vector3(0.3f, -0.3f, 0.3f);
     }
 
-    public void AddModification(AbstractDecorator modification) //<< Test
+    public void AddModification(AbstractPerk modification) //<< Test
     {
-        _providerList.Add(modification);
+        _modList.Add(modification);
+        foreach (var item in _modList)
+        {
+            item.Activ(this);
+        }
     }
 
     public void SetSpeed(float speed)

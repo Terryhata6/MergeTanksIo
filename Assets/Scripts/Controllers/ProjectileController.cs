@@ -7,44 +7,42 @@ public class ProjectileController : BaseController
   private ObjectPool<Projectile> _pool;
   public ObjectPool<Projectile> Pool => _pool;
   private Projectile _projectile;
-  private List<Shooter> _shotProjectileList = new List<Shooter> ();
-  private List<Projectile> _projectileList = new List<Projectile> ();
+  private List<Shooter> _shotProjectileList = new List<Shooter>();
 
-
-  public override void Initialize ()
+  public override void Initialize()
   {
-    base.Initialize ();
-    _projectile = Resources.Load<Projectile> ("Projectile");
+    base.Initialize();
+    _projectile = Resources.Load<Projectile>("Projectile");
 
-    _pool = new ObjectPool<Projectile> ();
-    _pool.Initialize (_projectile, 100f);
+    _pool = new ObjectPool<Projectile>();
+    _pool.Initialize(_projectile, 100f);
   }
 
-  public override void Execute ()
+  public override void Execute()
   {
-    base.Execute ();
-     
+    base.Execute();
+
     foreach (var shooter in _shotProjectileList)
     {
       foreach (var projectile in shooter.ProjectileList)
       {
-        projectile.MoveProjectile ();
+        projectile.MoveProjectile();
       }
     }
   }
 
-  public void AddShooterToList (Shooter shooter)
+  public void AddShooterToList(Shooter shooter)
   {
-    if (!_shotProjectileList.Contains (shooter))
+    if (!_shotProjectileList.Contains(shooter))
     {
-      _shotProjectileList.Add (shooter);
+      _shotProjectileList.Add(shooter);
     }
   }
-  public void RemoveShooterToList (Shooter shooter)
+  public void RemoveShooterToList(Shooter shooter)
   {
-    if (_shotProjectileList.Contains (shooter))
+    if (_shotProjectileList.Contains(shooter))
     {
-      _shotProjectileList.Remove (shooter);
+      _shotProjectileList.Remove(shooter);
     }
   }
 }
