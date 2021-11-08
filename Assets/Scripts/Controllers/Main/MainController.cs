@@ -30,6 +30,7 @@ public class MainController : MonoBehaviour
                 (controller as IInitialize).Initialize();
             }
         }
+        LevelEvents.Current.GameLaunched();
     }
 
 

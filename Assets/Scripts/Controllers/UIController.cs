@@ -41,6 +41,7 @@ public class UIController : BaseController
     {
         Time.timeScale = 1.0f;
         SwitchUI(UIState.InGame);
+        LevelEvents.Current.LevelStart();
     }
 
     private void PauseGame()

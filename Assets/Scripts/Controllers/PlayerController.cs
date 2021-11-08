@@ -110,10 +110,16 @@ public class PlayerController : BaseController, IObjectExecuter
         SetPlayerState(PlayerState.Attack);
     }
 
+    private void PlayerInit(PlayerView player)
+    {
+        player.gameObject.layer = (int) Layer.Players;
+    }
     public void AddObj(GameObject obj)
     {
         obj.AddComponent<PlayerView>();
         _player = obj.GetComponent<PlayerView>();
+        PlayerInit(_player);
+        LevelEvents.Current.EnvironmentUpdated();
     }
 
     public void RemoveObj(GameObject obj)

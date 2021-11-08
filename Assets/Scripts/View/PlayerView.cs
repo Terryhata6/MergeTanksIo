@@ -76,10 +76,10 @@ public class PlayerView : BaseObjectView
         _tankMeshes[index - 1].SetActive(true);
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         Debug.Log("ss");
-        if (other.gameObject.CompareTag("Collectable"))
+        if (other.gameObject.layer == (int)Layer.Collectables)
         {
             // if (Level >= 5) return; // << Хард Код (Level >= 5)
             //

@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 
 public class LevelEvents
@@ -22,11 +23,31 @@ public class LevelEvents
         OnItemCollected?.Invoke(coin);
     }
 
-    public event Action OnEnemyDead;
+    public event Action OnEnemyRespawn;
 
-    public void EnemyDead()
+    public void RespawnEnemy()
     {
-        OnEnemyDead?.Invoke();
+        OnEnemyRespawn?.Invoke();
+    }
+    public event Action<EnemyView> OnEnemyDead;
+
+    public void EnemyDead(EnemyView enemy)
+    {
+        OnEnemyDead?.Invoke(enemy);
+    }
+
+    public event Action<GameObject> OnAimAppeared;
+
+    public void AimAppeared(GameObject aim)
+    {
+        OnAimAppeared?.Invoke(aim);
+    }
+
+    public event Action OnEnvironmentUpdated;
+
+    public void EnvironmentUpdated()
+    {
+        OnEnvironmentUpdated?.Invoke();
     }
 
     //Events used from UI
@@ -47,7 +68,16 @@ public class LevelEvents
     {
         OnLevelNext?.Invoke();
     }
-
+    public event Action OnGameLaunched;
+    public void GameLaunched()
+    {
+        OnGameLaunched?.Invoke();
+    }
+    public event Action OnLevelStart;
+    public void LevelStart()
+    {
+        OnLevelStart?.Invoke();
+    }
     public event Action OnLevelRestart;
     public void LevelRestart()
     {

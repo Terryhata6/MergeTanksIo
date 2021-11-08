@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Polarith.AI.Move;
+using Polarith.AI.Package;
 
 public class LevelController : BaseController
 {
     [SerializeField] private List<GameObject> _levels = new List<GameObject>();
     private LevelConfig _currentLevel;
     private GameObject _levelPrefab;
+    private AIMSteeringPerceiver _environment;
     private int j;
     
 
@@ -14,8 +17,17 @@ public class LevelController : BaseController
         base.Initialize();
         Debug.Log("LevelController Start");
         LevelEvents.Current.OnLevelNext += ChangeLevel;
-        ChangeLevel();
+        LevelEvents.Current.OnGameLaunched += ChangeLevel;
+        LevelEvents.Current.OnEnvironmentUpdated += UpdateEnvironment;
 
+    }
+
+    public override void Execute()
+    {
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            UpdateEnvironment();
+        }
     }
 
     private void DisableLevel()
@@ -39,11 +51,23 @@ public class LevelController : BaseController
             if (_levelPrefab.TryGetComponent(out _currentLevel)) 
             {
                 LevelEvents.Current.ParticlesAppear(_currentLevel.Particles);
+                LevelEvents.Current.AimAppeared(_currentLevel.Aim);
+                _environment = _currentLevel.Environment;
             };
             LevelEvents.Current.LevelChanged();
         }
     }
 
+    private void UpdateEnvironment()
+    {
+        if (_environment)
+        {
+            for (int i = 0; i < _environment.Environments.Count; i++)
+            {
+                _environment.Environments[i].UpdateLayerGameObjects();
+            }
+        }
+    }
     private GameObject GetRandomLevel()
     {
         return _levels[GetRandomLevelIndex()];

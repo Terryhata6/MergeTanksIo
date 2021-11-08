@@ -35,8 +35,8 @@ public class PersonSpawner : MonoBehaviour
         
         ShuffleSpawns();
         
-        LevelEvents.Current.OnLevelChanged += SpawnEnemies;
-        LevelEvents.Current.OnEnemyDead += SetEnemyRespawnTime;
+        LevelEvents.Current.OnLevelStart += SpawnEnemies;
+        LevelEvents.Current.OnEnemyRespawn += SetEnemyRespawnTime;
     }
 
     private void Update()
@@ -48,7 +48,8 @@ public class PersonSpawner : MonoBehaviour
     {
         if (_personConfs.ContainsKey(person))
         {
-            _obj = Instantiate(_personConfs[person].Prefab, GetSpawn().position, GetSpawn().rotation);
+            _spawn = GetSpawn();
+            _obj = Instantiate(_personConfs[person].Prefab, _spawn.position, _spawn.rotation);
             _personConfs[person].Controller?.AddObj(_obj);
         }
         
@@ -100,7 +101,7 @@ public class PersonSpawner : MonoBehaviour
         if (_spawns.Count > 0)
         {
             _spawn = _spawns.Dequeue();
-            _spawns.Enqueue((_spawn));
+            _spawns.Enqueue(_spawn);
             return _spawn;
         }
         return null;

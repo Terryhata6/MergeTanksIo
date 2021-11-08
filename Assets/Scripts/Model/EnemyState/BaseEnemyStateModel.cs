@@ -1,10 +1,7 @@
-namespace Model.EnemyState
+public class BaseEnemyStateModel : IEnemyState
 {
-    public class BaseEnemyStateModel : IEnemyState
+    public virtual void Execute(EnemyView enemy)
     {
-        public virtual void Execute(EnemyView enemy)
-        {
             
-        }
     }
 }

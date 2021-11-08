@@ -21,6 +21,7 @@ public class CollectableController : BaseController
 
         _pool = new ObjectPool<CollectableItem>();
         _activeColl = new List<CollectableItem>();
+        Debug.Log("CollectableController start");
     }
 
     public override void Execute()
@@ -55,8 +56,9 @@ public class CollectableController : BaseController
                 if (_temp)
                 {
                     _temp.transform.position = _coll[_index].position + _particlePos;
-                    _temp.gameObject.layer = 6;
+                    _temp.gameObject.layer = (int)Layer.Collectables;
                     _temp.tag = "Collectable";
+                    LevelEvents.Current.EnvironmentUpdated();
                 }
             }
         }
@@ -74,7 +76,7 @@ public class CollectableController : BaseController
 
     private bool CheckActive(int num)
     {
-        if (_activeColl[num].enabled == false)
+        if (_activeColl[num].enabled == false || _activeColl[num] == null)
         {
             _activeColl.RemoveAt(num);
             return false;
@@ -87,7 +89,7 @@ public class CollectableController : BaseController
         _activeColl.Add(coin);
     }
 
-    public void SetParticles(Particles ps)
+    private void SetParticles(Particles ps)
     {
         if (ps)
         {

@@ -1,10 +1,14 @@
-namespace Model.EnemyState
+using UnityEngine;
+
+public class EnemyAttackStateModel : BaseEnemyStateModel
 {
-    public class EnemyAttackStateModel : BaseEnemyStateModel
+    public override void Execute(EnemyView enemy)
     {
-        public override void Execute(EnemyView enemy)
+        base.Execute(enemy);
+        Debug.Log("attak");
+        if (enemy.Context.Context.Decision.Values[2] < 0.7f)
         {
-            base.Execute(enemy);
+            enemy.State = EnemyState.Search;
         }
     }
 }
