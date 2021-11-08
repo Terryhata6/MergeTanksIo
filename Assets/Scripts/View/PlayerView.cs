@@ -146,9 +146,12 @@ public class PlayerView : BaseObjectView
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Collectable"))
+        if (other.gameObject.layer == (int)Layer.Collectables)
         {
-
+            if ((other.transform.position - transform.position).magnitude < 2f)
+            {
+                other.gameObject.SetActive(false);
+            }
             if (CheckTankMeshesList(_tankMeshes) == false) return;
             if (_tankMeshes.Count < 5) return;
             if (Level >= 5) return; // << Хард Код (Level >= 5)
@@ -157,12 +160,8 @@ public class PlayerView : BaseObjectView
             ChangeTankMesh(Level);
 
             TankShotProjectileRecordTransform();
-
-            other.gameObject.SetActive(false);
         }
     }
-
-
 
     #region {Author:Doonn}
     // Запись Трансформов от куда вылетают Снаряды

@@ -16,8 +16,8 @@ public class CollectableController : BaseController
     public override void Initialize()
     {
         LevelEvents.Current.OnLevelChanged += PoolInit;
-        LevelEvents.Current.OnItemCollected += SetMovingCoin;
-        LevelEvents.Current.OnParticlesAppear += SetParticles;
+        GameEvents.Current.OnItemCollected += SetMovingCoin;
+        GameEvents.Current.OnParticlesAppear += SetParticles;
 
         _pool = new ObjectPool<CollectableItem>();
         _activeColl = new List<CollectableItem>();
@@ -58,7 +58,7 @@ public class CollectableController : BaseController
                     _temp.transform.position = _coll[_index].position + _particlePos;
                     _temp.gameObject.layer = (int)Layer.Collectables;
                     _temp.tag = "Collectable";
-                    LevelEvents.Current.EnvironmentUpdated();
+                    GameEvents.Current.EnvironmentUpdated();
                 }
             }
         }

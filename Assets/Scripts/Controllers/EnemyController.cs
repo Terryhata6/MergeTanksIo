@@ -20,8 +20,8 @@ public class EnemyController : BaseController, IObjectExecuter
         _states.Add(EnemyState.Search, new EnemySearchStateModel());
         _states.Add(EnemyState.Collect, new EnemyCollectStateModel());
         
-        LevelEvents.Current.OnAimAppeared += SetAim;
-        LevelEvents.Current.OnEnemyDead += RemoveObj;
+        GameEvents.Current.OnAimAppeared += SetAim;
+        GameEvents.Current.OnEnemyDead += RemoveObj;
     }
 
     public override void Execute()
@@ -57,12 +57,12 @@ public class EnemyController : BaseController, IObjectExecuter
         _temp = obj.GetComponent<EnemyView>();
         _enemies.Add(_temp);
         EnemyInit(_temp);
-        LevelEvents.Current.EnvironmentUpdated();
+        GameEvents.Current.EnvironmentUpdated();
     }
 
     public void RemoveObj(EnemyView obj)
     {
         _enemies.Remove(obj);
-        LevelEvents.Current.RespawnEnemy();
+        GameEvents.Current.RespawnEnemy();
     }
 }

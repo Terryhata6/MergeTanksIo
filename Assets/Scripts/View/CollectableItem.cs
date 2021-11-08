@@ -21,7 +21,7 @@ public class CollectableItem : MonoBehaviour, ICollectableItem
     {
         
         _target = other.transform;              // когда игрок приближается к коину, он становится целью для коина, к которой он летит
-        LevelEvents.Current.ItemCollected(this);
+        GameEvents.Current.ItemCollected(this);
     }
 
     public void OnCollisionEnter(Collision other)

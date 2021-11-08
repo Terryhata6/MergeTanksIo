@@ -20,7 +20,7 @@ public class EnemyView : BaseObjectView
 
     private void OnDestroy()
     {
-        LevelEvents.Current.EnemyDead(this);
+        GameEvents.Current.EnemyDead(this);
     }
     private void OnTriggerEnter(Collider other)
     {

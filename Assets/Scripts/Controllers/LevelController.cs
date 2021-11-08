@@ -18,7 +18,7 @@ public class LevelController : BaseController
         Debug.Log("LevelController Start");
         LevelEvents.Current.OnLevelNext += ChangeLevel;
         LevelEvents.Current.OnGameLaunched += ChangeLevel;
-        LevelEvents.Current.OnEnvironmentUpdated += UpdateEnvironment;
+        GameEvents.Current.OnEnvironmentUpdated += UpdateEnvironment;
 
     }
 
@@ -50,8 +50,8 @@ public class LevelController : BaseController
             _levelPrefab.SetActive(true);
             if (_levelPrefab.TryGetComponent(out _currentLevel)) 
             {
-                LevelEvents.Current.ParticlesAppear(_currentLevel.Particles);
-                LevelEvents.Current.AimAppeared(_currentLevel.Aim);
+                GameEvents.Current.ParticlesAppear(_currentLevel.Particles);
+                GameEvents.Current.AimAppeared(_currentLevel.Aim);
                 _environment = _currentLevel.Environment;
             };
             LevelEvents.Current.LevelChanged();

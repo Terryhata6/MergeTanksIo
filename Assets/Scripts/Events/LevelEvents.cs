@@ -11,44 +11,7 @@ public class LevelEvents
     {
         OnLevelChanged?.Invoke();
     }
-
-    public event Action<Particles> OnParticlesAppear;
-    public void ParticlesAppear(Particles ps)
-    {
-        OnParticlesAppear?.Invoke(ps);
-    }
-    public event Action<CollectableItem> OnItemCollected;
-    public void ItemCollected(CollectableItem coin)
-    {
-        OnItemCollected?.Invoke(coin);
-    }
-
-    public event Action OnEnemyRespawn;
-
-    public void RespawnEnemy()
-    {
-        OnEnemyRespawn?.Invoke();
-    }
-    public event Action<EnemyView> OnEnemyDead;
-
-    public void EnemyDead(EnemyView enemy)
-    {
-        OnEnemyDead?.Invoke(enemy);
-    }
-
-    public event Action<GameObject> OnAimAppeared;
-
-    public void AimAppeared(GameObject aim)
-    {
-        OnAimAppeared?.Invoke(aim);
-    }
-
-    public event Action OnEnvironmentUpdated;
-
-    public void EnvironmentUpdated()
-    {
-        OnEnvironmentUpdated?.Invoke();
-    }
+    
 
     //Events used from UI
     public event Action OnLevelComplete;
