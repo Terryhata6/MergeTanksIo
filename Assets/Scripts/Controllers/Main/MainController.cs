@@ -16,6 +16,7 @@ public class MainController : MonoBehaviour
         _controllers.Add(new PlayerController());
         _controllers.Add(new LevelController());
         _controllers.Add(new CollectableController());
+        _controllers.Add(new EnemyController());
         _controllers.Add(new ProjectileController()); //<< Doonn
         _controllers.Add(new UIController());
     }
@@ -29,6 +30,7 @@ public class MainController : MonoBehaviour
                 (controller as IInitialize).Initialize();
             }
         }
+        LevelEvents.Current.GameLaunched();
     }
 
 

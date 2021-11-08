@@ -1,33 +1,17 @@
 using System;
+using UnityEngine;
 
 
 public class LevelEvents
 {
     public static LevelEvents Current = new LevelEvents();
 
-    public event Action OnLevelEnded;
-    public void LevelEnded()
-    {
-        OnLevelEnded?.Invoke();
-
-    }
-    public event Action OnLevelStarted;
-    public void LevelStarted()
-    {
-        OnLevelStarted?.Invoke();
-    }
-
     public event Action OnLevelChanged;
     public void LevelChanged()
     {
         OnLevelChanged?.Invoke();
     }
-
-    public event Action<CollectableItem> OnItemCollected;
-    public void ItemCollected(CollectableItem coin)
-    {
-        OnItemCollected?.Invoke(coin);
-    }
+    
 
     //Events used from UI
     public event Action OnLevelComplete;
@@ -47,7 +31,16 @@ public class LevelEvents
     {
         OnLevelNext?.Invoke();
     }
-
+    public event Action OnGameLaunched;
+    public void GameLaunched()
+    {
+        OnGameLaunched?.Invoke();
+    }
+    public event Action OnLevelStart;
+    public void LevelStart()
+    {
+        OnLevelStart?.Invoke();
+    }
     public event Action OnLevelRestart;
     public void LevelRestart()
     {

@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Entities/Enter-alt-TestLVL/AIM.prefab.meta
+guid: 97212e3edeb05f844871d0140fb17038
+PrefabImporter:
+=======
 guid: e9dc6c9874287a54fb84958daff52ceb
 folderAsset: yes
 DefaultImporter:
+>>>>>>> main:Assets/Doonn_ExperementalScript/OLD.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

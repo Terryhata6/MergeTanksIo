@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -36,21 +37,21 @@ MonoBehaviour:
       neighbourIDs: 0100000003000000
     - structure:
         Position: {x: 0, y: 0, z: 0}
-        Direction: {x: 0.55556995, y: 0, z: 0.8314699}
+        Direction: {x: 0.55556995, y: 0, z: 0.83146983}
         Magnitude: 1
         Sensitivity: 90
       id: 3
       neighbourIDs: 0200000004000000
     - structure:
         Position: {x: 0, y: 0, z: 0}
-        Direction: {x: 0.7071068, y: 0, z: 0.7071068}
+        Direction: {x: 0.70710677, y: 0, z: 0.70710677}
         Magnitude: 1
         Sensitivity: 90
       id: 4
       neighbourIDs: 0300000005000000
     - structure:
         Position: {x: 0, y: 0, z: 0}
-        Direction: {x: 0.8314699, y: 0, z: 0.55556995}
+        Direction: {x: 0.83146983, y: 0, z: 0.55556995}
         Magnitude: 1
         Sensitivity: 90
       id: 5
@@ -99,21 +100,21 @@ MonoBehaviour:
       neighbourIDs: 0a0000000c000000
     - structure:
         Position: {x: 0, y: 0, z: 0}
-        Direction: {x: -0.8314699, y: 0, z: 0.55556995}
+        Direction: {x: -0.83146983, y: 0, z: 0.55556995}
         Magnitude: 1
         Sensitivity: 90
       id: 12
       neighbourIDs: 0b0000000d000000
     - structure:
         Position: {x: 0, y: 0, z: 0}
-        Direction: {x: -0.7071068, y: 0, z: 0.7071068}
+        Direction: {x: -0.70710677, y: 0, z: 0.70710677}
         Magnitude: 1
         Sensitivity: 90
       id: 13
       neighbourIDs: 0c0000000e000000
     - structure:
         Position: {x: 0, y: 0, z: 0}
-        Direction: {x: -0.55556995, y: 0, z: 0.8314699}
+        Direction: {x: -0.55556995, y: 0, z: 0.83146983}
         Magnitude: 1
         Sensitivity: 90
       id: 14
