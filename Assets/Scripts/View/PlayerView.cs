@@ -9,6 +9,9 @@ public class PlayerView : BaseObjectView
     [SerializeField] private PerkSystem _perkSystem;
     public PerkSystem PerkSystem => _perkSystem;
 
+    [SerializeField] private PerkManager _perkManager; // << New Perk System
+    public PerkManager PerkManager => _perkManager; // << New Perk System
+
     #region Fields
     private Shooter _shooter;
 
@@ -29,17 +32,12 @@ public class PlayerView : BaseObjectView
 
     #endregion
 
-    [SerializeField, Range(3f, 10f)] private float _movementSpeed = 3.0f;
-
     [SerializeField] private Rigidbody _playerRigidbody;
     [SerializeField] private List<GameObject> _tankMeshes;
 
     #endregion
 
     #region AccsessModifyers
-
-    public float MovementSpeed => _movementSpeed;
-
 
     public PlayerState State => _state;
 
@@ -54,6 +52,9 @@ public class PlayerView : BaseObjectView
 
     [SerializeField] private float _maxHealth;
     public float MaxHealth => _maxHealth;
+
+    [SerializeField, Range(3f, 10f)] private float _movementSpeed = 3.0f;
+    public float MovementSpeed => _movementSpeed;
     #endregion
 
     public void Awake()
@@ -75,7 +76,7 @@ public class PlayerView : BaseObjectView
         ExecutablePerks?.Invoke(view);
     }
 
- // Test Add Perk
+    // Test Add Perk
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -90,12 +91,14 @@ public class PlayerView : BaseObjectView
         if (Input.GetKeyDown(KeyCode.Q))
         {
             // AddPerk (ScriptableObject.CreateInstance<AddHealthPerk> ());
-            _perkSystem.AddPerk(ScriptableObject.CreateInstance<AddHealthPerk>());
+            //_perkSystem.AddPerk(ScriptableObject.CreateInstance<AddHealthPerk>());
+            _perkManager.AddPerk(ScriptableObject.CreateInstance<AddMaxHealthPerk>());
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
             //AddPerk (ScriptableObject.CreateInstance<AttackSpeedPerk> ());
-            _perkSystem.AddPerk(ScriptableObject.CreateInstance<AttackSpeedPerk>());
+            //_perkSystem.AddPerk(ScriptableObject.CreateInstance<AttackSpeedPerk>());
+            _perkManager.AddPerk(ScriptableObject.CreateInstance<AttackSpeedPerk>());
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -120,13 +123,27 @@ public class PlayerView : BaseObjectView
             _perkSystem.AddPerk(ScriptableObject.CreateInstance<RegenHealthPerk>());
 
         }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            //AddPerk (ScriptableObject.CreateInstance<RicochetPerk> ());
+            _perkSystem.AddPerk(ScriptableObject.CreateInstance<MoveSpeedPerk>());
+
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            //AddPerk (ScriptableObject.CreateInstance<RicochetPerk> ());
+            //_perkSystem.AddPerk(ScriptableObject.CreateInstance<ProjectileSizePerk>());
+            _perkManager.AddPerk(ScriptableObject.CreateInstance<ProjectileSizePerk>());
+
+        }
     }
     //..End
-    
+
     public void InitializeShooter(Shooter shooter)
     {
         _shooter = shooter;
         _perkSystem = new PerkSystem(this, _shooter);
+        _perkManager = new PerkManager(this, _shooter);
     }
 
     public void SetState(PlayerState state)
@@ -204,10 +221,19 @@ public class PlayerView : BaseObjectView
     {
         _health = health;
     }
+    public void SetMaxHealth(float maxHealth)
+    {
+        _maxHealth = maxHealth;
+    }
+    public void SetMoveSpeed(float speed)
+    {
+        _movementSpeed = speed;
+    }
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     public void Attack()
     {
-        _shooter.Shooting(_perkSystem.PerkListOnEnable);
+        //_shooter.Shooting(_perkSystem.PerkListOnEnable);
+        _shooter.Shooting(_perkManager.ShooterPerkList);
     }
 
     #endregion
