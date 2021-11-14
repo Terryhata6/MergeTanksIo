@@ -11,17 +11,7 @@
 //     private float _delay;
 //     private float _tempDelay;
 //     private Vector3 _ceshPos;
-//     private CircularProjectilePerk()
-//     {
-//         _typePerk = PerkType.Offence;
-//         _maxLevel = 2;
-//         _fixedExecute = true;
-
-//         _angle = 0;
-//         _radius = 5f;
-//         _delay = 1f;
-//     }
-
+    
 //     public override void Activate(Shooter shooter)
 //     {
 //         //projectile.transform.forward = 
