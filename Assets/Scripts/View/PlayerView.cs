@@ -78,14 +78,14 @@ public class PlayerView : BaseObjectView
             int lastIndex = _perkManager.OwnPlayerPerkList.Count - 1;
             AbstractPerk newPerk = _perkManager.OwnPlayerPerkList[lastIndex];
             _perkManager.RemovePlayerPerk(newPerk);
-            _viewParams = _perkManager.UpdateViewParamsStruct();
+            // _viewParams = _perkManager.UpdateViewParamsStruct();
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
             var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/AddHealth.asset");
             var inst = Instantiate(perk);
             _perkManager.AddPerk(inst);
-            _viewParams = _perkManager.UpdateViewParamsStruct();
+            // _viewParams = _perkManager.UpdateViewParamsStruct();
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
@@ -93,14 +93,14 @@ public class PlayerView : BaseObjectView
             var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/AttackSpeed.asset");
             var inst = Instantiate(perk);
             _perkManager.AddPerk(inst);
-            _viewParams = _perkManager.UpdateViewParamsStruct();
+            // _viewParams = _perkManager.UpdateViewParamsStruct();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
             var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/MoveSpeed.asset");
             var inst = Instantiate(perk);
             _perkManager.AddPerk(inst);
-            _viewParams = _perkManager.UpdateViewParamsStruct();
+            // _viewParams = _perkManager.UpdateViewParamsStruct();
 
         }
         if (Input.GetKeyDown(KeyCode.R))
@@ -113,7 +113,7 @@ public class PlayerView : BaseObjectView
             var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/ElectronicShield.asset");
             var inst = Instantiate(perk);
             _perkManager.AddPerk(inst);
-            _viewParams = _perkManager.UpdateViewParamsStruct();
+            // _viewParams = _perkManager.UpdateViewParamsStruct();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -136,7 +136,7 @@ public class PlayerView : BaseObjectView
             var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/RegenHealth.asset");
             var inst = Instantiate(perk);
             _perkManager.AddPerk(inst);
-            _viewParams = _perkManager.UpdateViewParamsStruct();
+            // _viewParams = _perkManager.UpdateViewParamsStruct();
         }
     }
     //..End

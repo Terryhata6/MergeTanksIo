@@ -90,7 +90,7 @@ public class PerkManager
 
     if (perk.FixedExecute)
     {
-      //ExecutablePerks -= perk.UpdateFixedExecute;
+      ExecutablePerks -= perk.UpdateFixedExecute;
     }
   }
 
@@ -132,11 +132,10 @@ public class PerkManager
 
 
   #region Events Perk FixedExecute is True
-  public event Action<ViewParamsStruct> ExecutablePerks;
-  public void ExecutePerks(ViewParamsStruct viewParams)
+  public event Action<ViewParamsComponent> ExecutablePerks;
+  public void ExecutePerks(ViewParamsComponent viewParams)
   {
     ExecutablePerks?.Invoke(viewParams);
-    _ownViewParams = UpdateViewParamsStruct();
   }
   #endregion
 }

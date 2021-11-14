@@ -13,7 +13,7 @@ public abstract class AbstractPerk : ScriptableObject
 
     [SerializeField][Tooltip("Перк Срабатывает при FixedUpdate")] protected bool _fixedExecute;
     public bool FixedExecute => _fixedExecute;
-    public virtual void UpdateFixedExecute(ViewParamsStruct viewParams) { }
+    public virtual void UpdateFixedExecute(ViewParamsComponent viewParams) { }
     protected ViewParamsComponent _viewParams;
     protected Shooter _ownShooter;
     // protected Projectile _ownProjectile;
