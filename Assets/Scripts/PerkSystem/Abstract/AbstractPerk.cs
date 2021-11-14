@@ -26,11 +26,11 @@ public abstract class AbstractPerk : ScriptableObject
     public virtual void Deactivate(Shooter ownShoot) { }
 
     // public virtual void Activate(Projectile ownProjectile, GameObject target) { }
-    // public virtual void Activate(Projectile ownProjectile) { }
+    public virtual void Activate(Projectile ownProjectile) { }  //<< ХММММ Видимо Плохое Решение
 
 
 
-    // public virtual void Deactivate(Projectile ownProjectile) { }
+    public virtual void Deactivate(Projectile ownProjectile) { } //<< ХММММ Видимо Плохое Решение
     // public virtual void Deactivate(Projectile ownProjectile, GameObject target) { }
 
 

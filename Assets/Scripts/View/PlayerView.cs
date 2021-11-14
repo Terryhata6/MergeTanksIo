@@ -118,6 +118,9 @@ public class PlayerView : BaseObjectView
         if (Input.GetKeyDown(KeyCode.S))
         {
             // _perkManager.AddPerk(ScriptableObject.CreateInstance<ProjectileSizePerk>());
+            var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/ProjectileSize.asset");
+            var inst = Instantiate(perk);
+            _perkManager.AddPerk(inst);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
