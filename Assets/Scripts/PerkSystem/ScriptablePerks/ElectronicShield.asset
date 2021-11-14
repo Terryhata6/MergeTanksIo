@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c21594d29d232bb4582811e074ef66c2, type: 3}
-  m_Name: MoveSpeed
+  m_Script: {fileID: 11500000, guid: 13034bffc6e69104ebf41d5e38eec2e9, type: 3}
+  m_Name: ElectronicShield
   m_EditorClassIdentifier: 
   _perkData:
     _name: 
@@ -18,6 +18,6 @@ MonoBehaviour:
     _typePerk: 0
     _priority: 0
     _level: 1
-    _maxLevel: 5
+    _maxLevel: 7
   _fixedExecute: 0
-  _speed: 10
+  _shield: 100

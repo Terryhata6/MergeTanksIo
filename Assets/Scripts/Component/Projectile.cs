@@ -20,7 +20,6 @@ public class Projectile : MonoBehaviour
     private void OnEnable()
     {
         _modList = new List<AbstractPerk>();
-
         Invoke("DisableProjectileCoroutine", _delay);
     }
 
@@ -30,22 +29,28 @@ public class Projectile : MonoBehaviour
         transform.Translate(transform.forward * _newSpeed, Space.World);
     }
 
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.CompareTag("Enemy")) //Enemy
-    //     {
-    //         if (_modList == null || _modList.Count == 0) return;
-    //         if (other.gameObject == null) return;
-    //         _isHit = true;
-    //         if (_isHit) _target = other.gameObject;
-    //         if (_target == null) return;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy")) //Enemy
+        {
 
-    //         foreach (var mod in _modList)
-    //         {
-    //             mod.Activ(this, other.gameObject);
-    //         }
-    //     }
-    // }
+            ITakeDamage enemy = other.gameObject.GetComponent<ITakeDamage>();
+            if (enemy != null) enemy.TakeDamage(_damage);
+
+
+
+            if (_modList == null || _modList.Count == 0) return;
+            if (other.gameObject == null) return;
+            _isHit = true;
+            if (_isHit) _target = other.gameObject;
+            if (_target == null) return;
+
+            foreach (var mod in _modList)
+            {
+                // mod.Activate(this, other.gameObject);
+            }
+        }
+    }
 
     private void DisableProjectileCoroutine()
     {
@@ -65,16 +70,18 @@ public class Projectile : MonoBehaviour
     {
         GameEvents.Current.RemoveProjectile(this);
         gameObject.transform.position = new Vector3(-99f, -99f, -99f);
-        gameObject.transform.localScale = new Vector3(0.3f, -0.3f, 0.3f);
+        gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
     }
 
     public void AddModification(AbstractPerk modification) //<< Test
     {
-        _modList.Add(modification);
-        foreach (var item in _modList)
-        {
-            item.Activ(this);
-        }
+        // modification.Activate(this);
+        //modification.AddLevel();
+        // _modList.Add(modification);
+        // foreach (var item in _modList)
+        // {
+        //     item.Activate(this);
+        // }
     }
 
     public void SetSpeed(float speed)

@@ -29,6 +29,9 @@ public class Shooter : MonoBehaviour
 
     private ProjectileController _projectileController;
 
+    private List<AbstractPerk> _perkList;
+    public List<AbstractPerk> PerkList => _perkList;
+
     private void Start()
     {
         if (TryGetComponent(out _player))
@@ -49,6 +52,7 @@ public class Shooter : MonoBehaviour
 
     public void Shooting(List<AbstractPerk> perks)
     {
+        _perkList = perks;
         if (!_sequentialShots)
         {
             Volley(perks);
