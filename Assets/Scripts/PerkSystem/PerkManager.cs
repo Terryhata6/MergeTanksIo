@@ -12,20 +12,21 @@ public class PerkManager
   [SerializeField] private List<AbstractPerk> _ownShooterPerkList = new List<AbstractPerk>();
   public List<AbstractPerk> OwnShooterPerkList => _ownShooterPerkList;
 
-  private ViewParamsStruct _ownViewParams;
+  private ViewParamsComponent _ownViewParams;
   private Shooter _shooter;
-  public PerkManager(ViewParamsStruct ownViewParams)
+
+  public PerkManager(ViewParamsComponent ownViewParams)
   {
     _ownViewParams = ownViewParams;
   }
 
-  public PerkManager(ViewParamsStruct ownViewParams, Shooter shooter)
+  public PerkManager(ViewParamsComponent ownViewParams, Shooter shooter)
   {
     _ownViewParams = ownViewParams;
     _shooter = shooter;
   }
 
-  public ViewParamsStruct UpdateViewParamsStruct()
+  public ViewParamsComponent UpdateViewParamsStruct()
   {
     return _ownViewParams;
   }
@@ -38,7 +39,7 @@ public class PerkManager
         if (PlayerMatchingPerk(perk))
         {
           _ownPlayerPerkList.Add(perk);
-          _ownViewParams = perk.Activate(_ownViewParams);
+          perk.Activate(_ownViewParams);
           if (perk.FixedExecute)
           {
             ExecutablePerks += perk.UpdateFixedExecute;
@@ -48,7 +49,7 @@ public class PerkManager
         {
           foreach (var ownPlayerPerk in _ownPlayerPerkList)
           {
-            _ownViewParams = ownPlayerPerk.AddLevel(_ownViewParams);
+            ownPlayerPerk.AddLevel();
           }
         }
         break;
@@ -62,7 +63,7 @@ public class PerkManager
         {
           foreach (var shooterPerk in _ownShooterPerkList)
           {
-            shooterPerk.AddLevel(_ownViewParams);
+            shooterPerk.AddLevel();
           }
         }
         break;
@@ -85,11 +86,11 @@ public class PerkManager
   public void RemovePlayerPerk(AbstractPerk perk)
   {
     _ownPlayerPerkList.Remove(perk);
-    _ownViewParams = perk.Deactivate(_ownViewParams);
+    perk.Deactivate(_ownViewParams);
 
     if (perk.FixedExecute)
     {
-      ExecutablePerks -= perk.UpdateFixedExecute;
+      //ExecutablePerks -= perk.UpdateFixedExecute;
     }
   }
 
@@ -124,7 +125,7 @@ public class PerkManager
 
     if (perk.FixedExecute)
     {
-      ExecutablePerks -= perk.UpdateFixedExecute;
+      //ExecutablePerks -= perk.UpdateFixedExecute;
     }
   }
 

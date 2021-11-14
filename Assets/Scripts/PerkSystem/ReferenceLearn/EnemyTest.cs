@@ -10,11 +10,11 @@ public class EnemyTest : BaseObjectView
 
     private void Start()
     {
-        var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/AddHealth.asset");
-        var inst = Instantiate(perk);
-        _perkManager = new PerkManager(ViewParams);
-        _perkManager.AddPerk(inst);
-        ViewParams = _perkManager.UpdateViewParamsStruct();
+        //var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/AddHealth.asset");
+        //var inst = Instantiate(perk);
+        //_perkManager = new PerkManager(ViewParams);
+        //_perkManager.AddPerk(inst);
+        //ViewParams = _perkManager.UpdateViewParamsStruct();
     }
 
     private void Update()

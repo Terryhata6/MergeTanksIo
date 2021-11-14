@@ -45,8 +45,11 @@ public class PlayerView : BaseObjectView
     #endregion
 
     #region Player Params
-    [SerializeField] private ViewParamsStruct _viewParams;
-    public ViewParamsStruct ViewParams => _viewParams;
+    // [SerializeField] private ViewParamsStruct _viewParams;
+    // public ViewParamsStruct ViewParams => _viewParams;
+
+    [SerializeField] private ViewParamsComponent _viewParams = new ViewParamsComponent();
+    public ViewParamsComponent ViewParams => _viewParams;
     #endregion
 
     public void Awake()
@@ -55,7 +58,6 @@ public class PlayerView : BaseObjectView
             _playerRigidbody = GetComponent<Rigidbody>();
 
         TankShotProjectileRecordTransform();
-
     }
 
     // Start is called before the first frame update

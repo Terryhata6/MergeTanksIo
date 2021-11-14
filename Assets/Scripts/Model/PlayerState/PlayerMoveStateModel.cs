@@ -20,6 +20,5 @@ public class PlayerMoveStateModel : BasePlayerStateModel
 
     Vector3 trans = Vector3.forward * _magnitude * 0.01f * player.ViewParams.MoveSpeed * Time.deltaTime;
     player.Transform.Translate(trans);
-
   }
 }
