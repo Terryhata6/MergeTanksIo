@@ -12,7 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022a4cbcb6db85443998e2ac77e9a2b4, type: 3}
   m_Name: RegenHealth
   m_EditorClassIdentifier: 
-  _onEnable: 0
+  _perkData:
+    _name: 
+    _description: 
+    _typePerk: 0
+    _priority: 0
+    _level: 1
+    _maxLevel: 5
   _fixedExecute: 1
-  _typePerk: 0
   _regeneration: 1
+  _delay: 1
+  _tempDelay: 0
+  _viewParams:
+    Health: 0
+    MaxHealth: 0
+    MoveSpeed: 0
+    Shield: 0

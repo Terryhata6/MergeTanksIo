@@ -3,36 +3,43 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MoveSpeed", menuName = "ScriptableObjects/MoveSpeed", order = 1)]
 public class MoveSpeedPerk : AbstractPerk
 {
-    [SerializeField] private float _speed = 10f; //<< Percentag
+  [SerializeField] private float _speed = 10f; //<< Percentag
+  private float _tempPrecentage;
+  private ViewParamsStruct _viewParams;
 
-    private float _tempPrecentage;
+  public override ViewParamsStruct Activate(ViewParamsStruct ownPlayer)
+  {
+    _viewParams = ownPlayer;
 
-    private MoveSpeedPerk()
-    {
-        _typePerk = PerkType.Defence;
-        _speed = 10f;
-    }
+    float newSpeed = AddMoveSpeed(_viewParams.MoveSpeed);
+    _viewParams.ChangeMoveSpeed(newSpeed);
+    return _viewParams;
+  }
 
-    public override void Activate(PlayerView ownPlayer)
-    {
-        float newSpeed = MoveSpeed(ownPlayer.MovementSpeed);
-        ownPlayer.SetMoveSpeed(newSpeed);
+  private float AddMoveSpeed(float speed)
+  {
+    _tempPrecentage = (speed / 100) * _speed;
 
-    }
+    return speed += _tempPrecentage;
+  }
 
+  // BUG  
+  public override ViewParamsStruct Deactivate(ViewParamsStruct ownPlayer)
+  {
+    float newSpeed = ownPlayer.MoveSpeed - _tempPrecentage * _perkData.Level;
+    ownPlayer.ChangeMoveSpeed(newSpeed);
+    return ownPlayer;
+  }
 
-    public override void Deactivate(PlayerView ownPlayer)
-    {
-        float newSpeed = ownPlayer.MovementSpeed - _tempPrecentage;
+  protected override ViewParamsStruct InternalAddLevel()
+  {
+    float newSpeed = AddMoveSpeed(_viewParams.MoveSpeed);
+    _viewParams.ChangeMoveSpeed(newSpeed);
+    return _viewParams;
+  }
 
-        ownPlayer.SetMoveSpeed(newSpeed);
-
-    }
-
-    private float MoveSpeed(float speed)
-    {
-        _tempPrecentage = (speed / 100) * _speed;
-
-        return speed += _tempPrecentage;
-    }
+  protected override ViewParamsStruct InternalRemoveLevel()
+  {
+    return _viewParams;
+  }
 }

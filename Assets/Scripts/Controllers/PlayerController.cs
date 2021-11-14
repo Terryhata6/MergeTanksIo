@@ -119,6 +119,7 @@ public class PlayerController : BaseController, IObjectExecuter
     {
         player.gameObject.layer = (int) Layer.Players;
     }
+    
     public void AddObj(GameObject obj)
     {
         obj.AddComponent<PlayerView>();
