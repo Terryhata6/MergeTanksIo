@@ -5,15 +5,13 @@ public class MoveSpeedPerk : AbstractPerk
 {
   [SerializeField] private float _speed = 10f; //<< Percentag
   private float _tempPrecentage;
-  private ViewParamsStruct _viewParams;
 
-  public override ViewParamsStruct Activate(ViewParamsStruct ownPlayer)
+  public override void Activate(ViewParamsComponent ownPlayer)
   {
     _viewParams = ownPlayer;
 
     float newSpeed = AddMoveSpeed(_viewParams.MoveSpeed);
     _viewParams.ChangeMoveSpeed(newSpeed);
-    return _viewParams;
   }
 
   private float AddMoveSpeed(float speed)
@@ -24,22 +22,20 @@ public class MoveSpeedPerk : AbstractPerk
   }
 
   // BUG  
-  public override ViewParamsStruct Deactivate(ViewParamsStruct ownPlayer)
+  public override void Deactivate(ViewParamsComponent ownPlayer)
   {
     float newSpeed = ownPlayer.MoveSpeed - _tempPrecentage * _perkData.Level;
     ownPlayer.ChangeMoveSpeed(newSpeed);
-    return ownPlayer;
   }
 
-  protected override ViewParamsStruct InternalAddLevel()
+  protected override void InternalAddLevel()
   {
     float newSpeed = AddMoveSpeed(_viewParams.MoveSpeed);
     _viewParams.ChangeMoveSpeed(newSpeed);
-    return _viewParams;
   }
 
-  protected override ViewParamsStruct InternalRemoveLevel()
+  protected override void InternalRemoveLevel()
   {
-    return _viewParams;
+    // TODO
   }
 }

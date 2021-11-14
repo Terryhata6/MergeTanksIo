@@ -6,29 +6,26 @@ using UnityEngine;
 public class ElectronicShieldPerks : AbstractPerk
 {
   [SerializeField] private float _shield = 100f;
-  private ViewParamsStruct _viewParams;
-  public override ViewParamsStruct Activate(ViewParamsStruct viewParams)
+  
+  public override void Activate(ViewParamsComponent viewParams)
   {
+    base.Activate(viewParams);
     _viewParams = viewParams;
-    _viewParams.ChangeShield(viewParams.Shield + _shield);
-    return _viewParams;
+    _viewParams.ChangeShield(_viewParams.Shield + _shield);
   }
 
-  public override ViewParamsStruct Deactivate(ViewParamsStruct viewParams)
+  public override void Deactivate(ViewParamsComponent viewParams)
   {
     viewParams.ChangeShield(viewParams.Shield - _shield * PerkData.Level);
-    return viewParams;
   }
 
-  protected override ViewParamsStruct InternalAddLevel()
+  protected override void InternalAddLevel()
   {
     _viewParams.ChangeShield(_viewParams.Shield + _shield);
-    return _viewParams;
   }
 
-  protected override ViewParamsStruct InternalRemoveLevel()
+  protected override void InternalRemoveLevel()
   {
     _viewParams.ChangeShield(_viewParams.Shield - _shield);
-    return _viewParams;
   }
 }

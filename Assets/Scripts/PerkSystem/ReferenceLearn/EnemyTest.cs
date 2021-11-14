@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyTest : BaseObjectView
 {
-    public ViewParamsStruct ViewParams;
+    public ViewParamsComponent ViewParams;
     [SerializeField] private PerkManager _perkManager;
 
     private Shooter _shooter;
@@ -14,7 +14,7 @@ public class EnemyTest : BaseObjectView
         var inst = Instantiate(perk);
         _perkManager = new PerkManager(ViewParams);
         _perkManager.AddPerk(inst);
-        ViewParams = _perkManager.UpdateViewParamsStruct();
+        //ViewParams = _perkManager.UpdateViewParamsStruct();
     }
 
     private void Update()
