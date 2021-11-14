@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 440e3c224755d7449b5c4e5c256aa03d, type: 3}
   m_Name: AttackSpeed
   m_EditorClassIdentifier: 
-  _name: 
-  _description: 
-  _typePerk: 1
-  _doOnce: 0
-  _perkID: 0
+  _perkData:
+    _name: 
+    _description: 
+    _typePerk: 1
+    _priority: 0
+    _level: 1
+    _maxLevel: 10
+  _fixedExecute: 0
   _speed: 10

@@ -1,22 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
 public class PlayerView : BaseObjectView
 {
-    [SerializeField] private PerkSystem _perkSystem;
-    public PerkSystem PerkSystem => _perkSystem;
-
     [SerializeField] private PerkManager _perkManager; // << New Perk System
     public PerkManager PerkManager => _perkManager; // << New Perk System
 
     #region Fields
     private Shooter _shooter;
+    public Shooter Shooter => _shooter;
 
     //[Header("MainStats")]
-    [SerializeField] private List<AbstractPerk> _perkList;
 
     [SerializeField] private PlayerState _state = PlayerState.Idle;
 
@@ -46,15 +44,9 @@ public class PlayerView : BaseObjectView
 
     #endregion
 
-    #region Player Stats
-    [SerializeField] private float _health;
-    public float Health => _health;
-
-    [SerializeField] private float _maxHealth;
-    public float MaxHealth => _maxHealth;
-
-    [SerializeField, Range(3f, 10f)] private float _movementSpeed = 3.0f;
-    public float MovementSpeed => _movementSpeed;
+    #region Player Params
+    [SerializeField] private ViewParamsStruct _viewParams;
+    public ViewParamsStruct ViewParams => _viewParams;
     #endregion
 
     public void Awake()
@@ -81,60 +73,68 @@ public class PlayerView : BaseObjectView
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // if (_perkList.Count == 0) return;
-            // int lastIndex = _perkList.Count - 1;
-            // RemovePerk (lastIndex);
-            int lastIndex = _perkSystem.PerkList.Count - 1;
-            AbstractPerk newPerk = _perkSystem.PerkList[lastIndex];
-            _perkSystem.RemovePerk(newPerk);
+            int lastIndex = _perkManager.OwnPlayerPerkList.Count - 1;
+            AbstractPerk newPerk = _perkManager.OwnPlayerPerkList[lastIndex];
+            _perkManager.RemovePlayerPerk(newPerk);
+            _viewParams = _perkManager.UpdateViewParamsStruct();
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            // AddPerk (ScriptableObject.CreateInstance<AddHealthPerk> ());
-            //_perkSystem.AddPerk(ScriptableObject.CreateInstance<AddHealthPerk>());
-            _perkManager.AddPerk(ScriptableObject.CreateInstance<AddMaxHealthPerk>());
+            var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/AddHealth.asset");
+            var inst = Instantiate(perk);
+            _perkManager.AddPerk(inst);
+            _viewParams = _perkManager.UpdateViewParamsStruct();
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
-            //AddPerk (ScriptableObject.CreateInstance<AttackSpeedPerk> ());
-            //_perkSystem.AddPerk(ScriptableObject.CreateInstance<AttackSpeedPerk>());
-            _perkManager.AddPerk(ScriptableObject.CreateInstance<AttackSpeedPerk>());
+
+            var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/AttackSpeed.asset");
+            var inst = Instantiate(perk);
+            _perkManager.AddPerk(inst);
+            _viewParams = _perkManager.UpdateViewParamsStruct();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            //AddPerk (ScriptableObject.CreateInstance<SequentialShootsPerk> ());
-            _perkSystem.AddPerk(ScriptableObject.CreateInstance<SequentialShootsPerk>());
+            var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/MoveSpeed.asset");
+            var inst = Instantiate(perk);
+            _perkManager.AddPerk(inst);
+            _viewParams = _perkManager.UpdateViewParamsStruct();
+
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            // AddPerk (ScriptableObject.CreateInstance<RepulsiveProjectilesPerk> ());
-            _perkSystem.AddPerk(ScriptableObject.CreateInstance<RepulsiveProjectilesPerk>());
+            // _perkManager.AddPerk(ScriptableObject.CreateInstance<MoveSpeedPerk>());
 
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
-            //AddPerk (ScriptableObject.CreateInstance<RicochetPerk> ());
-            _perkSystem.AddPerk(ScriptableObject.CreateInstance<RicochetPerk>());
-
+            var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/ElectronicShield.asset");
+            var inst = Instantiate(perk);
+            _perkManager.AddPerk(inst);
+            _viewParams = _perkManager.UpdateViewParamsStruct();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            //AddPerk (ScriptableObject.CreateInstance<RicochetPerk> ());
-            _perkSystem.AddPerk(ScriptableObject.CreateInstance<RegenHealthPerk>());
-
+            // _perkManager.AddPerk(ScriptableObject.CreateInstance<ProjectileSizePerk>());
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            //AddPerk (ScriptableObject.CreateInstance<RicochetPerk> ());
-            _perkSystem.AddPerk(ScriptableObject.CreateInstance<MoveSpeedPerk>());
-
+            // _perkManager.AddPerk(ScriptableObject.CreateInstance<RicochetPerk>());
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
-            //AddPerk (ScriptableObject.CreateInstance<RicochetPerk> ());
-            //_perkSystem.AddPerk(ScriptableObject.CreateInstance<ProjectileSizePerk>());
-            _perkManager.AddPerk(ScriptableObject.CreateInstance<ProjectileSizePerk>());
-
+            // _perkManager.AddPerk(ScriptableObject.CreateInstance<RepulsiveProjectilesPerk>());
+        }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            //_perkManager.AddPerk(ScriptableObject.CreateInstance<CircularProjectilePerk>());
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            var perk = AssetDatabase.LoadAssetAtPath<AbstractPerk>("Assets/scripts/PerkSystem/ScriptablePerks/RegenHealth.asset");
+            var inst = Instantiate(perk);
+            _perkManager.AddPerk(inst);
+            _viewParams = _perkManager.UpdateViewParamsStruct();
         }
     }
     //..End
@@ -142,8 +142,7 @@ public class PlayerView : BaseObjectView
     public void InitializeShooter(Shooter shooter)
     {
         _shooter = shooter;
-        _perkSystem = new PerkSystem(this, _shooter);
-        _perkManager = new PerkManager(this, _shooter);
+        _perkManager = new PerkManager(_viewParams, _shooter);
     }
 
     public void SetState(PlayerState state)
@@ -163,7 +162,7 @@ public class PlayerView : BaseObjectView
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == (int)Layer.Collectables)
+        if (other.gameObject.layer == (int) Layer.Collectables)
         {
             if ((other.transform.position - transform.position).magnitude < 2f)
             {
@@ -216,24 +215,10 @@ public class PlayerView : BaseObjectView
         }
         return true;
     }
-    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    public void SetHealth(float health)
-    {
-        _health = health;
-    }
-    public void SetMaxHealth(float maxHealth)
-    {
-        _maxHealth = maxHealth;
-    }
-    public void SetMoveSpeed(float speed)
-    {
-        _movementSpeed = speed;
-    }
-    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
     public void Attack()
     {
-        //_shooter.Shooting(_perkSystem.PerkListOnEnable);
-        _shooter.Shooting(_perkManager.ShooterPerkList);
+        _shooter.Shooting(_perkManager.OwnShooterPerkList);
     }
 
     #endregion

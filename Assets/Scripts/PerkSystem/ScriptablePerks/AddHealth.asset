@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb377f486dcc60d4393b658ac5e59352, type: 3}
   m_Name: AddHealth
   m_EditorClassIdentifier: 
-  _name: 
-  _description: 
-  _typePerk: 0
-  _perkID: 0
-  _addhealth: 50
+  _perkData:
+    _name: 
+    _description: 
+    _typePerk: 0
+    _priority: 0
+    _level: 1
+    _maxLevel: 5
+  _fixedExecute: 0
+  _addHealth: 50

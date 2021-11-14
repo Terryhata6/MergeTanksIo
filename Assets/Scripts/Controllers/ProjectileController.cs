@@ -9,6 +9,8 @@ public class ProjectileController : BaseController
   private Projectile _projectile;
   private List<Shooter> _shotProjectileList = new List<Shooter>();
 
+  private IProjectileModel _projectileModel ; 
+
   public override void Initialize()
   {
     base.Initialize();
@@ -16,6 +18,8 @@ public class ProjectileController : BaseController
 
     _pool = new ObjectPool<Projectile>();
     _pool.Initialize(_projectile, 100f);
+
+    _projectileModel = new BaseProjectileModel();
   }
 
   public override void Execute()
@@ -27,6 +31,8 @@ public class ProjectileController : BaseController
       foreach (var projectile in shooter.ProjectileList)
       {
         projectile.MoveProjectile();
+        
+        _projectileModel.Execute(projectile);
       }
     }
   }
