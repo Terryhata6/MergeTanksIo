@@ -33,18 +33,14 @@ public class AttackSpeedPerk : AbstractPerk
     return speed -= _tempPrecentage;
   }
 
-  protected override ViewParamsStruct InternalAddLevel()
+  protected override void InternalAddLevel()
   {
     float newSpeed = AttackSpeed(_ownShooter.ShootInterval);
     _ownShooter.SetShootInterval(newSpeed);
-
-    ViewParamsStruct ss = new ViewParamsStruct(); //ЗАТЫЧКА :) Что-то не так
-    return ss; //ЗАТЫЧКА :) Что-то не так
   }
 
-  protected override ViewParamsStruct InternalRemoveLevel()
+  protected override void InternalRemoveLevel()
   {
-    ViewParamsStruct ss = new ViewParamsStruct(); //ЗАТЫЧКА :) Что-то не так
-    return ss; //ЗАТЫЧКА :) Что-то не так
+    // TODO
   }
 }

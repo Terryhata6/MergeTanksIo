@@ -6,34 +6,29 @@ using UnityEngine;
 public class AddMaxHealthPerk : AbstractPerk
 {
   [SerializeField] private float _addHealth = 50f;
-  private ViewParamsStruct _viewParams;
 
-  public override ViewParamsStruct Activate(ViewParamsStruct viewParams)
+  public override void Activate(ViewParamsComponent viewParams)
   {
     _viewParams = viewParams;
     var newHealth = _viewParams.MaxHealth + _addHealth;
     _viewParams.ChangeMaxHealth(newHealth);
-    return _viewParams;
   }
 
-  public override ViewParamsStruct Deactivate(ViewParamsStruct viewParams)
+  public override void Deactivate(ViewParamsComponent viewParams)
   {
     var newHealth = _viewParams.MaxHealth - _addHealth * _perkData.Level;
     _viewParams.ChangeMaxHealth(newHealth);
-    return _viewParams;
   }
 
-  protected override ViewParamsStruct InternalAddLevel()
+  protected override void InternalAddLevel()
   {
     var newHealth = _viewParams.MaxHealth + _addHealth;
     _viewParams.ChangeMaxHealth(newHealth);
-    return _viewParams;
   }
 
-  protected override ViewParamsStruct InternalRemoveLevel()
+  protected override void InternalRemoveLevel()
   {
     var newHealth = _viewParams.MaxHealth - _addHealth;
     _viewParams.ChangeMaxHealth(newHealth);
-    return _viewParams;
   }
 }

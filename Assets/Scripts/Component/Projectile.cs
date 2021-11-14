@@ -76,12 +76,12 @@ public class Projectile : MonoBehaviour
     public void AddModification(AbstractPerk modification) //<< Test
     {
         // modification.Activate(this);
-        //modification.AddLevel();
-        // _modList.Add(modification);
-        // foreach (var item in _modList)
-        // {
-        //     item.Activate(this);
-        // }
+        // modification.AddLevel();
+        _modList.Add(modification);
+        foreach (var item in _modList)
+        {
+            item.Activate(this);
+        }
     }
 
     public void SetSpeed(float speed)
