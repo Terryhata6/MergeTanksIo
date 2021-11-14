@@ -50,7 +50,7 @@ public class CollectableController : BaseController
     {
         for (_index = 0; _index < _num; _index++)
         {
-            if (_coll[_index].remainingLifetime == _lifeTime) // при рождении партикла на его месте помещается coin
+            if (_coll[_index].remainingLifetime.Equals(_lifeTime) && Time.timeScale > 0) // при рождении партикла на его месте помещается coin
             {
                 _temp = _pool.GetObject();
                 if (_temp)

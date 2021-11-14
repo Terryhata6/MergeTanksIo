@@ -27,11 +27,12 @@ public class EnemySearchStateModel : BaseEnemyStateModel
     {
         GetRandomDirection(enemy.position);
         enemy.position = Vector3.MoveTowards(enemy.position, _direction, Time.deltaTime * 5f);
+        enemy.transform.rotation = Quaternion.LookRotation(_direction - enemy.position);
     }
 
     private void GetRandomDirection(Vector3 position)
     {
-        if ((position - _direction).magnitude < 2f || _direction == Vector3.zero)
+        if ((position - _direction).magnitude < 2f || _direction.Equals(Vector3.zero))
         {
             position.x += Random.Range(-40f, 40f);
             position.z += Random.Range(-40f, 40f);

@@ -1,7 +1,7 @@
 using Polarith.AI.Move;
 using UnityEngine;
 
-public class EnemyView : BaseObjectView
+public class EnemyView : BaseObjectView, IHaveAim
 {
     private EnemyState _state;
     private AIMContext _context;

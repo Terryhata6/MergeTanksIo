@@ -96,7 +96,10 @@ public class PlayerController : BaseController, IObjectExecuter
 
     public void SetPlayerState (PlayerState state)
     {
-        _player.SetState (state);
+        if (_player)
+        {
+            _player.SetState (state);
+        }
     }
 
     public void SetIdle (Vector2 delta)

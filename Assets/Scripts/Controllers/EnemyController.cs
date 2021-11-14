@@ -40,9 +40,12 @@ public class EnemyController : BaseController, IObjectExecuter
         if (_aim)
         {
             _tempAim = GameObject.Instantiate(_aim, enemy.transform);
+            Debug.Log(_aim.transform.position);
             _tempAim.SetActive(true);
             _tempAim.TryGetComponent(out _tempContext);
+            _tempAim.transform.localPosition = Vector3.zero;
             enemy.Context = _tempContext;
+            enemy.Context.SelfObject = enemy.gameObject;
         }
     }
 

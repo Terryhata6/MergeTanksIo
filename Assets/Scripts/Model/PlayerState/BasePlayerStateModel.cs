@@ -4,7 +4,7 @@ public abstract class BasePlayerStateModel : IPlayerState
 {
     public virtual void Execute(PlayerController controller, PlayerView view)
     {
-        if (view.State != PlayerState.Dead)
+        if (!view.State.Equals(PlayerState.Dead))
         {
             view.ExecutePerks(view);
         }
