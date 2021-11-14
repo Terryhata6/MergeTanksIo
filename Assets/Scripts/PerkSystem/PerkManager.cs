@@ -49,7 +49,7 @@ public class PerkManager
         {
           foreach (var ownPlayerPerk in _ownPlayerPerkList)
           {
-            ownPlayerPerk.AddLevel();
+            if (ownPlayerPerk.GetType() == perk.GetType()) ownPlayerPerk.AddLevel();
           }
         }
         break;

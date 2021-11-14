@@ -35,7 +35,7 @@ public abstract class AbstractPerk : ScriptableObject
 
 
 
-    public virtual void AddLevel()
+    public void AddLevel()
     {
         if (_perkData.Level >= _perkData.MaxLevel)
         {
@@ -49,7 +49,7 @@ public abstract class AbstractPerk : ScriptableObject
     }
     protected abstract void InternalAddLevel();
 
-    public virtual void RemoveLevel() //<< На Данный Момент Не Используется
+    public  void RemoveLevel() //<< На Данный Момент Не Используется
     {
         if (_perkData.Level <= 0)
         {
