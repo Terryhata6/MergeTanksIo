@@ -30,7 +30,7 @@ public class ProjectileController : BaseController
     {
       foreach (var projectile in shooter.ProjectileList)
       {
-        projectile.MoveProjectile();
+        projectile.Move();
         
         _projectileModel.Execute(projectile);
       }

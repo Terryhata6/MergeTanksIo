@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368d1094642178543884654975759647, type: 3}
   m_Name: RicochetPerk
   m_EditorClassIdentifier: 
-  _name: 
-  _description: 
-  _typePerk: 1
-  _doOnce: 1
-  _perkID: 0
+  _perkData:
+    _name: 
+    _description: 
+    _typePerk: 1
+    _priority: 1
+    _level: 1
+    _maxLevel: 5
+  _fixedExecute: 0

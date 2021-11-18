@@ -741,14 +741,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44fe044f4892f7541886f4ad48ddd574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ViewParams:
-    Health: 0
-    MaxHealth: 100
-    MoveSpeed: 0
-    Shield: 0
-  _perkManager:
-    _ownPlayerPerkList: []
-    _ownShooterPerkList: []
 --- !u!1 &931310963
 GameObject:
   m_ObjectHideFlags: 0
@@ -1916,6 +1908,7 @@ GameObject:
   - component: {fileID: 2101252581}
   - component: {fileID: 2101252580}
   - component: {fileID: 2101252583}
+  - component: {fileID: 2101252584}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1996,9 +1989,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speedProjectile: 10
   _damage: 10
-  _isShooting: 0
+  _sequentialShots: 0
   _shootInterval: 0.5
   _projectileList: []
+--- !u!114 &2101252584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101252579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d5dbc444b2eeb6499e7b73f928602e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2101252585
 Transform:
   m_ObjectHideFlags: 0

@@ -13,17 +13,17 @@ public class PerkManager
   public List<AbstractPerk> OwnShooterPerkList => _ownShooterPerkList;
 
   private ViewParamsComponent _ownViewParams;
-  private Shooter _shooter;
+  private Shooter _ownShooteer;
 
   public PerkManager(ViewParamsComponent ownViewParams)
   {
     _ownViewParams = ownViewParams;
   }
 
-  public PerkManager(ViewParamsComponent ownViewParams, Shooter shooter)
+  public PerkManager(ViewParamsComponent ownViewParams, Shooter ownShooter)
   {
     _ownViewParams = ownViewParams;
-    _shooter = shooter;
+    _ownShooteer = ownShooter;
   }
 
   public ViewParamsComponent UpdateViewParamsStruct()
@@ -47,9 +47,12 @@ public class PerkManager
         }
         else
         {
-          foreach (var ownPlayerPerk in _ownPlayerPerkList)
+          for (int i = 0; i < _ownPlayerPerkList.Count; i++)
           {
-            if (ownPlayerPerk.GetType() == perk.GetType()) ownPlayerPerk.AddLevel();
+            if (_ownPlayerPerkList[i].GetType().Equals(perk.GetType()))
+            {
+              _ownPlayerPerkList[i].AddLevel();
+            }
           }
         }
         break;
@@ -57,13 +60,20 @@ public class PerkManager
         if (ShooterMatchingPerk(perk))
         {
           _ownShooterPerkList.Add(perk);
-          perk.Activate(_shooter);
+          perk.Activate(_ownShooteer);
+          if (perk.FixedExecute)
+          {
+            ExecutablePerks += perk.UpdateFixedExecute;
+          }
         }
         else
         {
-          foreach (var shooterPerk in _ownShooterPerkList)
+          for (int i = 0; i < _ownShooterPerkList.Count; i++)
           {
-            shooterPerk.AddLevel();
+            if (_ownShooterPerkList[i].GetType().Equals(perk.GetType()))
+            {
+              _ownShooterPerkList[i].AddLevel();
+            }
           }
         }
         break;
@@ -73,9 +83,9 @@ public class PerkManager
 
   private bool PlayerMatchingPerk(AbstractPerk perk)
   {
-    foreach (var playerPerk in _ownPlayerPerkList)
+    for (int i = 0; i < _ownPlayerPerkList.Count; i++)
     {
-      if (playerPerk.GetType() == perk.GetType())
+      if (_ownPlayerPerkList[i].GetType().Equals(perk.GetType()))
       {
         return false;
       }
@@ -96,9 +106,9 @@ public class PerkManager
 
   private bool ShooterMatchingPerk(AbstractPerk perk)
   {
-    foreach (var shooterPerk in _ownShooterPerkList)
+    for (int i = 0; i < _ownShooterPerkList.Count; i++)
     {
-      if (shooterPerk.GetType() == perk.GetType())
+      if (_ownShooterPerkList[i].GetType().Equals(perk.GetType()))
       {
         return false;
       }
@@ -121,11 +131,11 @@ public class PerkManager
   public void RemoveShooterPerk(AbstractPerk perk)
   {
     _ownShooterPerkList.Remove(perk);
-    perk.Deactivate(_shooter);
+    perk.Deactivate(_ownShooteer);
 
     if (perk.FixedExecute)
     {
-      //ExecutablePerks -= perk.UpdateFixedExecute;
+      ExecutablePerks -= perk.UpdateFixedExecute;
     }
   }
 

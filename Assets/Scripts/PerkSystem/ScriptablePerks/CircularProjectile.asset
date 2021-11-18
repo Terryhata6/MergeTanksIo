@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 260303b1dcc7e184db8ce27117880484, type: 3}
-  m_Name: RepulsiveProjectilesPerk
+  m_Script: {fileID: 11500000, guid: 0b10f0674af5c92418c0544d38d3d28f, type: 3}
+  m_Name: CircularProjectile
   m_EditorClassIdentifier: 
   _perkData:
     _name: 
@@ -20,4 +20,5 @@ MonoBehaviour:
     _level: 1
     _maxLevel: 5
   _fixedExecute: 0
-  _distance: 1
+  _angle: 0
+  _radius: 10

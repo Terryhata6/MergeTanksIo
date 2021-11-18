@@ -1,11 +1,5 @@
 using UnityEngine;
 
-public enum PerkType
-{
-    Defence,
-    Offence
-}
-
 public abstract class AbstractPerk : ScriptableObject
 {
     [SerializeField] protected PerkDataStruct _perkData;
@@ -14,9 +8,11 @@ public abstract class AbstractPerk : ScriptableObject
     [SerializeField][Tooltip("Перк Срабатывает при FixedUpdate")] protected bool _fixedExecute;
     public bool FixedExecute => _fixedExecute;
     public virtual void UpdateFixedExecute(ViewParamsComponent viewParams) { }
+    public virtual void UpdateFixedExecute(Shooter ownShoot) { }
+    public virtual void UpdateFixedExecute(Projectile ownProjectile) { }
     protected ViewParamsComponent _viewParams;
     protected Shooter _ownShooter;
-    // protected Projectile _ownProjectile;
+    protected Projectile _ownProjectile;
 
     public virtual void Activate(ViewParamsComponent viewParams) { }
     public virtual void Deactivate(ViewParamsComponent viewParams) { }
@@ -25,13 +21,13 @@ public abstract class AbstractPerk : ScriptableObject
     public virtual void Activate(Shooter ownShoot) { }
     public virtual void Deactivate(Shooter ownShoot) { }
 
-    // public virtual void Activate(Projectile ownProjectile, GameObject target) { }
+    public virtual void Activate(Projectile ownProjectile, GameObject target) { }
     public virtual void Activate(Projectile ownProjectile) { }  //<< ХММММ Видимо Плохое Решение
 
 
 
     public virtual void Deactivate(Projectile ownProjectile) { } //<< ХММММ Видимо Плохое Решение
-    // public virtual void Deactivate(Projectile ownProjectile, GameObject target) { }
+    public virtual void Deactivate(Projectile ownProjectile, GameObject target) { }
 
 
 

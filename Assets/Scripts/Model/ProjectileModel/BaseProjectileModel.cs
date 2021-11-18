@@ -6,9 +6,9 @@ public class BaseProjectileModel : IProjectileModel
 {
   public void Execute(Projectile projectile)
   {
-    foreach (var item in projectile.ModList)
+//    foreach (var item in projectile.ModList)
     {
-        if(item.FixedExecute)
+        //if(item.FixedExecute)
         {
             //item.Activate(projectile);
         }
