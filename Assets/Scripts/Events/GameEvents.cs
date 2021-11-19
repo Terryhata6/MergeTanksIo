@@ -48,4 +48,11 @@ public class GameEvents
     {
         OnEnvironmentUpdated?.Invoke();
     }
+
+    public event Action<CollectableItem> OnCollectableDisable;
+
+    public void CollectableDisable(CollectableItem col)
+    {
+        OnCollectableDisable?.Invoke(col);
+    }
 }

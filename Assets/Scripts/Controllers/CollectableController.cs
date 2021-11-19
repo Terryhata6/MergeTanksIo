@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectableController : BaseController
+public class CollectableController : BaseController, IExecute
 {
     private Particles _particle;
     private CollectableItem _temp;
@@ -18,6 +18,7 @@ public class CollectableController : BaseController
         LevelEvents.Current.OnLevelChanged += PoolInit;
         GameEvents.Current.OnItemCollected += SetMovingCoin;
         GameEvents.Current.OnParticlesAppear += SetParticles;
+        GameEvents.Current.OnCollectableDisable += DeleteActiveCol;
 
         _pool = new ObjectPool<CollectableItem>();
         _activeColl = new List<CollectableItem>();
@@ -26,14 +27,11 @@ public class CollectableController : BaseController
 
     public override void Execute()
     {
-        FindBirthParticle();                // поиск только что родившихся партиклов
-        for (int i = 0; i < _activeColl.Count; i++)
-        {
-            if (CheckActive(i))  // проверка на то, что движущийся coin все еще активен и не достиг своей цели
-            {
-                MoveCollectable(_activeColl[i]); // движение coin
-            }
-        }
+        // FindBirthParticle();                // поиск только что родившихся партиклов
+        // for (int i = 0; i < _activeColl.Count; i++)
+        // {
+        //     MoveCollectable(_activeColl[i]); // движение coin
+        // }
     }
 
     private void PoolInit()
@@ -50,15 +48,15 @@ public class CollectableController : BaseController
     {
         for (_index = 0; _index < _num; _index++)
         {
-            if (_coll[_index].remainingLifetime.Equals(_lifeTime) && Time.timeScale > 0) // при рождении партикла на его месте помещается coin
+            if (_coll[_index].remainingLifetime > _lifeTime-1 && Time.timeScale > 0) // при рождении партикла на его месте помещается coin
             {
                 _temp = _pool.GetObject();
-                if (_temp)
+                if (_temp != null)
                 {
-                    _temp.transform.position = _coll[_index].position + _particlePos;
-                    _temp.gameObject.layer = (int)Layer.Collectables;
-                    _temp.tag = "Collectable";
-                    GameEvents.Current.EnvironmentUpdated();
+                    if (_temp.Target == null)
+                    {
+                        CollectableInit(_temp);
+                    }
                 }
             }
         }
@@ -71,22 +69,37 @@ public class CollectableController : BaseController
 
     private void MoveCollectable(CollectableItem col)
     {
-        col.transform.position = Vector3.MoveTowards(col.transform.position, col.Target.position + Vector3.up * 0.5f, Time.deltaTime * 2f);
+        Debug.Log($"{col.gameObject.name}",col.gameObject);
+        if (col.enabled)
+        {
+            Debug.LogWarning(col.Target,col.Target);
+            col.transform.position = Vector3.MoveTowards(col.transform.position, col.Target.position + Vector3.up * 0.5f, Time.deltaTime);
+        }
     }
 
-    private bool CheckActive(int num)
+    private void CollectableInit(CollectableItem col)
     {
-        if (_activeColl[num].enabled == false || _activeColl[num] == null)
-        {
-            _activeColl.RemoveAt(num);
-            return false;
-        }
-        return true;
+        col.transform.position = Vector3.right * Random.Range(-100,100) + Vector3.forward * Random.Range(-100,100) +_particlePos;
+        col.gameObject.layer = (int)Layer.Collectables;
+        col.tag = "Collectable";
+        GameEvents.Current.EnvironmentUpdated();
     }
 
     private void SetMovingCoin(CollectableItem coin) // Установка движущегося coin(когда игрок подбирает коин он движется к игроку)
     {
-        _activeColl.Add(coin);
+        if (!_activeColl.Contains(coin))
+        {
+            _activeColl.Add(coin);
+        }
+    }
+
+    private void DeleteActiveCol(CollectableItem col)
+    {
+        if (_activeColl.Contains(col))
+        {
+            _activeColl.Remove(col);
+        }
+        else Debug.Log("как дела");
     }
 
     private void SetParticles(Particles ps)

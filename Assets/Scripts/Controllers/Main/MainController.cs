@@ -7,18 +7,23 @@ public class MainController : MonoBehaviour
 {
    private List<BaseController> _controllers;
    [SerializeField] private bool _useMouse;
+   private List<BaseController> _updateExecuters;
+   private List<BaseController> _fixedUpdateExecuters;
+   private int i;
 
    public bool UseMouse => _useMouse;
     private void Awake()
     {
         _controllers = new List<BaseController>();
-        _controllers.Add(new InputController().SetMainController(this));
-        _controllers.Add(new PlayerController());
-        _controllers.Add(new LevelController());
-        _controllers.Add(new CollectableController());
-        _controllers.Add(new EnemyController());
-        _controllers.Add(new ProjectileController()); //<< Doonn
-        _controllers.Add(new UIController());
+        _fixedUpdateExecuters = new List<BaseController>();
+        _updateExecuters = new List<BaseController>();
+        AddController(new InputController().SetMainController(this));
+        AddController(new PlayerController());
+        AddController(new LevelController());
+        AddController(new CollectableController());
+        AddController(new EnemyController());
+        AddController(new ProjectileController()); //<< Doonn
+        AddController(new UIController());
     }
 
     private void Start()
@@ -36,19 +41,33 @@ public class MainController : MonoBehaviour
 
     private void Update()
     {
-        foreach (var controller in _controllers)
+        for (i = 0; i < _updateExecuters.Count; i++)
         {
-            if (controller is IExecute)
-            {
-                (controller as IExecute).Execute();
-            }
+            _updateExecuters[i].Execute();
         }
     }
 
-     public void AddController(BaseController controller)
+    private void FixedUpdate()
+    {
+        for (i = 0; i < _fixedUpdateExecuters.Count; i++)
+        {
+            _fixedUpdateExecuters[i].Execute();
+        }
+    }
+
+    public void AddController(BaseController controller)
     {
         if (!_controllers.Contains(controller))
         {
+            if (controller is IExecute)
+            {
+                _updateExecuters.Add(controller);
+            }
+
+            if (controller is IFixedExecute)
+            {
+                _fixedUpdateExecuters.Add(controller);
+            }
             _controllers.Add(controller);
         }
     }

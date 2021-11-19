@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Polarith.AI.Move;
-using Polarith.AI.Package;
 
-public class LevelController : BaseController
+public class LevelController : BaseController, IFixedExecute
 {
     [SerializeField] private List<GameObject> _levels = new List<GameObject>();
     private LevelConfig _currentLevel;

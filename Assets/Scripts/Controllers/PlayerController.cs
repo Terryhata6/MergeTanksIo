@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : BaseController, IObjectExecuter
+public class PlayerController : BaseController, IObjectExecuter, IFixedExecute
 {
     private PlayerView _player;
     private PlayerView _temp;

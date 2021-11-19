@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InputController : BaseController
+public class InputController : BaseController, IExecute
 {
     private MainController _main;
     private Touch _currentTouch;
