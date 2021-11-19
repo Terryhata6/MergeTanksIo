@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseController : IExecute, IInitialize
+public abstract class BaseController : IInitialize
 {
 
   public virtual void Execute()

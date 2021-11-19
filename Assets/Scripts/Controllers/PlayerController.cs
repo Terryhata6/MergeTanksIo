@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : BaseController, IObjectExecuter
+public class PlayerController : BaseController, IObjectExecuter, IFixedExecute
 {
     private PlayerView _player;
     private PlayerView _temp;
@@ -96,7 +96,10 @@ public class PlayerController : BaseController, IObjectExecuter
 
     public void SetPlayerState (PlayerState state)
     {
-        _player.SetState (state);
+        if (_player)
+        {
+            _player.SetState (state);
+        }
     }
 
     public void SetIdle (Vector2 delta)

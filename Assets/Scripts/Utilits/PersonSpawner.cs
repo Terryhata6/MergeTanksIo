@@ -74,7 +74,7 @@ public class PersonSpawner : MonoBehaviour
         for (int i = 0; i < _time.Count; i++)
         {
             _time[i] -= Time.deltaTime;
-            if (_time[i] == 0.0f)
+            if (_time[i].Equals(0.0f))
             {
                 _time.RemoveAt(i);
                 Spawn(RandomEnemyType());

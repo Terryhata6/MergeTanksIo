@@ -1,5 +1,4 @@
 
-using System;
 using UnityEngine;
 
 public class CollectableItem : MonoBehaviour, ICollectableItem
@@ -19,13 +18,17 @@ public class CollectableItem : MonoBehaviour, ICollectableItem
 
     public void OnTriggerEnter(Collider other)
     {
-        
-        _target = other.transform;              // когда игрок приближается к коину, он становится целью для коина, к которой он летит
-        GameEvents.Current.ItemCollected(this);
+        if (other.gameObject.layer.Equals((int)Layer.Enemies) || other.gameObject.layer.Equals( (int)Layer.Players))
+        {
+            _target = other.transform; // когда игрок приближается к коину, он становится целью для коина, к которой он летит
+            GameEvents.Current.ItemCollected(this);
+        }
     }
 
-    public void OnCollisionEnter(Collision other)
+    private void OnDisable()
     {
-        
+        Target = null;
+        GameEvents.Current.CollectableDisable(this);
     }
+    
 }

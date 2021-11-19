@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Polarith.AI.Move;
 
-public class EnemyController : BaseController, IObjectExecuter
+public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
 {
     private List<EnemyView> _enemies;
     private Dictionary<EnemyState, IEnemyState> _states;
@@ -42,7 +42,9 @@ public class EnemyController : BaseController, IObjectExecuter
             _tempAim = GameObject.Instantiate(_aim, enemy.transform);
             _tempAim.SetActive(true);
             _tempAim.TryGetComponent(out _tempContext);
+            _tempAim.transform.localPosition = Vector3.zero;
             enemy.Context = _tempContext;
+            enemy.Context.SelfObject = enemy.gameObject;
         }
     }
 
