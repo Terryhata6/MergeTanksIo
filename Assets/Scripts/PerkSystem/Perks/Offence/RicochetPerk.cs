@@ -6,12 +6,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "RicochetPerk", menuName = "ScriptableObjects/Ricochet", order = 1)]
 public class RicochetPerk : AbstractPerk
 {
-  public override void Activate(Projectile projectile, GameObject target)
+  public override void Activate(BaseProjectile projectile, GameObject target)
   {
     Ricoshet(projectile, target);
   }
 
-  public void Ricoshet(Projectile projectile, GameObject target)
+  public void Ricoshet(BaseProjectile projectile, GameObject target)
   {
     Ray ray = new Ray(projectile.transform.position, projectile.transform.forward);
     RaycastHit hit;

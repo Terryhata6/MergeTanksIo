@@ -9,7 +9,8 @@ public class ProjectileController : BaseController
   private Projectile _projectile;
   private List<Shooter> _shotProjectileList = new List<Shooter>();
 
-  private IProjectileModel _projectileModel ; 
+  private IProjectileModel _projectileModel;
+  
 
   public override void Initialize()
   {
@@ -28,12 +29,7 @@ public class ProjectileController : BaseController
 
     foreach (var shooter in _shotProjectileList)
     {
-      foreach (var projectile in shooter.ProjectileList)
-      {
-        projectile.Move();
-        
-        _projectileModel.Execute(projectile);
-      }
+      shooter.MoveProjectile();
     }
   }
 

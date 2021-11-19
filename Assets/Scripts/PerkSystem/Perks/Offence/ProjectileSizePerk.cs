@@ -7,7 +7,7 @@ public class ProjectileSizePerk : AbstractPerk
 {
   [SerializeField] float _size;
 
-  public override void Activate(Projectile projectile)
+  public override void Activate(BaseProjectile projectile)
   {
     _ownProjectile = projectile;
 
@@ -15,7 +15,7 @@ public class ProjectileSizePerk : AbstractPerk
 
   }
 
-  public override void Deactivate(Projectile projectile)
+  public override void Deactivate(BaseProjectile projectile)
   {
     // TODO
   }

@@ -9,10 +9,10 @@ public abstract class AbstractPerk : ScriptableObject
     public bool FixedExecute => _fixedExecute;
     public virtual void UpdateFixedExecute(ViewParamsComponent viewParams) { }
     public virtual void UpdateFixedExecute(Shooter ownShoot) { }
-    public virtual void UpdateFixedExecute(Projectile ownProjectile) { }
+    public virtual void UpdateFixedExecute(BaseProjectile ownProjectile) { }
     protected ViewParamsComponent _viewParams;
     protected Shooter _ownShooter;
-    protected Projectile _ownProjectile;
+    protected BaseProjectile _ownProjectile;
 
     public virtual void Activate(ViewParamsComponent viewParams) { }
     public virtual void Deactivate(ViewParamsComponent viewParams) { }
@@ -21,13 +21,13 @@ public abstract class AbstractPerk : ScriptableObject
     public virtual void Activate(Shooter ownShoot) { }
     public virtual void Deactivate(Shooter ownShoot) { }
 
-    public virtual void Activate(Projectile ownProjectile, GameObject target) { }
-    public virtual void Activate(Projectile ownProjectile) { }  //<< ХММММ Видимо Плохое Решение
+    public virtual void Activate(BaseProjectile ownProjectile, GameObject target) { }
+    public virtual void Activate(BaseProjectile ownProjectile) { }  //<< ХММММ Видимо Плохое Решение
 
 
 
-    public virtual void Deactivate(Projectile ownProjectile) { } //<< ХММММ Видимо Плохое Решение
-    public virtual void Deactivate(Projectile ownProjectile, GameObject target) { }
+    public virtual void Deactivate(BaseProjectile ownProjectile) { } //<< ХММММ Видимо Плохое Решение
+    public virtual void Deactivate(BaseProjectile ownProjectile, GameObject target) { }
 
 
 
