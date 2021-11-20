@@ -1,10 +1,20 @@
+using System;
 using Polarith.AI.Move;
 using UnityEngine;
 
-public class EnemyView : BaseObjectView
+public class EnemyView : BaseObjectView, IHaveAim
 {
     private EnemyState _state;
     private AIMContext _context;
+    [SerializeField]private PerkManager _perks;
+    [SerializeField]private ViewParamsComponent _params;
+
+    private void Start()
+    {
+        _params = new ViewParamsComponent();
+        _perks = new PerkManager(_params);
+        
+    }
 
     public EnemyState State
     {

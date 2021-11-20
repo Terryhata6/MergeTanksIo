@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class UIController : BaseController
+public class UIController : BaseController, IFixedExecute
 {
     private List<BaseMenuView> _menues;
     private UIView _uiView;

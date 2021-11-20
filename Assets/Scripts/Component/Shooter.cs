@@ -64,6 +64,14 @@ public class Shooter : MonoBehaviour
 
     }
 
+    public void MoveProjectiles()
+    {
+        for (int i = 0; i < _projectileList.Count; i++)
+        {
+            _projectileList[i].MoveProjectile();
+        }
+    }
+    
     private void Volley(List<AbstractPerk> perks)
     {
         _tempInterval += Time.deltaTime;
