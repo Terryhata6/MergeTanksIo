@@ -24,10 +24,9 @@ public class Projectile : BaseProjectile, IMoveProjectile
 
   protected override void InternaTriggerEnter(Collider otherCollider)
   {
-    // TODO
     foreach (var item in _modList)
     {
-      item.Activate(this, otherCollider.gameObject);
+      item.Activate(this);
     }
   }
 }

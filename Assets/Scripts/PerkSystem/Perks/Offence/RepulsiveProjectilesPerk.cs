@@ -6,9 +6,9 @@ public class RepulsiveProjectilesPerk : AbstractPerk
 {
   [SerializeField] private float _distance;
 
-  public override void Activate(BaseProjectile ownProjectile, GameObject target)
+  public override void Activate(BaseProjectile ownProjectile)
   {
-    Repulsive(ownProjectile, target);
+    Repulsive(ownProjectile, ownProjectile.Target);
   }
 
   public Vector3 Repulsive(BaseProjectile projectile, GameObject target)
@@ -16,7 +16,7 @@ public class RepulsiveProjectilesPerk : AbstractPerk
     return target.transform.position += (projectile.transform.forward * _distance);
   }
 
-  public override void Deactivate(BaseProjectile ownProjectile, GameObject target)
+  public override void Deactivate(BaseProjectile ownProjectile)
   {
     // TODO
   }

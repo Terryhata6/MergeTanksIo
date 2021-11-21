@@ -88,9 +88,9 @@ public class TestPerks : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-
-            //_perkManager.AddPerk(inst);
-            // _viewParams = _perkManager.UpdateViewParamsStruct();
+            var perk = LoadSystem.LoadPerk("PenetrationShoot");
+            var instPerk = Instantiate(perk);
+            _perkManager.AddPerk(instPerk);
         }
     }
 }

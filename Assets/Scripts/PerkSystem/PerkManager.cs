@@ -12,6 +12,8 @@ public class PerkManager
   [SerializeField] private List<AbstractPerk> _ownShooterPerkList = new List<AbstractPerk>();
   public List<AbstractPerk> OwnShooterPerkList => _ownShooterPerkList;
 
+  [SerializeField] private List<AbstractPerk> _frozenPerkList = new List<AbstractPerk>();
+
   private ViewParamsComponent _ownViewParams;
   private Shooter _ownShooteer;
 
@@ -60,7 +62,23 @@ public class PerkManager
         if (ShooterMatchingPerk(perk))
         {
           _ownShooterPerkList.Add(perk);
+
+          #region Если находим Конфликт Перок То Конфликтную перку замараживаем
+          if (perk.ConflictPerk != null)
+          {
+            _frozenPerkList.Add(perk.ConflictPerk);
+            for (int i = 0; i < _ownShooterPerkList.Count; i++)
+            {
+              if (_ownShooterPerkList[i].GetType() == perk.ConflictPerk.GetType())
+              {
+                _ownShooterPerkList.RemoveAt(i);
+              }
+            }
+          }
+          #endregion
+
           perk.Activate(_ownShooteer);
+
           if (perk.FixedExecute)
           {
             ExecutablePerks += perk.UpdateFixedExecute;

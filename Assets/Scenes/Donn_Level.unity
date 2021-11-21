@@ -1974,7 +1974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e53294eccb00fc44dbba8356e94300b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedProjectile: 10
+  _speedProjectile: 5
   _damage: 10
   _sequentialShots: 0
   _shootInterval: 0.5

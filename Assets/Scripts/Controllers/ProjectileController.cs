@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileController : BaseController
+public class ProjectileController : BaseController, IExecute
 {
   private ObjectPool<Projectile> _pool;
   public ObjectPool<Projectile> Pool => _pool;
@@ -30,6 +30,14 @@ public class ProjectileController : BaseController
     foreach (var shooter in _shotProjectileList)
     {
       shooter.MoveProjectile();
+
+      foreach (var item in shooter.ProjectileList)
+      {
+          foreach (var projectileMod in item.ModList)
+          {
+              //projectileMod.Activate(item);
+          }
+      }
     }
   }
 

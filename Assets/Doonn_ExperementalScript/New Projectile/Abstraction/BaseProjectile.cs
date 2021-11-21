@@ -5,12 +5,14 @@ using UnityEngine;
 public abstract class BaseProjectile : MonoBehaviour
 {
     [SerializeField] protected List<AbstractPerk> _modList;
+    public List<AbstractPerk> ModList => _modList;
 
     [SerializeField] protected Vector3 _defaultScale;
 
     [SerializeField] protected float _lifeTime = 5f;
 
     protected GameObject _target;
+    public GameObject Target => _target;
 
     private void Start()
     {
@@ -48,19 +50,15 @@ public abstract class BaseProjectile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("Попал Во Врага");
+            _target = other.gameObject;
             InternaTriggerEnter(other);
         }
     }
 
     protected abstract void InternaTriggerEnter(Collider otherCollider);
 
-    public void AddModification(AbstractPerk modification) //<< Test
+    public void AddModification(AbstractPerk modification)
     {
         _modList.Add(modification);
-        // foreach (var item in _modList)
-        // {
-        //     item.Activate(this);
-        // }
     }
 }
