@@ -167,7 +167,7 @@ public class PlayerView : BaseObjectView
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == (int) Layer.Collectables)
+        if (other.gameObject.layer.Equals(Layers.Collectables))
         {
             if ((other.transform.position - transform.position).magnitude < 2f)
             {

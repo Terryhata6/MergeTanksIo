@@ -11,10 +11,10 @@ public class GameEvents
     {
         OnRemoveProjectile?.Invoke(projectile);
     }
-    public event Action<Particles> OnParticlesAppear;
-    public void ParticlesAppear(Particles ps)
+    public event Action<CollectablesParam> OnCollectablesParamSet;
+    public void CollectablesParamSet(CollectablesParam cp)
     {
-        OnParticlesAppear?.Invoke(ps);
+        OnCollectablesParamSet?.Invoke(cp);
     }
     public event Action<CollectableItem> OnItemCollected;
     public void ItemCollected(CollectableItem coin)

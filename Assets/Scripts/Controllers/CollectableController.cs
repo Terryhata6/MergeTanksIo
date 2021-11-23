@@ -3,21 +3,28 @@ using UnityEngine;
 
 public class CollectableController : BaseController, IExecute
 {
-    private Particles _particle;
-    private CollectableItem _temp;
+    private CollectablesParam _collParams;
+    private CollectableItem _tempColl;
     private ObjectPool<CollectableItem> _pool;    
     private List<CollectableItem> _activeColl;
-    private ParticleSystem.Particle[] _coll;
-    private Vector3 _particlePos;
-    private float _lifeTime = 0f;
-    private int _num = 0;
+    private float _tempMaxY;
+    private float _tempMaxZ;
+    private float _tempMaxX;
+    private float _tempMinY;
+    private float _tempMinZ;
+    private float _tempMinX;
     private int _index;
+    private List<Vector3> _vertices;
+    private Vector3 _tempPos;
+    private RaycastHit _hit;
+    private float _respawnDelay;
+    private List<float> _respawnDelays;
 
     public override void Initialize()
     {
         LevelEvents.Current.OnLevelChanged += PoolInit;
         GameEvents.Current.OnItemCollected += SetMovingCoin;
-        GameEvents.Current.OnParticlesAppear += SetParticles;
+        GameEvents.Current.OnCollectablesParamSet += SetParams;
         GameEvents.Current.OnCollectableDisable += DeleteActiveCol;
 
         _pool = new ObjectPool<CollectableItem>();
@@ -27,49 +34,60 @@ public class CollectableController : BaseController, IExecute
 
     public override void Execute()
     {
-        // FindBirthParticle();                // поиск только что родившихся партиклов
-        // for (int i = 0; i < _activeColl.Count; i++)
-        // {
-        //     MoveCollectable(_activeColl[i]); // движение coin
-        // }
+        
+        for (int i = 0; i < _activeColl.Count; i++)
+        {
+            MoveCollectable(_activeColl[i]); // движение coin
+        }
     }
 
     private void PoolInit()
     {
         _pool.CleanPool();
-        if (_particle)
+        if (_collParams)
         {
-            Debug.Log("pOOL INIT");
-            _pool.Initialize(_particle.Prefabs, _particle.System.main.maxParticles);
+            Debug.Log("Collectable pOOL INIT");
+            _pool.Initialize(_collParams.Examples ,_collParams.Size);
         }
     }
 
-    private void FindBirthParticle()
+    private void SpawnCollectables(int size)
     {
-        for (_index = 0; _index < _num; _index++)
+        for (_index = 0; _index < size; _index++)
         {
-            if (_coll[_index].remainingLifetime > _lifeTime-1 && Time.timeScale > 0) // при рождении партикла на его месте помещается coin
-            {
-                _temp = _pool.GetObject();
-                if (_temp != null)
-                {
-                    if (_temp.Target == null)
-                    {
-                        CollectableInit(_temp);
-                    }
-                }
-            }
+            SpawnCollectable();
         }
-        if (_particle)
-        {
-            _num = _particle?.System.GetParticles(_coll) ?? 0;
-        }
-
     }
 
+    private void SpawnCollectable()
+    {
+        _tempColl = _pool.GetObject();
+        CollectableInit(_tempColl);
+    }
+
+    private void CollectableInit(CollectableItem col)
+    {
+        GetRandomPos();
+        col.transform.position = _tempPos;
+        col.gameObject.layer = (int)Layers.Collectables;
+        GameEvents.Current.EnvironmentUpdated();
+    }
+    
+    private void GetRandomPos()
+    {
+        _tempPos.x = Random.Range(_tempMinX, _tempMaxX);
+        _tempPos.y = Random.Range(_tempMinY, _tempMaxY);
+        _tempPos.z = Random.Range(_tempMinZ, _tempMaxZ);
+        Physics.Raycast(_tempPos, Vector3.down, out _hit, 1f);
+        if (_hit.collider.gameObject.layer.Equals(Layers.Ground))
+        {
+            return;
+        }
+        GetRandomPos();
+    }
+    
     private void MoveCollectable(CollectableItem col)
     {
-        Debug.Log($"{col.gameObject.name}",col.gameObject);
         if (col.enabled)
         {
             Debug.LogWarning(col.Target,col.Target);
@@ -77,14 +95,10 @@ public class CollectableController : BaseController, IExecute
         }
     }
 
-    private void CollectableInit(CollectableItem col)
+    private void Respawn()
     {
-        col.transform.position = Vector3.right * Random.Range(-100,100) + Vector3.forward * Random.Range(-100,100) +_particlePos;
-        col.gameObject.layer = (int)Layer.Collectables;
-        col.tag = "Collectable";
-        GameEvents.Current.EnvironmentUpdated();
+        for (_index =0;)
     }
-
     private void SetMovingCoin(CollectableItem coin) // Установка движущегося coin(когда игрок подбирает коин он движется к игроку)
     {
         if (!_activeColl.Contains(coin))
@@ -99,18 +113,54 @@ public class CollectableController : BaseController, IExecute
         {
             _activeColl.Remove(col);
         }
-        else Debug.Log("как дела");
     }
 
-    private void SetParticles(Particles ps)
+    private void SetParams(CollectablesParam cp)
     {
-        if (ps)
+        if (cp)
         {
-            Debug.Log("Particles set"); 
-            _particle = ps;
-            _particlePos = ps.transform.position;
-            _coll = new ParticleSystem.Particle[_particle?.System.main.maxParticles ?? 0];
-            _lifeTime = _particle?.System.main.startLifetimeMultiplier ?? 0f;
+            Debug.Log("Collectables Params set"); 
+            _collParams = cp;
+            _respawnDelay = _collParams.RespawnDelay;
+            CalculateBounds(_collParams.Vertices);
+            SpawnCollectables(_collParams.Size);
+        }
+    }
+
+    private void CalculateBounds(Vector3[] vertices)
+    {
+        _tempMaxX = vertices[0].x;
+        _tempMaxY = vertices[0].y;
+        _tempMaxZ = vertices[0].z;
+        _tempMinX = vertices[0].x;
+        _tempMinY = vertices[0].y;
+        _tempMinZ = vertices[0].z;
+        for (_index = 0; _index < vertices.Length; _index++)
+        {
+            if (vertices[_index].x > _tempMaxX)
+            {
+                _tempMaxX = vertices[_index].x;
+            }
+            if (vertices[_index].x < _tempMinX)
+            {
+                _tempMinX = vertices[_index].x;
+            }
+            if (vertices[_index].z > _tempMaxZ)
+            {
+                _tempMaxZ = vertices[_index].z;
+            }
+            if (vertices[_index].z < _tempMinZ)
+            {
+                _tempMinZ = vertices[_index].z;
+            }
+            if (vertices[_index].y > _tempMaxY)
+            {
+                _tempMaxY = vertices[_index].y;
+            }
+            if (vertices[_index].y < _tempMinY)
+            {
+                _tempMinY = vertices[_index].y;
+            }
         }
     }
 }

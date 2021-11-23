@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : BaseController, IObjectExecuter, IFixedExecute
+public class PlayerController : BaseController, IObjectExecuter, IExecute
 {
     private PlayerView _player;
     private PlayerView _temp;
@@ -120,7 +120,7 @@ public class PlayerController : BaseController, IObjectExecuter, IFixedExecute
 
     private void PlayerInit(PlayerView player)
     {
-        player.gameObject.layer = (int) Layer.Players;
+        player.gameObject.layer = (int) Layers.Players;
     }
     
     public void AddObj(GameObject obj)
