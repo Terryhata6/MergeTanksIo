@@ -54,7 +54,7 @@ public class MainController : MonoBehaviour
     {
         for (i = 0; i < _fixedUpdateExecuters.Count; i++)
         {
-            _fixedUpdateExecuters[i].Execute();
+            _fixedUpdateExecuters[i].FixedExecute();
         }
     }
 

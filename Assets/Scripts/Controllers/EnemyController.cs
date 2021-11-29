@@ -27,7 +27,6 @@ public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
     public override void FixedExecute()
     {
         base.Execute();
-        Debug.Log("enemy");
         for (int i = 0; i < _enemies.Count; i ++ )
         {
             

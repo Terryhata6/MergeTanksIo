@@ -145,13 +145,13 @@ public class CollectableController : BaseController, IExecute
             Debug.Log("Collectables Params set"); 
             _collParams = cp;
             _respawnDelay = _collParams.RespawnDelay;
-            CalculateBounds(_collParams.Vertices);
+            CalculateBounds(_collParams.Vertices,_collParams.Ground);
             PoolInit();
             SpawnCollectables(_collParams.Size);
         }
     }
 
-    private void CalculateBounds(Vector3[] vertices)
+    private void CalculateBounds(Vector3[] vertices, Transform ground)
     {
         _tempMaxX = vertices[0].x;
         _tempMaxY = vertices[0].y;
@@ -187,6 +187,12 @@ public class CollectableController : BaseController, IExecute
                 _tempMinY = vertices[_index].y;
             }
         }
+        _tempMaxX = _tempMaxX * ground.localScale.x + ground.position.x;
+        _tempMaxY = _tempMaxY * ground.localScale.y + ground.position.y;
+        _tempMaxZ = _tempMaxZ * ground.localScale.z + ground.position.z;
+        _tempMinX = _tempMinX * ground.localScale.x + ground.position.x;
+        _tempMinY = _tempMinY * ground.localScale.y + ground.position.y;
+        _tempMinZ = _tempMinZ * ground.localScale.z + ground.position.z;
         Debug.Log($"y{_tempMinY}  z{_tempMinZ}  x{_tempMinX}  y{_tempMaxY}  z{_tempMaxZ}  x{_tempMaxX}");
     }
 }

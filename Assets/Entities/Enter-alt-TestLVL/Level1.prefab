@@ -173,6 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _size: 200
   _mesh: {fileID: 3935755781001759462}
+  _ground: {fileID: 3430037181541086353}
   _respawnDelay: 4
   _collectablesPerSpawn: 4
   _examples:
