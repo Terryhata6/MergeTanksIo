@@ -13,7 +13,7 @@ public class AttackSpeedPerk : AbstractPerk
     _ownShooter = ownShoot;
 
     float newSpeed = AttackSpeed(ownShoot.ShootInterval);
-    ownShoot.SetShootInterval(newSpeed);
+    ownShoot.ChangeShootInterval(newSpeed);
 
   }
 
@@ -22,7 +22,7 @@ public class AttackSpeedPerk : AbstractPerk
   {
     float newSpeed = ownShoot.ShootInterval + _tempPrecentage * PerkData.Level;
 
-    ownShoot.SetShootInterval(newSpeed);
+    ownShoot.ChangeShootInterval(newSpeed);
 
   }
 
@@ -36,7 +36,7 @@ public class AttackSpeedPerk : AbstractPerk
   protected override void InternalAddLevel()
   {
     float newSpeed = AttackSpeed(_ownShooter.ShootInterval);
-    _ownShooter.SetShootInterval(newSpeed);
+    _ownShooter.ChangeShootInterval(newSpeed);
   }
 
   protected override void InternalRemoveLevel()

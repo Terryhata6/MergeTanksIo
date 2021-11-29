@@ -8,11 +8,10 @@ public abstract class BasePlayerStateModel : IPlayerState
         {
             view.PerkManager.ExecutePerks(view.ViewParams);
             
-            // view.Sethehe(view.PerkManager.UpdateViewParamsStruct());
             // TEST
-            // foreach (var item in view.Shooter.PerkList)
+            foreach (var item in view.Shooter.PerkList)
             {
-                // item.Activate(view.Shooter);
+                item.UpdateFixedExecute(view.Shooter);
             } 
             //<< END
         }

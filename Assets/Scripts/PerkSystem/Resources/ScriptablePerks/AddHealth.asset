@@ -9,15 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 440e3c224755d7449b5c4e5c256aa03d, type: 3}
-  m_Name: AttackSpeed
+  m_Script: {fileID: 11500000, guid: cb377f486dcc60d4393b658ac5e59352, type: 3}
+  m_Name: AddHealth
   m_EditorClassIdentifier: 
   _perkData:
     _name: 
     _description: 
-    _typePerk: 1
+    _sprite: {fileID: 21300000, guid: c3ba3f16ea2a84e41b6d969c1a1f7338, type: 3}
+    _typePerk: 0
     _priority: 0
     _level: 1
-    _maxLevel: 10
+    _maxLevel: 5
+  _conflictPerk: {fileID: 0}
   _fixedExecute: 0
-  _speed: 10
+  _addHealth: 50

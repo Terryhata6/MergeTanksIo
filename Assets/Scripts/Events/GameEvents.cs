@@ -5,12 +5,19 @@ public class GameEvents
 {
     public static GameEvents Current = new GameEvents();
 
-    public event Action<Projectile> OnRemoveProjectile;
+    // public event Action<Projectile> OnRemoveProjectile;
 
-    public void RemoveProjectile(Projectile projectile)
+    public event Action<BaseProjectile> OnRemoveBaseProjectile;
+
+    public void RemoveBaseProjectile(BaseProjectile baseProjectile)
     {
-        OnRemoveProjectile?.Invoke(projectile);
+        OnRemoveBaseProjectile?.Invoke(baseProjectile);
     }
+
+    // public void RemoveProjectile(Projectile projectile)
+    // {
+    //     OnRemoveProjectile?.Invoke(projectile);
+    // }
     public event Action<Particles> OnParticlesAppear;
     public void ParticlesAppear(Particles ps)
     {

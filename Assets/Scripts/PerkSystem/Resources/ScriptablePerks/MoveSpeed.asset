@@ -9,22 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 022a4cbcb6db85443998e2ac77e9a2b4, type: 3}
-  m_Name: RegenHealth
+  m_Script: {fileID: 11500000, guid: c21594d29d232bb4582811e074ef66c2, type: 3}
+  m_Name: MoveSpeed
   m_EditorClassIdentifier: 
   _perkData:
     _name: 
     _description: 
+    _sprite: {fileID: 21300000, guid: 85228cd90d888ba40b726e014a4b22f2, type: 3}
     _typePerk: 0
     _priority: 0
     _level: 1
     _maxLevel: 5
-  _fixedExecute: 1
-  _regeneration: 1
-  _delay: 1
-  _tempDelay: 0
-  _viewParams:
-    Health: 0
-    MaxHealth: 0
-    MoveSpeed: 0
-    Shield: 0
+  _conflictPerk: {fileID: 0}
+  _fixedExecute: 0
+  _speed: 10
