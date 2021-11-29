@@ -40,7 +40,6 @@ public class Shooter : MonoBehaviour
             _projectileController.AddShooterToList(this);
             _basePlayer.InitializeShooter(this);
             _pool = _projectileController.Pool;
-            Debug.Log(_pool);
         }
         else
         {

@@ -98,7 +98,6 @@ public class CollectableController : BaseController, IExecute
     {
         if (col.enabled)
         {
-            Debug.LogWarning(col.Target,col.Target);
             col.transform.position = Vector3.MoveTowards(col.transform.position, col.Target.position + Vector3.up * 0.5f, Time.deltaTime);
         }
     }

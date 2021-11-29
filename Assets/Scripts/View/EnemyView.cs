@@ -23,15 +23,15 @@ public class EnemyView : BasePersonView, IHaveAim
     {
         GameEvents.Current.EnemyDead(this);
     }
-    public override void OnTriggerEnter(Collider other)
-    {
-        base.OnTriggerEnter(other);
-        if (other.gameObject.layer.Equals(Layers.Collectables))
-        {
-            if ((other.transform.position - transform.position).magnitude < 2f)
-            {
-                other.gameObject.SetActive(false);
-            }
-        }
-    }
+    // public override void OnTriggerEnter(Collider other)
+    // {
+    //     base.OnTriggerEnter(other);
+    //     if (other.gameObject.layer.Equals((int)Layers.Collectables))
+    //     {
+    //         if ((other.transform.position - transform.position).magnitude < 2f)
+    //         {
+    //             other.gameObject.SetActive(false);
+    //         }
+    //     }
+    // }
 }

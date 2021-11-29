@@ -66,7 +66,7 @@ public abstract class BasePersonView : BaseObjectView
 
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer.Equals(Layers.Collectables))
+        if (other.gameObject.layer.Equals((int)Layers.Collectables))
         {
             if ((other.transform.position - transform.position).magnitude < 2f)
             {

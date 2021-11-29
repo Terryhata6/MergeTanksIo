@@ -18,7 +18,7 @@ public class CollectableItem : MonoBehaviour, ICollectableItem
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer.Equals(Layers.Enemies) || other.gameObject.layer.Equals(Layers.Players))
+        if (other.gameObject.layer.Equals((int)Layers.Enemies) || other.gameObject.layer.Equals((int)Layers.Players))
         {
             _target = other.transform; // когда игрок приближается к коину, он становится целью для коина, к которой он летит
             GameEvents.Current.ItemCollected(this);
