@@ -15,7 +15,11 @@ public class GameEvents
     }
 
     public event Action<CollectablesParam> OnCollectablesParamSet;
+
     public void CollectablesParamSet(CollectablesParam cp)
+    {
+        OnCollectablesParamSet?.Invoke(cp);
+    }
   
 
 
