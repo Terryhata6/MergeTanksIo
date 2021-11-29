@@ -124,7 +124,6 @@ public abstract class BasePersonView : BaseObjectView
 
     public void Attack()
     {
-        Debug.Log("ATTACK ENEMY");
         if (_shooter == null) return;
         _shooter.Shooting(_perkManager.OwnShooterPerkList);
     }
