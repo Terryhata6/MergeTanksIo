@@ -1,22 +1,16 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-
-public class PlayerView : BaseObjectView
+public abstract class BasePersonView : BaseObjectView
 {
+
     [SerializeField] private PerkManager _perkManager; // << New Perk System
     public PerkManager PerkManager => _perkManager; // << New Perk System
 
     #region Fields
     private Shooter _shooter;
     public Shooter Shooter => _shooter;
-
-    //[Header("MainStats")]
-
-    [SerializeField] private PlayerState _state = PlayerState.Idle;
 
     #region {Author:Doonn}
 
@@ -36,9 +30,6 @@ public class PlayerView : BaseObjectView
     #endregion
 
     #region AccsessModifyers
-
-    public PlayerState State => _state;
-
 
     public Rigidbody Rigidbody => _playerRigidbody;
 
@@ -63,11 +54,6 @@ public class PlayerView : BaseObjectView
         _perkManager = new PerkManager(_viewParams, _shooter);
     }
 
-    public void SetState(PlayerState state)
-    {
-        _state = state;
-    }
-
     public void ChangeTankMesh(int index)
     {
         for (int i = 0; i < _tankMeshes.Count; i++)
@@ -78,7 +64,7 @@ public class PlayerView : BaseObjectView
         _tankMeshes[index - 1].SetActive(true);
     }
 
-    private void OnTriggerEnter(Collider other)
+    public virtual void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer.Equals(Layers.Collectables))
         {
@@ -101,9 +87,9 @@ public class PlayerView : BaseObjectView
     // Запись Трансформов от куда вылетают Снаряды
     public void TankShotProjectileRecordTransform()
     {
-        if(_tankMeshes == null) return;
+        if (_tankMeshes == null) return;
         bool checkListIsEmpty = _tankMeshes.TrueForAll(x => x != null);
-        
+
         if (!checkListIsEmpty)
         {
             Debug.Log("List Slot Empty");
@@ -138,7 +124,8 @@ public class PlayerView : BaseObjectView
 
     public void Attack()
     {
-        if(_shooter == null) return;
+        Debug.Log("ATTACK ENEMY");
+        if (_shooter == null) return;
         _shooter.Shooting(_perkManager.OwnShooterPerkList);
     }
 

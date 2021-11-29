@@ -21,7 +21,7 @@ public class Shooter : MonoBehaviour
     private ObjectPool<Projectile> _pool;
     public ObjectPool<Projectile> Pool => _pool;
     private List<Transform> _projectileTransList = new List<Transform>();
-    private PlayerView _player;
+    private BasePersonView _basePlayer;//<<
     private Projectile _temporalProjectile;
 
     [SerializeField] private List<Projectile> _projectileList;
@@ -34,17 +34,17 @@ public class Shooter : MonoBehaviour
 
     private void Start()
     {
-        if (TryGetComponent(out _player))
+        if (TryGetComponent(out _basePlayer))
         {
             _projectileController = MainController.Current.GetController<ProjectileController>();
             _projectileController.AddShooterToList(this);
-            _player.InitializeShooter(this);
+            _basePlayer.InitializeShooter(this);
             _pool = _projectileController.Pool;
             Debug.Log(_pool);
         }
         else
         {
-            Debug.Log("PlayerView not found", this.gameObject);
+            Debug.Log("not found", this.gameObject);
             return;
         }
         GameEvents.Current.OnRemoveBaseProjectile += RemoveProjectile;
@@ -69,7 +69,7 @@ public class Shooter : MonoBehaviour
         _tempInterval += Time.deltaTime;
         if (_tempInterval >= _shootInterval)
         {
-            _projectileTransList = _player.ShotProjectileTransform;
+            _projectileTransList = _basePlayer.ShotProjectileTransform;
             for (int i = 0; i < _projectileTransList.Count; i++)
             {
                 _temporalProjectile = ShootPooledProjectile(_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation);
