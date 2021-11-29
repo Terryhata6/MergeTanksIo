@@ -15,16 +15,12 @@ MonoBehaviour:
   _perkData:
     _name: 
     _description: 
+    _sprite: {fileID: 21300000, guid: 38eaef1ba37788e4796ba807c1b7ef5a, type: 3}
     _typePerk: 0
     _priority: 0
     _level: 1
     _maxLevel: 5
+  _conflictPerk: {fileID: 0}
   _fixedExecute: 1
-  _regeneration: 1
+  _regeneration: 5
   _delay: 1
-  _tempDelay: 0
-  _viewParams:
-    Health: 0
-    MaxHealth: 0
-    MoveSpeed: 0
-    Shield: 0

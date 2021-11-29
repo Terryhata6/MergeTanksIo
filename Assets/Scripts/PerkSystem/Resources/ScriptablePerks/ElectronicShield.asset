@@ -15,9 +15,11 @@ MonoBehaviour:
   _perkData:
     _name: 
     _description: 
+    _sprite: {fileID: 21300000, guid: c37da5a32d1532d45b697b8f2624a0f3, type: 3}
     _typePerk: 0
     _priority: 0
     _level: 1
     _maxLevel: 7
+  _conflictPerk: {fileID: 0}
   _fixedExecute: 0
   _shield: 100
