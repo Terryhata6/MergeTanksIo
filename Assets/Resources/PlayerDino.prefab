@@ -124,6 +124,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speedProjectile: 10
   _damage: 10
-  _isShooting: 0
+  _sequentialShots: 0
   _shootInterval: 1
   _projectileList: []

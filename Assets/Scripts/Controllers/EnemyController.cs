@@ -31,6 +31,7 @@ public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
         {
             
             _states[_enemies[i].State].Execute(_enemies[i]);
+            _enemies[i].Attack();
         }
     }
 
