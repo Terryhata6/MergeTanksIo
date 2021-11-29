@@ -27,9 +27,10 @@ public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
     public override void FixedExecute()
     {
         base.Execute();
+        Debug.Log("enemy");
         for (int i = 0; i < _enemies.Count; i ++ )
         {
-            Debug.Log("enemy");
+            
             _states[_enemies[i].State].Execute(_enemies[i]);
         }
     }
@@ -42,9 +43,11 @@ public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
         {
             _tempAim = GameObject.Instantiate(_aim, enemy.transform);
             _tempAim.SetActive(true);
-            _tempAim.TryGetComponent(out _tempContext);
+            if (_tempAim.TryGetComponent(out _tempContext))
+            {
+                enemy.Context = _tempContext;
+            }
             _tempAim.transform.localPosition = Vector3.zero;
-            enemy.Context = _tempContext;
             enemy.Context.SelfObject = enemy.gameObject;
         }
     }
@@ -56,11 +59,12 @@ public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
 
     public void AddObj(GameObject obj)
     {
-        obj.AddComponent<EnemyView>();
-        _temp = obj.GetComponent<EnemyView>();
-        _enemies.Add(_temp);
-        EnemyInit(_temp);
-        GameEvents.Current.EnvironmentUpdated();
+        if (obj.TryGetComponent(out _temp))
+        {
+            _enemies.Add(_temp);
+            EnemyInit(_temp);
+            GameEvents.Current.EnvironmentUpdated();
+        }
     }
 
     public void RemoveObj(EnemyView obj)
