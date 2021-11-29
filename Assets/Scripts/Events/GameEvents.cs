@@ -42,6 +42,12 @@ public class GameEvents
         OnAimAppeared?.Invoke(aim);
     }
 
+    public event Action<PersonType> OnPlayerTypeChoose;
+
+    public void PlayerTypeChoose(PersonType type)
+    {
+        OnPlayerTypeChoose?.Invoke(type);
+    }
     public event Action OnEnvironmentUpdated;
 
     public void EnvironmentUpdated()

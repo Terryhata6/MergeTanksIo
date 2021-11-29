@@ -29,6 +29,7 @@ public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
         base.Execute();
         for (int i = 0; i < _enemies.Count; i ++ )
         {
+            Debug.Log("enemy");
             _states[_enemies[i].State].Execute(_enemies[i]);
         }
     }

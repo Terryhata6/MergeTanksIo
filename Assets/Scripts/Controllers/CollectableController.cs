@@ -22,19 +22,21 @@ public class CollectableController : BaseController, IExecute
 
     public override void Initialize()
     {
-        LevelEvents.Current.OnLevelChanged += PoolInit;
         GameEvents.Current.OnItemCollected += SetMovingCoin;
         GameEvents.Current.OnCollectablesParamSet += SetParams;
         GameEvents.Current.OnCollectableDisable += DeleteActiveCol;
 
+        
         _pool = new ObjectPool<CollectableItem>();
         _activeColl = new List<CollectableItem>();
+        _respawnDelays = new List<float>();
+        _respawnDelay = 4f;
         Debug.Log("CollectableController start");
     }
 
     public override void Execute()
     {
-        
+        Respawn();
         for (int i = 0; i < _activeColl.Count; i++)
         {
             MoveCollectable(_activeColl[i]); // движение coin
@@ -67,10 +69,13 @@ public class CollectableController : BaseController, IExecute
 
     private void CollectableInit(CollectableItem col)
     {
-        GetRandomPos();
-        col.transform.position = _tempPos;
-        col.gameObject.layer = (int)Layers.Collectables;
-        GameEvents.Current.EnvironmentUpdated();
+        if (col)
+        {
+            GetRandomPos();
+            col.transform.position = _tempPos;
+            col.gameObject.layer = (int)Layers.Collectables;
+            GameEvents.Current.EnvironmentUpdated(); 
+        }
     }
     
     private void GetRandomPos()
@@ -79,11 +84,14 @@ public class CollectableController : BaseController, IExecute
         _tempPos.y = Random.Range(_tempMinY, _tempMaxY);
         _tempPos.z = Random.Range(_tempMinZ, _tempMaxZ);
         Physics.Raycast(_tempPos, Vector3.down, out _hit, 1f);
-        if (_hit.collider.gameObject.layer.Equals(Layers.Ground))
+        if (_hit.collider)
         {
-            return;
+            if (_hit.collider.gameObject.layer.Equals(Layers.Ground))
+            {
+                return;
+            }
         }
-        GetRandomPos();
+        //GetRandomPos();
     }
     
     private void MoveCollectable(CollectableItem col)
@@ -95,9 +103,22 @@ public class CollectableController : BaseController, IExecute
         }
     }
 
+    private void SetCollectableToRespawn(float time)
+    {
+        _respawnDelays.Add(time);
+    }
+    
     private void Respawn()
     {
-        for (_index =0;)
+        for (_index = 0; _index < _respawnDelays.Count; _index++)
+        {
+            _respawnDelays[_index] -= Time.deltaTime;
+            if (_respawnDelays[_index] <= 0)
+            {
+                SpawnCollectable();
+                _respawnDelays.RemoveAt(_index);
+            }
+        }
     }
     private void SetMovingCoin(CollectableItem coin) // Установка движущегося coin(когда игрок подбирает коин он движется к игроку)
     {
@@ -105,6 +126,7 @@ public class CollectableController : BaseController, IExecute
         {
             _activeColl.Add(coin);
         }
+        
     }
 
     private void DeleteActiveCol(CollectableItem col)
@@ -113,6 +135,7 @@ public class CollectableController : BaseController, IExecute
         {
             _activeColl.Remove(col);
         }
+        SetCollectableToRespawn(_respawnDelay);
     }
 
     private void SetParams(CollectablesParam cp)
@@ -123,6 +146,7 @@ public class CollectableController : BaseController, IExecute
             _collParams = cp;
             _respawnDelay = _collParams.RespawnDelay;
             CalculateBounds(_collParams.Vertices);
+            PoolInit();
             SpawnCollectables(_collParams.Size);
         }
     }
@@ -137,6 +161,7 @@ public class CollectableController : BaseController, IExecute
         _tempMinZ = vertices[0].z;
         for (_index = 0; _index < vertices.Length; _index++)
         {
+            
             if (vertices[_index].x > _tempMaxX)
             {
                 _tempMaxX = vertices[_index].x;
@@ -162,5 +187,6 @@ public class CollectableController : BaseController, IExecute
                 _tempMinY = vertices[_index].y;
             }
         }
+        Debug.Log($"y{_tempMinY}  z{_tempMinZ}  x{_tempMinX}  y{_tempMaxY}  z{_tempMaxZ}  x{_tempMaxX}");
     }
 }
