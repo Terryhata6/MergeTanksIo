@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class MainController : MonoBehaviour
 {
+    public static MainController Current;
+    
    private List<BaseController> _controllers;
    [SerializeField] private bool _useMouse;
    private List<BaseController> _updateExecuters;
@@ -14,6 +16,7 @@ public class MainController : MonoBehaviour
    public bool UseMouse => _useMouse;
     private void Awake()
     {
+        Current = this;
         _controllers = new List<BaseController>();
         _fixedUpdateExecuters = new List<BaseController>();
         _updateExecuters = new List<BaseController>();

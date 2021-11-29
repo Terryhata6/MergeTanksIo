@@ -147,8 +147,7 @@ public class PlayerView : BaseObjectView
 
     public void Attack()
     {
-        if(_shooter == null) return;
-        _shooter.Shooting(_perkManager.OwnShooterPerkList);
+//        _shooter.Shooting(_perkManager.OwnShooterPerkList);
     }
 
     #endregion

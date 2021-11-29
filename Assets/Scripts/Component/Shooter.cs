@@ -36,7 +36,7 @@ public class Shooter : MonoBehaviour
     {
         if (TryGetComponent(out _player))
         {
-            _projectileController = GameObject.FindObjectOfType<MainController>().GetController<ProjectileController>();
+            _projectileController = MainController.Current.GetController<ProjectileController>();
             _projectileController.AddShooterToList(this);
             _player.InitializeShooter(this);
             _pool = _projectileController.Pool;
