@@ -6,14 +6,15 @@
 // [CreateAssetMenu(fileName = "CircularProjectile", menuName = "ScriptableObjects/CircularProjectile", order = 1)]
 // public class CircularProjectilePerk : AbstractPerk
 // {
-//     private float _angle;
-//     private float _radius;
+//     [SerializeField] private float _angle;
+//     [SerializeField] private float _radius;
 //     private float _delay;
 //     private float _tempDelay;
 //     private Vector3 _ceshPos;
-    
-//     public override void Activate(Shooter shooter)
+
+//     public override void Activate(Shooter ownShoot)
 //     {
+//         _ownShooter = ownShoot;
 //         //projectile.transform.forward = 
 //         // Vector3 result = Vector3.forward * 1f;
 //         // result = Quaternion.Euler(0,_timeCounter,0) * result;
@@ -45,21 +46,6 @@
 //         // Debug.DrawLine(Vector3.zero, new Vector3(10f,0,0) * Time.deltaTime, Color.red);
 //         // Debug.DrawLine(new Vector3(10f,0,0), new Vector3(10f,0,10f), Color.blue);
 //         // Debug.DrawLine(new Vector3(10f,0,10f), new Vector3(-20f,0,10f), Color.green);
-//         _ceshPos = shooter.transform.position;
-//         _ceshPos.y = 0;
-//         _angle += Time.deltaTime;
-//         _tempDelay += Time.deltaTime;
-//         var x = Mathf.Cos(_angle) * _radius;
-//             var z = Mathf.Sin(_angle) * _radius;
-//         //_angle = 360f;
-
-        
-//         for (int i = 0; i < shooter.ProjectileList.Count; i++)
-//         {
-//             _angle += i;
-            
-//             shooter.ProjectileList[i].transform.position = new Vector3(x, 0, z) + _ceshPos;
-//         }
 
 
 
@@ -69,6 +55,27 @@
 //         //}
 
 //         //shooter.transform.position = 
+//     }
+
+//     public override void UpdateFixedExecute(Projectile ownProjectile)
+//     {
+//         base.UpdateFixedExecute(ownProjectile);
+//         _ceshPos = _ownShooter.transform.position;
+//         _ceshPos.y = 0;
+
+//         //_angle = 0;
+//         //_radius = 10f;
+//         //_angle += Time.deltaTime;
+//         //_tempDelay += Time.deltaTime;
+
+//         _angle += Time.deltaTime;
+//         Debug.Log(_angle);
+
+//         var x = Mathf.Cos(_angle * 0.3f) * _radius;
+//         var z = Mathf.Sin(_angle * 0.3f) * _radius;
+//         var vec = new Vector3(x, 0, z) + _ceshPos;
+//         // Debug.DrawLine(_ceshPos, vec, Color.red);
+//         ownProjectile.transform.forward = vec;
 //     }
 
 //     protected override void InternalAddLevel()

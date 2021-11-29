@@ -5,18 +5,18 @@ using UnityEngine;
 
 public class Shooter : MonoBehaviour
 {
+    #region Shooter Params
     [SerializeField] private float _speedProjectile = 10;
     public float SpeedProjectile => _speedProjectile;
 
     [SerializeField] private float _damage = 10;
     public float Damage => _damage;
-
-    [SerializeField] private bool _isShooting;
-    private bool _sequentialShots;
+    [SerializeField] private bool _sequentialShots;
     public bool SequentialShots => _sequentialShots;
     [SerializeField] private float _shootInterval = 1.0f;
     public float ShootInterval => _shootInterval;
     private float _tempInterval;
+    #endregion
 
     private ObjectPool<Projectile> _pool;
     public ObjectPool<Projectile> Pool => _pool;
@@ -47,7 +47,7 @@ public class Shooter : MonoBehaviour
             Debug.Log("PlayerView not found", this.gameObject);
             return;
         }
-        GameEvents.Current.OnRemoveProjectile += RemoveProjectile;
+        GameEvents.Current.OnRemoveBaseProjectile += RemoveProjectile;
     }
 
     public void Shooting(List<AbstractPerk> perks)
@@ -63,14 +63,6 @@ public class Shooter : MonoBehaviour
         }
 
     }
-
-    public void MoveProjectiles()
-    {
-        for (int i = 0; i < _projectileList.Count; i++)
-        {
-            _projectileList[i].MoveProjectile();
-        }
-    }
     
     private void Volley(List<AbstractPerk> perks)
     {
@@ -80,10 +72,10 @@ public class Shooter : MonoBehaviour
             _projectileTransList = _player.ShotProjectileTransform;
             for (int i = 0; i < _projectileTransList.Count; i++)
             {
-                _projectileList.Add(ShootPooledProjectile(_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation, perks));
-
+                _temporalProjectile = ShootPooledProjectile(_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation);
+                _temporalProjectile = ProjectileModification();
+                AddProjectile(_temporalProjectile);
             }
-            //_tempInterval -= _shootInterval;
             _tempInterval = 0;
         }
     }
@@ -104,57 +96,32 @@ public class Shooter : MonoBehaviour
     //     }
     // }
 
-    // public void Shooting ()
-    // {
-    //     // while (true)
-    //     // {
-    //     if (_isShooting)
-    //     {
-    //         _projectileTransList = _player.ShotProjectileTransform;
-    //         for (int i = 0; i < _projectileTransList.Count; i++)
-    //         {
-    //             _projectileList.Add (ShootPooledProjectile (_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation));
-    //         }
-    //         // yield return new WaitForSeconds (_shotInterval);
-    //     }
-
-    //     if (_sequentialShots)
-    //     {
-    //         _projectileTransList = _player.ShotProjectileTransform;
-    //         for (int i = 0; i < _projectileTransList.Count; i++)
-    //         {
-    //             _projectileList.Add (ShootPooledProjectile (_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation));
-    //             // yield return new WaitForSeconds (_shotInterval / _projectileTransList.Count);
-    //         }
-    //         // yield return new WaitForSeconds (_shotInterval);
-    //     }
-    //     // yield return new WaitForEndOfFrame ();
-    //     // }
-    // }
-
-
-    private Projectile ShootPooledProjectile(Vector3 position, Quaternion rotation, List<AbstractPerk> perks)
+    private Projectile ShootPooledProjectile(Vector3 position, Quaternion rotation)
     {
         _temporalProjectile = _pool.GetObject();
         _temporalProjectile.transform.position = position;
         _temporalProjectile.transform.rotation = rotation;
-        _temporalProjectile.SetSpeed(SpeedProjectile);
-        _temporalProjectile.SetDamage(Damage);
-        foreach (var item in perks)
+
+        return _temporalProjectile;
+    }
+
+    private Projectile ProjectileModification()
+    {
+        _temporalProjectile.ChangeSpeed(SpeedProjectile);
+        _temporalProjectile.ChangeDamage(Damage);
+
+        if (_perkList == null) return _temporalProjectile;
+
+        foreach (var item in _perkList)
         {
-             _temporalProjectile.AddModification(item);
+            _temporalProjectile.AddModification(item);
         }
         return _temporalProjectile;
     }
 
-    public void SetShootInterval(float speedInterval)
+    public void ChangeShootInterval(float speedInterval)
     {
         _shootInterval = speedInterval;
-    }
-
-    public void SetFlag(bool flag)
-    {
-        _sequentialShots = flag;
     }
 
     public void AddProjectile(Projectile projectile)
@@ -165,11 +132,19 @@ public class Shooter : MonoBehaviour
         }
     }
 
-    public void RemoveProjectile(Projectile projectile)
+    public void RemoveProjectile(BaseProjectile projectile)
     {
-        if (_projectileList.Contains(projectile))
+        if (_projectileList.Contains((Projectile) projectile))
         {
-            _projectileList.Remove(projectile);
+            _projectileList.Remove((Projectile) projectile);
+        }
+    }
+
+    public void MoveProjectile()
+    {
+        for (int i = 0; i < _projectileList.Count; i++)
+        {
+            _projectileList[i].Move();
         }
     }
 }

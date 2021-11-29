@@ -5,17 +5,24 @@ public class GameEvents
 {
     public static GameEvents Current = new GameEvents();
 
-    public event Action<Projectile> OnRemoveProjectile;
+    // public event Action<Projectile> OnRemoveProjectile;
 
-    public void RemoveProjectile(Projectile projectile)
+    public event Action<BaseProjectile> OnRemoveBaseProjectile;
+
+    public void RemoveBaseProjectile(BaseProjectile baseProjectile)
     {
-        OnRemoveProjectile?.Invoke(projectile);
+        OnRemoveBaseProjectile?.Invoke(baseProjectile);
     }
+
     public event Action<CollectablesParam> OnCollectablesParamSet;
     public void CollectablesParamSet(CollectablesParam cp)
-    {
-        OnCollectablesParamSet?.Invoke(cp);
-    }
+  
+
+
+    // public void RemoveProjectile(Projectile projectile)
+    // {
+    //     OnRemoveProjectile?.Invoke(projectile);
+    // 
     public event Action<CollectableItem> OnItemCollected;
     public void ItemCollected(CollectableItem coin)
     {

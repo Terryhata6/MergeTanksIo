@@ -4,7 +4,12 @@ using UnityEngine;
 public struct PerkDataStruct
 {
     [SerializeField] private string _name;
+    public string Name => _name;
     [SerializeField] private string _description;
+    [SerializeField] private Sprite _sprite;
+    public Sprite Sprite => _sprite;
+
+
     [SerializeField] private PerkType _typePerk;
     public PerkType TypePerk => _typePerk;
     [SerializeField] private int _priority;

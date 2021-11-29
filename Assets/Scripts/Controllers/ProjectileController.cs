@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileController : BaseController, IFixedExecute
+public class ProjectileController : BaseController, IExecute
 {
   private ObjectPool<Projectile> _pool;
   public ObjectPool<Projectile> Pool => _pool;
   private Projectile _projectile;
   private List<Shooter> _shotProjectileList = new List<Shooter>();
 
-  private IProjectileModel _projectileModel ; 
+  private IProjectileModel _projectileModel;
+
 
   public override void Initialize()
   {
@@ -26,9 +27,9 @@ public class ProjectileController : BaseController, IFixedExecute
   {
     base.Execute();
 
-    for (int i = 0; i< _shotProjectileList.Count; i++)
-    { 
-        _shotProjectileList[i].MoveProjectiles();
+    for (int i = 0; i < _shotProjectileList.Count; i++)
+    {
+        _shotProjectileList[i].MoveProjectile();
     }
   }
 
