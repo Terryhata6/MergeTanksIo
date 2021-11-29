@@ -9,8 +9,10 @@ public class PersonSpawner : MonoBehaviour
     [SerializeField] private List<Transform> _temp;
     private Queue<Transform> _spawns;
     private Dictionary<PersonType, PersonConf> _personConfs;
-    private GameObject _dino;
-    private GameObject _tank;
+    private GameObject _playerDino;
+    private GameObject _playerTank;
+    private GameObject _enemyDino;
+    private GameObject _enemyTank;
     private GameObject _obj;
     private Transform _spawn;
     private int j;
@@ -19,8 +21,10 @@ public class PersonSpawner : MonoBehaviour
     private PersonType _playerType;
     private void Start()
     {
-        _dino = Resources.Load<GameObject>("Dino");
-        _tank = Resources.Load<GameObject>("Tank");
+        _playerDino = Resources.Load<GameObject>("PlayerDino");
+        _playerTank = Resources.Load<GameObject>("PlayerTank");
+        _enemyDino = Resources.Load<GameObject>("EnemyDino");
+        _enemyTank = Resources.Load<GameObject>("EnemyTank");
         
         _spawns = new Queue<Transform>();
         _time = new List<float>();
@@ -28,13 +32,13 @@ public class PersonSpawner : MonoBehaviour
         _playerType = PersonType.PlayerTank;
         
         _personConfs.Add(PersonType.EnemyDino,
-            new PersonConf(FindObjectOfType<MainController>().GetController<EnemyController>(), _dino));
+            new PersonConf(MainController.Current.GetController<EnemyController>(), _enemyDino));
         _personConfs.Add(PersonType.EnemyTank,
-            new PersonConf(FindObjectOfType<MainController>().GetController<EnemyController>(), _tank));
+            new PersonConf(MainController.Current.GetController<EnemyController>(), _enemyTank));
         _personConfs.Add(PersonType.PlayerDino,
-            new PersonConf(FindObjectOfType<MainController>().GetController<PlayerController>(), _dino));
+            new PersonConf(MainController.Current.GetController<PlayerController>(), _playerDino));
         _personConfs.Add(PersonType.PlayerTank,
-            new PersonConf(FindObjectOfType<MainController>().GetController<PlayerController>(), _tank));
+            new PersonConf(MainController.Current.GetController<PlayerController>(), _playerTank));
         
         ShuffleSpawns();
         
