@@ -72,7 +72,7 @@ public class CollectableController : BaseController, IExecute
         if (col)
         {
             GetRandomPos();
-            col.transform.position = _tempPos;
+            col.transform.position = _tempPos + Vector3.up;
             col.gameObject.layer = (int)Layers.Collectables;
             GameEvents.Current.EnvironmentUpdated(); 
         }
@@ -81,7 +81,7 @@ public class CollectableController : BaseController, IExecute
     private void GetRandomPos()
     {
         _tempPos.x = Random.Range(_tempMinX, _tempMaxX);
-        _tempPos.y = Random.Range(_tempMinY, _tempMaxY);
+        _tempPos.y = Random.Range(_tempMaxY, _tempMaxY);
         _tempPos.z = Random.Range(_tempMinZ, _tempMaxZ);
         Physics.Raycast(_tempPos, Vector3.down, out _hit, 1f);
         if (_hit.collider)
