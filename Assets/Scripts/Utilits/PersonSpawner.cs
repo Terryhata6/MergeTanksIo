@@ -1,5 +1,5 @@
 
-using System;
+using Cinemachine;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,7 +14,9 @@ public class PersonSpawner : MonoBehaviour
     private GameObject _obj;
     private Transform _spawn;
     private int j;
+    private CinemachineBrain _camera;
     private List<float> _time;
+    private PersonType _playerType;
     private void Start()
     {
         _dino = Resources.Load<GameObject>("Dino");
@@ -23,6 +25,7 @@ public class PersonSpawner : MonoBehaviour
         _spawns = new Queue<Transform>();
         _time = new List<float>();
         _personConfs = new Dictionary<PersonType, PersonConf>();
+        _playerType = PersonType.PlayerTank;
         
         _personConfs.Add(PersonType.EnemyDino,
             new PersonConf(FindObjectOfType<MainController>().GetController<EnemyController>(), _dino));
@@ -37,6 +40,8 @@ public class PersonSpawner : MonoBehaviour
         
         LevelEvents.Current.OnLevelStart += SpawnEnemies;
         GameEvents.Current.OnEnemyRespawn += SetEnemyRespawnTime;
+        LevelEvents.Current.OnLevelStart += SpawnPlayer;
+        GameEvents.Current.OnPlayerTypeChoose += SetPlayerType;
     }
 
     private void Update()
@@ -52,12 +57,15 @@ public class PersonSpawner : MonoBehaviour
             _obj = Instantiate(_personConfs[person].Prefab, _spawn.position, _spawn.rotation);
             _personConfs[person].Controller?.AddObj(_obj);
         }
-        
     }
 
-    public void SpawnEnemies()
+    private void SpawnPlayer()
     {
-        Debug.Log(_spawns.Count);
+        Spawn(_playerType);
+    }
+
+    private void SpawnEnemies()
+    {
         for (int i = 0; i < _spawns.Count - 1; i++)
         {
             Spawn(RandomEnemyType());
@@ -80,6 +88,11 @@ public class PersonSpawner : MonoBehaviour
                 Spawn(RandomEnemyType());
             }
         }
+    }
+
+    private void SetPlayerType(PersonType type)
+    {
+        _playerType = type;
     }
     private PersonType RandomEnemyType()
     {

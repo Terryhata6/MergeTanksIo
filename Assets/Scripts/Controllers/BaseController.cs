@@ -9,6 +9,10 @@ public abstract class BaseController : IInitialize
   {
 
   }
+  public virtual void FixedExecute()
+  {
+
+  }
 
   public virtual void Initialize()
   {

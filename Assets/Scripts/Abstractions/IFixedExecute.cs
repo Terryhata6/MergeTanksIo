@@ -1,4 +1,4 @@
 public interface IFixedExecute
 {
-     public void Execute();
+     public void FixedExecute();
 }

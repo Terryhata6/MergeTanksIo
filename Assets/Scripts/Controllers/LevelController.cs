@@ -21,7 +21,7 @@ public class LevelController : BaseController, IFixedExecute
 
     }
 
-    public override void Execute()
+    public override void FixedExecute()
     {
         if (Input.GetKeyDown(KeyCode.V))
         {
@@ -49,7 +49,7 @@ public class LevelController : BaseController, IFixedExecute
             _levelPrefab.SetActive(true);
             if (_levelPrefab.TryGetComponent(out _currentLevel)) 
             {
-                GameEvents.Current.ParticlesAppear(_currentLevel.Particles);
+                GameEvents.Current.CollectablesParamSet(_currentLevel.CollectableParams);
                 GameEvents.Current.AimAppeared(_currentLevel.Aim);
                 _environment = _currentLevel.Environment;
             };

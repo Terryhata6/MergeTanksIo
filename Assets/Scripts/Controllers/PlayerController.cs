@@ -120,7 +120,7 @@ public class PlayerController : BaseController, IObjectExecuter, IExecute
 
     private void PlayerInit(PlayerView player)
     {
-        player.gameObject.layer = (int) Layer.Players;
+        player.gameObject.layer = (int) Layers.Players;
     }
     
     public void AddObj(GameObject obj)

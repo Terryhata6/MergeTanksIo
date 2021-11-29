@@ -24,18 +24,19 @@ public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
         GameEvents.Current.OnEnemyDead += RemoveObj;
     }
 
-    public override void Execute()
+    public override void FixedExecute()
     {
         base.Execute();
         for (int i = 0; i < _enemies.Count; i ++ )
         {
+            Debug.Log("enemy");
             _states[_enemies[i].State].Execute(_enemies[i]);
         }
     }
 
     private void EnemyInit(EnemyView enemy)
     {
-        enemy.gameObject.layer = (int) Layer.Enemies;
+        enemy.gameObject.layer = (int) Layers.Enemies;
         enemy.State = EnemyState.Search;
         if (_aim)
         {

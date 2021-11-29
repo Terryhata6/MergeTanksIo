@@ -14,15 +14,15 @@ public class GameEvents
         OnRemoveBaseProjectile?.Invoke(baseProjectile);
     }
 
+    public event Action<CollectablesParam> OnCollectablesParamSet;
+    public void CollectablesParamSet(CollectablesParam cp)
+  
+
+
     // public void RemoveProjectile(Projectile projectile)
     // {
     //     OnRemoveProjectile?.Invoke(projectile);
-    // }
-    public event Action<Particles> OnParticlesAppear;
-    public void ParticlesAppear(Particles ps)
-    {
-        OnParticlesAppear?.Invoke(ps);
-    }
+    // 
     public event Action<CollectableItem> OnItemCollected;
     public void ItemCollected(CollectableItem coin)
     {
@@ -49,6 +49,12 @@ public class GameEvents
         OnAimAppeared?.Invoke(aim);
     }
 
+    public event Action<PersonType> OnPlayerTypeChoose;
+
+    public void PlayerTypeChoose(PersonType type)
+    {
+        OnPlayerTypeChoose?.Invoke(type);
+    }
     public event Action OnEnvironmentUpdated;
 
     public void EnvironmentUpdated()
