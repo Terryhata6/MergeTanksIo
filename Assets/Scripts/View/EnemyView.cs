@@ -13,7 +13,6 @@ public class EnemyView : BaseObjectView, IHaveAim
     {
         _params = new ViewParamsComponent();
         _perks = new PerkManager(_params);
-        
     }
 
     public EnemyState State
