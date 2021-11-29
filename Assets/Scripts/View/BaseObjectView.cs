@@ -1,5 +1,5 @@
 using UnityEngine;
-public class BaseObjectView : MonoBehaviour
+public abstract class BaseObjectView : MonoBehaviour
 {
     public Transform Transform => transform;
     public Vector3 Position

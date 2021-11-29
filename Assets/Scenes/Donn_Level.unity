@@ -1870,7 +1870,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1865096118}
   - component: {fileID: 1865096119}
-  - component: {fileID: 1865096120}
   m_Layer: 0
   m_Name: MainController
   m_TagString: Untagged
@@ -1905,20 +1904,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _useMouse: 1
---- !u!114 &1865096120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1865096117}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 358c8e639f94afd46afb372570846169, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _levels:
-  - {fileID: 3318521386731568896, guid: 711721b254f45d44d98746eda20c36aa, type: 3}
 --- !u!1001 &1917262478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1976,7 +1961,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4291761387697851421, guid: 399e2ad80349fcf4eb8a824013ae28d7, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 399e2ad80349fcf4eb8a824013ae28d7, type: 3}

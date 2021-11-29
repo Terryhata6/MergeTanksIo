@@ -23,7 +23,7 @@ public class ProjectileController : BaseController, IExecute
     _projectileModel = new BaseProjectileModel();
   }
 
-  public override void FixedExecute()
+  public override void Execute()
   {
     base.Execute();
 
