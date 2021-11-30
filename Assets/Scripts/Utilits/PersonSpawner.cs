@@ -42,7 +42,7 @@ public class PersonSpawner : MonoBehaviour
         
         ShuffleSpawns();
         
-        LevelEvents.Current.OnLevelChanged += SpawnEnemies;
+        LevelEvents.Current.OnLevelStart += SpawnEnemies;
         GameEvents.Current.OnEnemyRespawn += SetEnemyRespawnTime;
         LevelEvents.Current.OnLevelStart += SpawnPlayer;
         GameEvents.Current.OnPlayerTypeChoose += SetPlayerType;
