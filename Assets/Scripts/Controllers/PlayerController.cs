@@ -125,11 +125,12 @@ public class PlayerController : BaseController, IObjectExecuter, IExecute
     
     public void AddObj(GameObject obj)
     {
-        obj.AddComponent<PlayerView>();
-        _temp = obj.GetComponent<PlayerView>();
-        _player = _temp;
-        PlayerInit(_temp);
-        GameEvents.Current.EnvironmentUpdated();
+        if (obj.TryGetComponent(out _temp))
+        {
+            _player = _temp;
+            PlayerInit(_temp);
+            GameEvents.Current.EnvironmentUpdated();
+        }
     }
     
 }

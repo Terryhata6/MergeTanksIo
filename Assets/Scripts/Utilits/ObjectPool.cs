@@ -69,11 +69,24 @@ public class ObjectPool<T> where T : Component
         _temp.gameObject.SetActive(true);
         return _temp;
     }
+    public T GetObject(Vector3 pos)
+    {
+        if (_objects.Count == 0)
+        {
+            if (GetRandomExample() == null) return null;
+            FillPool(GetRandomExample());
+        }
+        _temp = _objects.Dequeue();
+        _objects.Enqueue(_temp);
+        _temp.transform.position = pos;
+        _temp.gameObject.SetActive(true);
+        return _temp;
+    }
     public void CleanPool()
     {
         if (_parent)
         {
-            GameObject.Destroy((_parent));
+            GameObject.Destroy(_parent);
         }
         _examples.Clear();
         _objects.Clear();

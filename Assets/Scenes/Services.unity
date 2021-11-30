@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50b240087966a548a4162c1f5db519c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _useMouse: 1
+  _useMouse: 0
 --- !u!114 &1865096120
 MonoBehaviour:
   m_ObjectHideFlags: 0

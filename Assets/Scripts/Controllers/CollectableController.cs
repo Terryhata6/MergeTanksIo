@@ -63,21 +63,12 @@ public class CollectableController : BaseController, IExecute
 
     private void SpawnCollectable()
     {
-        _tempColl = _pool.GetObject();
-        CollectableInit(_tempColl);
+        GetRandomPos();
+        _tempColl = _pool.GetObject(_tempPos + Vector3.up);
+        _tempColl.gameObject.layer = (int)Layers.Collectables;
+        GameEvents.Current.EnvironmentUpdated(); 
     }
 
-    private void CollectableInit(CollectableItem col)
-    {
-        if (col)
-        {
-            GetRandomPos();
-            col.transform.position = _tempPos + Vector3.up;
-            col.gameObject.layer = (int)Layers.Collectables;
-            GameEvents.Current.EnvironmentUpdated(); 
-        }
-    }
-    
     private void GetRandomPos()
     {
         _tempPos.x = Random.Range(_tempMinX, _tempMaxX);
@@ -86,19 +77,24 @@ public class CollectableController : BaseController, IExecute
         Physics.Raycast(_tempPos, Vector3.down, out _hit, 1f);
         if (_hit.collider)
         {
-            if (_hit.collider.gameObject.layer.Equals(Layers.Ground))
+            if (_hit.collider.gameObject.layer!.Equals(Layers.Ground))
             {
-                return;
+                GetRandomPos();
             }
         }
-        //GetRandomPos();
     }
     
     private void MoveCollectable(CollectableItem col)
     {
-        if (col.enabled)
+
+        if (col.enabled & col.Target!=null)
         {
             col.transform.position = Vector3.MoveTowards(col.transform.position, col.Target.position + Vector3.up * 0.5f, Time.deltaTime);
+        }
+        if (col.Target == null || (col.Target.position -  col.transform.position).magnitude > 2f)
+        {
+            col.Target = null;
+            _activeColl.Remove(col);
         }
     }
 
