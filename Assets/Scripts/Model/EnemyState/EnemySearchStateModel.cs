@@ -26,8 +26,12 @@ public class EnemySearchStateModel : BaseEnemyStateModel
     private void RandomMove(Transform enemy)
     {
         GetRandomDirection(enemy.position);
-        enemy.position = Vector3.MoveTowards(enemy.position, _direction, Time.deltaTime * 5f);
-        enemy.transform.rotation = Quaternion.LookRotation(_direction - enemy.position);
+        _dir = _direction;
+        enemy.transform.position += enemy.transform.forward * Time.deltaTime * 5f;
+        enemy.transform.rotation = Quaternion.Slerp(
+            enemy.transform.rotation,
+            Quaternion.LookRotation(_dir - enemy.transform.position), 
+            Time.deltaTime * 3f);
     }
 
     private void GetRandomDirection(Vector3 position)
