@@ -33,8 +33,8 @@ public static class LoadPerksSystem
 
         for (int i = 0; i < returnCountPerk; i++)
         {
-            int randomindex = Random.Range(0, AllPerks.Length);
-            var getPerkFromIndex = AllPerks[randomindex];
+            int randomIndex = Random.Range(0, AllPerks.Length);
+            var getPerkFromIndex = AllPerks[randomIndex];
 
             if (!perks.Contains(getPerkFromIndex))
             {
