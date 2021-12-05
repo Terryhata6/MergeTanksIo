@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class EnemySearchStateModel : BaseEnemyStateModel
 {
-    private Vector3 _direction;
 
     public override void Execute(EnemyView enemy)
     {
@@ -23,23 +22,12 @@ public class EnemySearchStateModel : BaseEnemyStateModel
 
     private void RandomMove(EnemyView enemy)
     {
-        GetRandomDirection(_enemyTransform.position);
-        _dir = Vector3.up;
+        _dir = Vector3.up - _enemyTransform.position;
         _enemyTransform.rotation = Quaternion.Slerp(
             enemy.transform.rotation,
             Quaternion.LookRotation(_dir), 
             Time.deltaTime * enemy.ViewParams.RotationSpeed);
         _enemyTransform.position += _enemyTransform.forward * Time.deltaTime * enemy.ViewParams.MoveSpeed;
-    }
-
-    private void GetRandomDirection(Vector3 position)
-    {
-        if ((position - _direction).magnitude < 2f || _direction.Equals(Vector3.zero))
-        {
-            position.x += Random.Range(-40f, 40f);
-            position.z += Random.Range(-40f, 40f);
-            _direction = position;
-        }
     }
 
 }
