@@ -5,9 +5,21 @@ public class Projectile : BaseProjectile, IMoveProjectile
   private float _speed;
   private float _damage;
 
+
+  private bool _lockMoved = false;
+  public bool LockMoved => _lockMoved;
+
   public void Move()
   {
-    transform.Translate(transform.forward * (_speed * Time.deltaTime), Space.World);
+    if (!_lockMoved)
+    {
+      transform.Translate(transform.forward * (_speed * Time.deltaTime), Space.World);
+    }
+  }
+
+  public void SetLockMoved(bool val)
+  {
+    _lockMoved = val;
   }
 
   public void ChangeSpeed(float speed)

@@ -28,7 +28,10 @@ public class ProjectileController : BaseController, IExecute
 
     for (int i = 0; i < _shotProjectileList.Count; i++)
     {
-        _shotProjectileList[i].MoveProjectile();
+      _shotProjectileList[i].MoveProjectile();
+
+      _shotProjectileList[i].RotationCircleProjectile();
+
     }
   }
 

@@ -8,7 +8,7 @@ public abstract class BaseProjectile : MonoBehaviour
 
     [SerializeField] protected Vector3 _defaultScale;
 
-    [SerializeField] protected float _lifeTime = 5f;
+    [SerializeField] protected float _lifeTime;
 
     protected GameObject _target;
     public GameObject Target => _target;
@@ -24,6 +24,11 @@ public abstract class BaseProjectile : MonoBehaviour
         Invoke("Coroutine", _lifeTime);
     }
 
+    private void Coroutine()
+    {
+        Disable();
+    }
+
     private void Disable()
     {
         gameObject.SetActive(false);
@@ -33,10 +38,7 @@ public abstract class BaseProjectile : MonoBehaviour
         _modList = null;
     }
 
-    private void Coroutine()
-    {
-        Disable();
-    }
+
 
     public void RemoveBaseProjectile()
     {

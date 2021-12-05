@@ -20,7 +20,7 @@ public class Shooter : MonoBehaviour
     private ObjectPool<Projectile> _pool;
     public ObjectPool<Projectile> Pool => _pool;
     private List<Transform> _projectileTransList = new List<Transform>();
-    private BasePersonView _basePlayer;//<<
+    private BasePersonView _basePlayer; //<<
     private Projectile _temporalProjectile;
 
     [SerializeField] private List<Projectile> _projectileList;
@@ -61,7 +61,7 @@ public class Shooter : MonoBehaviour
         }
 
     }
-    
+
     private void Volley(List<AbstractPerk> perks)
     {
         _tempInterval += Time.deltaTime;
@@ -145,4 +145,23 @@ public class Shooter : MonoBehaviour
             _projectileList[i].Move();
         }
     }
+
+
+
+    #region Circle Projectile
+    [SerializeField] private float _speed;
+    private GameObject _circleProjectileWeapon;
+    public void RotationCircleProjectile()
+    {
+        if (_circleProjectileWeapon == null) return;
+
+        _circleProjectileWeapon.transform.position = transform.position;
+        _circleProjectileWeapon.transform.Rotate(Vector3.up * Time.deltaTime * _speed);
+    }
+
+    public void SetCircleProjectileWeapon(GameObject go)
+    {
+        _circleProjectileWeapon = go;
+    }
+    #endregion
 }

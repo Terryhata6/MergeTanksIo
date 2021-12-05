@@ -127,4 +127,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _modList: []
   _defaultScale: {x: 0.3, y: 0.3, z: 0.3}
-  _lifeTime: 5
+  _lifeTime: 100
