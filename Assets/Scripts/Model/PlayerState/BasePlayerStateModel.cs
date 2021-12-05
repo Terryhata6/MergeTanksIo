@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class BasePlayerStateModel : IPlayerState
 {
+    protected Transform _player;
     public virtual void Execute(PlayerController controller, PlayerView view)
     {
         if (!view.State.Equals(PlayerState.Dead))

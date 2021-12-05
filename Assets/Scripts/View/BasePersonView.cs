@@ -70,15 +70,16 @@ public abstract class BasePersonView : BaseObjectView
             if ((other.transform.position - transform.position).magnitude < 2f)
             {
                 other.gameObject.SetActive(false);
+                if (CheckTankMeshesList(_tankMeshes) == false) return;
+                if (_tankMeshes.Count < 5) return;
+                if (Level >= 5) return; // << Хард Код (Level >= 5)
+
+                _level++;
+                ChangeTankMesh(Level);
+
+                TankShotProjectileRecordTransform();
             }
-            if (CheckTankMeshesList(_tankMeshes) == false) return;
-            if (_tankMeshes.Count < 5) return;
-            if (Level >= 5) return; // << Хард Код (Level >= 5)
-
-            _level++;
-            ChangeTankMesh(Level);
-
-            TankShotProjectileRecordTransform();
+            
         }
     }
 
