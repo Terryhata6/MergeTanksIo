@@ -7,11 +7,12 @@ public class EnemyAttackStateModel : BaseEnemyStateModel
         base.Execute(enemy);
         _dir = enemy.Context.DecidedDirection;
         _dir.y = 0f;
-        enemy.transform.position += enemy.transform.forward * Time.deltaTime * 5f;
-        enemy.transform.rotation = Quaternion.Slerp(
-            enemy.transform.rotation,
+        _enemyTransform.rotation = Quaternion.Slerp(
+            _enemyTransform.rotation,
             Quaternion.LookRotation(_dir), 
-            Time.deltaTime * 3f);
+            Time.deltaTime * enemy.ViewParams.RotationSpeed); 
+        _enemyTransform.position += _enemyTransform.forward * Time.deltaTime * enemy.ViewParams.MoveSpeed;
+        
         if (enemy.Context.Context.Decision.Values[2] < 0.7f)
         {
             enemy.State = EnemyState.Search;

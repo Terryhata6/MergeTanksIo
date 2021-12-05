@@ -15,6 +15,7 @@ public class LevelController : BaseController, IFixedExecute
     {
         base.Initialize();
         Debug.Log("LevelController Start");
+        SetLevels(LevelStoreTemp.Current.Levels);
         LevelEvents.Current.OnLevelNext += ChangeLevel;
         LevelEvents.Current.OnGameLaunched += ChangeLevel;
         GameEvents.Current.OnEnvironmentUpdated += UpdateEnvironment;
@@ -51,6 +52,7 @@ public class LevelController : BaseController, IFixedExecute
             {
                 GameEvents.Current.CollectablesParamSet(_currentLevel.CollectableParams);
                 GameEvents.Current.AimAppeared(_currentLevel.Aim);
+                GameEvents.Current.VirtualCamSet(_currentLevel.VirtualCam);
                 _environment = _currentLevel.Environment;
             };
             LevelEvents.Current.LevelChanged();

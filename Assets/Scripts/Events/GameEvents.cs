@@ -1,4 +1,5 @@
 using System;
+using Cinemachine;
 using UnityEngine;
 
 public class GameEvents
@@ -52,6 +53,14 @@ public class GameEvents
     {
         OnAimAppeared?.Invoke(aim);
     }
+    
+    public event Action<CinemachineVirtualCamera> OnVirtualCamSet;
+
+    public void VirtualCamSet(CinemachineVirtualCamera camera)
+    {
+        OnVirtualCamSet?.Invoke(camera);
+    }
+
 
     public event Action<PersonType> OnPlayerTypeChoose;
 

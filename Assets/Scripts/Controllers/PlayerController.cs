@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerController : BaseController, IObjectExecuter, IExecute
 {
+    private CinemachineVirtualCamera _camera;
     private PlayerView _player;
     private PlayerView _temp;
 
@@ -42,6 +44,7 @@ public class PlayerController : BaseController, IObjectExecuter, IExecute
             Debug.Log ("Не сработало");
         }
 
+        GameEvents.Current.OnVirtualCamSet += SetVirtualCamera;
         InputEvents.Current.OnTouchBegan += SetBeganPosition;
         InputEvents.Current.OnTouchEnded += SetIdle;
         InputEvents.Current.OnTouchMoved += SetMove;
@@ -121,6 +124,12 @@ public class PlayerController : BaseController, IObjectExecuter, IExecute
     private void PlayerInit(PlayerView player)
     {
         player.gameObject.layer = (int) Layers.Players;
+        if (_camera)
+        {
+            _camera.Follow = player.transform;
+            _camera.LookAt = player.transform;
+        }
+        else {Debug.Log("camera нету");}
     }
     
     public void AddObj(GameObject obj)
@@ -131,6 +140,11 @@ public class PlayerController : BaseController, IObjectExecuter, IExecute
             PlayerInit(_temp);
             GameEvents.Current.EnvironmentUpdated();
         }
+    }
+
+    private void SetVirtualCamera(CinemachineVirtualCamera cam)
+    {
+        _camera = cam;
     }
     
 }
