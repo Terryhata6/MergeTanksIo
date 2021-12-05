@@ -17,7 +17,7 @@ public class PlayerMoveStateModel : BasePlayerStateModel
     player.transform.rotation = Quaternion.Slerp(
       player.transform.rotation,
       Quaternion.LookRotation(vectorDirection), 
-      Time.deltaTime * 1.3f);
+      Time.deltaTime * player.ViewParams.RotationSpeed);
     player.transform.position += player.transform.forward * Time.deltaTime * player.ViewParams.MoveSpeed;
 
   }

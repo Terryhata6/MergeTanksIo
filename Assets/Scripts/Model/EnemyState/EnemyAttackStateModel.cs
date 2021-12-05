@@ -10,7 +10,7 @@ public class EnemyAttackStateModel : BaseEnemyStateModel
         _enemyTransform.rotation = Quaternion.Slerp(
             _enemyTransform.rotation,
             Quaternion.LookRotation(_dir), 
-            Time.deltaTime * 1.3f);
+            Time.deltaTime * enemy.ViewParams.RotationSpeed);
         if ((_enemyTransform.position - _dir).magnitude > 4f)
         {
             _enemyTransform.position += _enemyTransform.forward * Time.deltaTime * enemy.ViewParams.MoveSpeed;

@@ -28,7 +28,7 @@ public class EnemySearchStateModel : BaseEnemyStateModel
         _enemyTransform.rotation = Quaternion.Slerp(
             enemy.transform.rotation,
             Quaternion.LookRotation(_dir), 
-            Time.deltaTime * 1.3f);
+            Time.deltaTime * enemy.ViewParams.RotationSpeed);
         _enemyTransform.position += _enemyTransform.forward * Time.deltaTime * enemy.ViewParams.MoveSpeed;
     }
 

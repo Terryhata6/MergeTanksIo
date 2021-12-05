@@ -84,6 +84,7 @@ MonoBehaviour:
     Health: 100
     MaxHealth: 100
     MoveSpeed: 5
+    RotationSpeed: 1.5
     Shield: 0
 --- !u!114 &983147516948102266
 MonoBehaviour:

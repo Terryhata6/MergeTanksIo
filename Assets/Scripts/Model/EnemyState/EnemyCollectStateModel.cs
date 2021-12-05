@@ -11,7 +11,7 @@ public class EnemyCollectStateModel : BaseEnemyStateModel
         _enemyTransform.rotation = Quaternion.Slerp(
             _enemyTransform.rotation,
             Quaternion.LookRotation(_dir), 
-            Time.deltaTime * 1.3f);
+            Time.deltaTime * enemy.ViewParams.RotationSpeed);
         _enemyTransform.position += _enemyTransform.forward * Time.deltaTime * enemy.ViewParams.MoveSpeed;
         
         if (enemy.Context.Context.Decision.Values[2] > 0.4f || enemy.Context.Context.Decision.Values[0]== 0f)
