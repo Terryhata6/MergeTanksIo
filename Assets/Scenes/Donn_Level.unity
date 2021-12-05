@@ -1423,7 +1423,6 @@ MonoBehaviour:
   _shootInterval: 0.5
   _projectileList: []
   _speed: 10
-  _circleProjectilesList: []
 --- !u!114 &2101252584
 MonoBehaviour:
   m_ObjectHideFlags: 0
