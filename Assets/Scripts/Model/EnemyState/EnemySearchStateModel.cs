@@ -18,20 +18,18 @@ public class EnemySearchStateModel : BaseEnemyStateModel
             enemy.State = EnemyState.Collect;
             return;
         }
-
-        RandomMove(enemy.transform);
-
+        RandomMove(enemy);
     }
 
-    private void RandomMove(Transform enemy)
+    private void RandomMove(EnemyView enemy)
     {
-        GetRandomDirection(enemy.position);
-        _dir = _direction;
-        enemy.transform.position += enemy.transform.forward * Time.deltaTime * 5f;
-        enemy.transform.rotation = Quaternion.Slerp(
+        GetRandomDirection(_enemyTransform.position);
+        _dir = Vector3.up;
+        _enemyTransform.rotation = Quaternion.Slerp(
             enemy.transform.rotation,
-            Quaternion.LookRotation(_dir - enemy.transform.position), 
-            Time.deltaTime * 3f);
+            Quaternion.LookRotation(_dir), 
+            Time.deltaTime * 1.3f);
+        _enemyTransform.position += _enemyTransform.forward * Time.deltaTime * enemy.ViewParams.MoveSpeed;
     }
 
     private void GetRandomDirection(Vector3 position)

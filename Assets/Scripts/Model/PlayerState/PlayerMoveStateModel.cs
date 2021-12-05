@@ -11,14 +11,14 @@ public class PlayerMoveStateModel : BasePlayerStateModel
     base.Execute(controller, player);
 
     //Move
-
     _vectorMove2D = controller.PositionDelta - controller.PositionBegan;
-    _magnitude = Vector3.ClampMagnitude(_vectorMove2D, 100f).magnitude;
 
-    Vector3 vectorDirection = new Vector3(_vectorMove2D.x, 0, _vectorMove2D.y);
-    player.Rotation = Quaternion.LookRotation(vectorDirection, Vector3.up);
+    Vector3 vectorDirection = new Vector3(_vectorMove2D.x, 1f, _vectorMove2D.y);
+    player.transform.rotation = Quaternion.Slerp(
+      player.transform.rotation,
+      Quaternion.LookRotation(vectorDirection), 
+      Time.deltaTime * 1.3f);
+    player.transform.position += player.transform.forward * Time.deltaTime * player.ViewParams.MoveSpeed;
 
-    Vector3 trans = Vector3.forward * _magnitude * 0.01f * player.ViewParams.MoveSpeed * Time.deltaTime;
-    player.Transform.Translate(trans);
   }
 }

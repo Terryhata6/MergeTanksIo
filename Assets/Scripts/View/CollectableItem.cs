@@ -27,7 +27,6 @@ public class CollectableItem : MonoBehaviour, ICollectableItem
 
     private void OnDisable()
     {
-        Target = null;
         GameEvents.Current.CollectableDisable(this);
     }
     

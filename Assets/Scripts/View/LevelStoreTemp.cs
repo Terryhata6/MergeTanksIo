@@ -1,13 +1,15 @@
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelStoreTemp : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _levels;
-    void Start()
-    {
-        FindObjectOfType<MainController>().GetController<LevelController>().SetLevels(_levels);
+    public static LevelStoreTemp Current;
+    [SerializeField] public List<GameObject> Levels;
 
+    private void Awake()
+    {
+        Current = this;
     }
 }

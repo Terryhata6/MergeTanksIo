@@ -1,4 +1,4 @@
-
+using Cinemachine;
 using Polarith.AI.Move;
 using UnityEngine;
 
@@ -8,9 +8,11 @@ public class LevelConfig : MonoBehaviour
     [SerializeField] private CollectablesParam _collectablesParams;
     [SerializeField] private AIMSteeringPerceiver _environment;
     [SerializeField] private GameObject _aim;
+    [SerializeField] private CinemachineVirtualCamera _virtualCam;
 
     public PersonSpawner Spawner => _spawner;
     public CollectablesParam CollectableParams => _collectablesParams;
     public GameObject Aim => _aim;
+    public CinemachineVirtualCamera VirtualCam => _virtualCam;
     public AIMSteeringPerceiver Environment => _environment;
 }

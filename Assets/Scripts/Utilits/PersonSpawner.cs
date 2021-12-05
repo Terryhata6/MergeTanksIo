@@ -16,7 +16,6 @@ public class PersonSpawner : MonoBehaviour
     private GameObject _obj;
     private Transform _spawn;
     private int j;
-    private CinemachineBrain _camera;
     private List<float> _time;
     private PersonType _playerType;
     private void Start()
@@ -42,7 +41,7 @@ public class PersonSpawner : MonoBehaviour
         
         ShuffleSpawns();
         
-        LevelEvents.Current.OnLevelChanged += SpawnEnemies;
+        LevelEvents.Current.OnLevelStart += SpawnEnemies;
         GameEvents.Current.OnEnemyRespawn += SetEnemyRespawnTime;
         LevelEvents.Current.OnLevelStart += SpawnPlayer;
         GameEvents.Current.OnPlayerTypeChoose += SetPlayerType;
