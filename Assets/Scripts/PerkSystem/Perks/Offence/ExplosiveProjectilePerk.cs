@@ -23,9 +23,9 @@ public class ExplosiveProjectilePerk : AbstractPerk
         for (int i = 0; i < hitColliders.Length; i++)
         {
             var obj = hitColliders[i].gameObject;
-            if (obj.TryGetComponent(out ITakeDamage iTakeDamage))
+            if (obj.TryGetComponent(out IApplyDamage iTakeDamage))
             {
-                obj.GetComponent<ITakeDamage>().TakeDamage(10f);
+                obj.GetComponent<IApplyDamage>().TakeDamage(10f);
             }
         }
         //DebugExsplosionRadius(center, radius);

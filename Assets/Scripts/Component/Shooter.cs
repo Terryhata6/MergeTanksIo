@@ -5,14 +5,14 @@ using UnityEngine;
 public class Shooter : MonoBehaviour
 {
     #region Shooter Params
-    [SerializeField] private float _speedProjectile = 10;
+    [SerializeField] private float _speedProjectile = 30f;
     public float SpeedProjectile => _speedProjectile;
 
-    [SerializeField] private float _damage = 10;
+    [SerializeField] private float _damage = 10f;
     public float Damage => _damage;
     [SerializeField] private bool _sequentialShots;
     public bool SequentialShots => _sequentialShots;
-    [SerializeField] private float _shootInterval = 1.0f;
+    [SerializeField] private float _shootInterval = 1f;
     public float ShootInterval => _shootInterval;
     private float _tempInterval;
     #endregion
@@ -114,6 +114,7 @@ public class Shooter : MonoBehaviour
         {
             _temporalProjectile.AddModification(item);
         }
+        _temporalProjectile.SetIdParent(gameObject);
         return _temporalProjectile;
     }
 

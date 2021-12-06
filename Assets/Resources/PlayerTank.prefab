@@ -73,7 +73,6 @@ MonoBehaviour:
     _frozenPerkList: []
   _level: 1
   _shotProjectileTransform: []
-  _playerRigidbody: {fileID: 2750924625520642430}
   _tankMeshes:
   - {fileID: 2845378091000665741}
   - {fileID: 5081251083888775476}
@@ -99,11 +98,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e53294eccb00fc44dbba8356e94300b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedProjectile: 10
+  _speedProjectile: 30
   _damage: 10
   _sequentialShots: 0
   _shootInterval: 1
   _projectileList: []
+  _speed: 200
 --- !u!135 &7770570882595548572
 SphereCollider:
   m_ObjectHideFlags: 0

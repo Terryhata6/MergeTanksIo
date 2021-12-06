@@ -11,4 +11,17 @@ public class PlayerView : BasePersonView
     {
         _state = state;
     }
+
+    /// <summary>
+    /// Test Perks
+    /// </summary>
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            var perk = LoadPerksSystem.GetOnePerkByName("CircularProjectile");
+            var instPerk = Instantiate(perk);
+            _perkManager.AddPerk(instPerk);
+        }
+    }
 }

@@ -5,21 +5,9 @@ public class Projectile : BaseProjectile, IMoveProjectile
   private float _speed;
   private float _damage;
 
-
-  private bool _lockMoved = false;
-  public bool LockMoved => _lockMoved;
-
   public void Move()
   {
-    if (!_lockMoved)
-    {
-      transform.Translate(transform.forward * (_speed * Time.deltaTime), Space.World);
-    }
-  }
-
-  public void SetLockMoved(bool val)
-  {
-    _lockMoved = val;
+    transform.Translate(transform.forward * (_speed * Time.deltaTime), Space.World);
   }
 
   public void ChangeSpeed(float speed)
@@ -32,11 +20,17 @@ public class Projectile : BaseProjectile, IMoveProjectile
     _damage = damage;
   }
 
-  protected override void InternaTriggerEnter(Collider otherCollider)
+  protected override void InternalTriggerEnter(Collider otherCollider)
   {
     foreach (var item in _modList)
     {
       item.Activate(this);
+    }
+
+    if(otherCollider.TryGetComponent(out IApplyDamage applyDamage))
+    {
+      Debug.Log("Попал");
+      applyDamage.TakeDamage(_damage);
     }
   }
 }

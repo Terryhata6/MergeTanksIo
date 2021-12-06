@@ -9,7 +9,7 @@ public class Mine : BaseProjectile
     _damage = damage;
   }
   
-  protected override void InternaTriggerEnter(Collider otherCollider)
+  protected override void InternalTriggerEnter(Collider otherCollider)
   {
     // TODO
   }

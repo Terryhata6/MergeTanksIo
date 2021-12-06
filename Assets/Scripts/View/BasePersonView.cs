@@ -1,17 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BasePersonView : BaseObjectView
+public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
 {
-
-    [SerializeField] private PerkManager _perkManager; // << New Perk System
-    public PerkManager PerkManager => _perkManager; // << New Perk System
+    #region {Author:Doonn}
+    [SerializeField] protected PerkManager _perkManager; 
+    public PerkManager PerkManager => _perkManager;
 
     #region Fields
     private Shooter _shooter;
-    public Shooter Shooter => _shooter;
-
-    #region {Author:Doonn}
 
     // Player Level Up
     [SerializeField, Range(1, 5)] private int _level = 1;
@@ -23,14 +20,7 @@ public abstract class BasePersonView : BaseObjectView
 
     #endregion
 
-    [SerializeField] private Rigidbody _playerRigidbody;
     [SerializeField] private List<GameObject> _tankMeshes;
-
-    #endregion
-
-    #region AccsessModifyers
-
-    public Rigidbody Rigidbody => _playerRigidbody;
 
     #endregion
 
@@ -39,11 +29,9 @@ public abstract class BasePersonView : BaseObjectView
     public ViewParamsComponent ViewParams => _viewParams;
     #endregion
 
+    #region {Author:Doonn}
     public void Awake()
     {
-        if (_playerRigidbody == null)
-            _playerRigidbody = GetComponent<Rigidbody>();
-
         TankShotProjectileRecordTransform();
     }
 
@@ -65,7 +53,7 @@ public abstract class BasePersonView : BaseObjectView
 
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer.Equals((int)Layers.Collectables))
+        if (other.gameObject.layer.Equals((int) Layers.Collectables))
         {
             if ((other.transform.position - transform.position).magnitude < 2f)
             {
@@ -79,11 +67,10 @@ public abstract class BasePersonView : BaseObjectView
 
                 TankShotProjectileRecordTransform();
             }
-            
+
         }
     }
 
-    #region {Author:Doonn}
     // Запись Трансформов от куда вылетают Снаряды
     public void TankShotProjectileRecordTransform()
     {
@@ -128,5 +115,19 @@ public abstract class BasePersonView : BaseObjectView
         _shooter.Shooting(_perkManager.OwnShooterPerkList);
     }
 
+    public void TakeDamage(float damage)
+    {
+        Debug.Log("Нанес Повреждение");
+        ViewParams.ChangeHealth(ViewParams.Health - damage);
+        IsDead();
+    }
+
+    public void IsDead()
+    {
+        if (ViewParams.IsDead())
+        {
+            Debug.Log(GetType().ToString() + " DEAD");
+        }
+    }
     #endregion
 }
