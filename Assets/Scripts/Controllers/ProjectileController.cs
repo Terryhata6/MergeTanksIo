@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ public class ProjectileController : BaseController, IExecute
     _projectile = Resources.Load<Projectile>("Projectile");
 
     _pool = new ObjectPool<Projectile>();
-    _pool.Initialize(_projectile, 100f);
+    _pool.Initialize(_projectile, 1000f);
 
     _projectileModel = new BaseProjectileModel();
   }
@@ -29,7 +28,10 @@ public class ProjectileController : BaseController, IExecute
 
     for (int i = 0; i < _shotProjectileList.Count; i++)
     {
-        _shotProjectileList[i].MoveProjectile();
+      _shotProjectileList[i].MoveProjectile();
+
+      _shotProjectileList[i].RotationCircleProjectile();
+
     }
   }
 

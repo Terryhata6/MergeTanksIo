@@ -98,11 +98,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e53294eccb00fc44dbba8356e94300b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedProjectile: 10
+  _speedProjectile: 30
   _damage: 10
   _sequentialShots: 0
   _shootInterval: 1
   _projectileList: []
+  _speed: 0
 --- !u!135 &4918471507183419561
 SphereCollider:
   m_ObjectHideFlags: 0

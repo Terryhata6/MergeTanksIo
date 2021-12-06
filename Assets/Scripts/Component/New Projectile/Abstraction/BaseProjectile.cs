@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,14 +8,22 @@ public abstract class BaseProjectile : MonoBehaviour
 
     [SerializeField] protected Vector3 _defaultScale;
 
-    [SerializeField] protected float _lifeTime = 5f;
+    [SerializeField] protected float _lifeTime;
 
-    protected GameObject _target;
+    [SerializeField] protected GameObject _target;
     public GameObject Target => _target;
+
+    private GameObject _idParent;
 
     private void Start()
     {
         transform.localScale = _defaultScale;
+        _idParent = gameObject;
+    }
+
+    public void SetIdParent(GameObject idParent)
+    {
+        _idParent = idParent;
     }
 
     private void OnEnable()
@@ -25,18 +32,18 @@ public abstract class BaseProjectile : MonoBehaviour
         Invoke("Coroutine", _lifeTime);
     }
 
-    private void Disable()
-    {
-        gameObject.SetActive(false);
-
-        RemoveBaseProjectile();
-        if (_modList == null) return;
-        _modList = null;
-    }
-
     private void Coroutine()
     {
         Disable();
+    }
+
+    private void Disable()
+    {
+        gameObject.SetActive(false);
+        _target = null;
+        RemoveBaseProjectile();
+        if (_modList == null) return;
+        _modList = null;
     }
 
     public void RemoveBaseProjectile()
@@ -48,14 +55,17 @@ public abstract class BaseProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if(_idParent == other.gameObject) return;
+        if (other.gameObject.layer.Equals((int) Layers.Enemies) ||
+            other.gameObject.layer.Equals((int) Layers.Players))
         {
             _target = other.gameObject;
-            InternaTriggerEnter(other);
+            InternalTriggerEnter(other);
+            Disable();
         }
     }
 
-    protected abstract void InternaTriggerEnter(Collider otherCollider);
+    protected abstract void InternalTriggerEnter(Collider otherCollider);
 
     public void AddModification(AbstractPerk modification)
     {
