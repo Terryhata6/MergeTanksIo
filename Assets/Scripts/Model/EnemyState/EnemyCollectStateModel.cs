@@ -14,7 +14,7 @@ public class EnemyCollectStateModel : BaseEnemyStateModel
             Time.deltaTime * enemy.ViewParams.RotationSpeed);
         _enemyTransform.position += _enemyTransform.forward * Time.deltaTime * enemy.ViewParams.MoveSpeed;
         
-        if (enemy.Context.Context.Decision.Values[2] > 0.4f || enemy.Context.Context.Decision.Values[0]== 0f)
+        if (enemy.Context.Context.Decision.Values[2] > 0.2f || enemy.Context.Context.Decision.Values[0]== 0f)
         {
             enemy.State = EnemyState.Search;
         }

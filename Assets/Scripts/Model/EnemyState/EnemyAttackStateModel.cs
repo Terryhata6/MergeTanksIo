@@ -13,7 +13,7 @@ public class EnemyAttackStateModel : BaseEnemyStateModel
             Time.deltaTime * enemy.ViewParams.RotationSpeed); 
         _enemyTransform.position += _enemyTransform.forward * Time.deltaTime * enemy.ViewParams.MoveSpeed;
         
-        if (enemy.Context.Context.Decision.Values[2] < 0.7f)
+        if (enemy.Context.Context.Decision.Values[2] < 0.2f)
         {
             enemy.State = EnemyState.Search;
         }
