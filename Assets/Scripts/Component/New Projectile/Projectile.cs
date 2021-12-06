@@ -6,12 +6,6 @@ public class Projectile : BaseProjectile, IMoveProjectile
 {
   private float _speed;
   private float _damage;
-  private BasePersonView _owner;
-
-  public void SetOwner(BasePersonView view)
-  {
-    _owner = view;
-  }
 
   public void Move()
   {
