@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,14 +5,14 @@ using UnityEngine;
 public class Shooter : MonoBehaviour
 {
     #region Shooter Params
-    [SerializeField] private float _speedProjectile = 10;
+    [SerializeField] private float _speedProjectile = 30f;
     public float SpeedProjectile => _speedProjectile;
 
-    [SerializeField] private float _damage = 10;
+    [SerializeField] private float _damage = 10f;
     public float Damage => _damage;
     [SerializeField] private bool _sequentialShots;
     public bool SequentialShots => _sequentialShots;
-    [SerializeField] private float _shootInterval = 1.0f;
+    [SerializeField] private float _shootInterval = 1f;
     public float ShootInterval => _shootInterval;
     private float _tempInterval;
     #endregion
@@ -21,7 +20,7 @@ public class Shooter : MonoBehaviour
     private ObjectPool<Projectile> _pool;
     public ObjectPool<Projectile> Pool => _pool;
     private List<Transform> _projectileTransList = new List<Transform>();
-    private BasePersonView _basePlayer;//<<
+    private BasePersonView _basePlayer; //<<
     private Projectile _temporalProjectile;
 
     [SerializeField] private List<Projectile> _projectileList;
@@ -62,7 +61,7 @@ public class Shooter : MonoBehaviour
         }
 
     }
-    
+
     private void Volley(List<AbstractPerk> perks)
     {
         _tempInterval += Time.deltaTime;
@@ -115,6 +114,7 @@ public class Shooter : MonoBehaviour
         {
             _temporalProjectile.AddModification(item);
         }
+        _temporalProjectile.SetIdParent(gameObject);
         return _temporalProjectile;
     }
 
@@ -146,4 +146,23 @@ public class Shooter : MonoBehaviour
             _projectileList[i].Move();
         }
     }
+
+
+
+    #region Circle Projectile
+    [SerializeField] private float _speed;
+    private GameObject _circleProjectileWeapon;
+    public void RotationCircleProjectile()
+    {
+        if (_circleProjectileWeapon == null) return;
+
+        _circleProjectileWeapon.transform.position = transform.position;
+        _circleProjectileWeapon.transform.Rotate(Vector3.up * Time.deltaTime * _speed);
+    }
+
+    public void SetCircleProjectileWeapon(GameObject go)
+    {
+        _circleProjectileWeapon = go;
+    }
+    #endregion
 }

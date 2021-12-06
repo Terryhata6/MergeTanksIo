@@ -14,7 +14,7 @@ public class ObjectPool<T> where T : Component
         _examples = new List<T>();
     }
 
-    public void Initialize(List<T> examples, float size) //Инициализация со списком разных префабов
+    public void Initialize(List<T> examples, float size) //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     {
         CleanPool();
         if (examples.Count > 0)
@@ -27,7 +27,7 @@ public class ObjectPool<T> where T : Component
             }
         }
     }
-    public void Initialize(T example, float size) // Инициализация с одним префабом
+    public void Initialize(T example, float size) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     {
         CleanPool();
         if (example)
@@ -41,7 +41,7 @@ public class ObjectPool<T> where T : Component
         }
     }
 
-    private void FillPool(T example) //Метод создания и внесения префаба в пул , можно сделать публичным и использовать отдельно 
+    private void FillPool(T example) //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ , пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 
     {
         _temp = GameObject.Instantiate(example, _parent.transform);
         _temp.gameObject.SetActive(false);

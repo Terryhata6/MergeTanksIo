@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : BaseProjectile, IMoveProjectile
@@ -22,11 +20,17 @@ public class Projectile : BaseProjectile, IMoveProjectile
     _damage = damage;
   }
 
-  protected override void InternaTriggerEnter(Collider otherCollider)
+  protected override void InternalTriggerEnter(Collider otherCollider)
   {
     for (int i = 0 ; i < _modList.Count; i++)
     {
       _modList[i].Activate(this);
+    }
+
+    if(otherCollider.TryGetComponent(out IApplyDamage applyDamage))
+    {
+      Debug.Log("Попал");
+      applyDamage.TakeDamage(_damage);
     }
   }
 }
