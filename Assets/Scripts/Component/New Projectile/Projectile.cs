@@ -6,6 +6,12 @@ public class Projectile : BaseProjectile, IMoveProjectile
 {
   private float _speed;
   private float _damage;
+  private BasePersonView _owner;
+
+  public void SetOwner(BasePersonView view)
+  {
+    _owner = view;
+  }
 
   public void Move()
   {
@@ -24,9 +30,9 @@ public class Projectile : BaseProjectile, IMoveProjectile
 
   protected override void InternaTriggerEnter(Collider otherCollider)
   {
-    foreach (var item in _modList)
+    for (int i = 0 ; i < _modList.Count; i++)
     {
-      item.Activate(this);
+      _modList[i].Activate(this);
     }
   }
 }

@@ -13,7 +13,11 @@ public class PlayerMoveStateModel : BasePlayerStateModel
     //Move
     _vectorMove2D = controller.PositionDelta - controller.PositionBegan;
 
-    Vector3 vectorDirection = new Vector3(_vectorMove2D.x, 1f, _vectorMove2D.y);
+    Vector3 vectorDirection = new Vector3(_vectorMove2D.x, 0f, _vectorMove2D.y);
+    if (vectorDirection.Equals(Vector3.zero))
+    {
+      return;
+    }
     player.transform.rotation = Quaternion.Slerp(
       player.transform.rotation,
       Quaternion.LookRotation(vectorDirection), 
