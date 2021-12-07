@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class UIController : BaseController
 {
-    private List<BaseMenuView> _menues;
     private UIView _uiView;
+    private List<BaseMenuView> _menues;
+    private PopUpPerkMenu _perksPopUp;
 
     public UIController()
     {
@@ -23,16 +24,34 @@ public class UIController : BaseController
             AddView(_uiView.Menues[i]);
         }
 
+        _perksPopUp = _uiView.PerksPopUp;
+
         UIEvents.Current.OnButtonStartGame += StartGame;
         UIEvents.Current.OnButtonPauseGame += PauseGame;
         UIEvents.Current.OnButtonResumeGame += StartGame;
         UIEvents.Current.OnButtonNextLevel += NextLevel;
         UIEvents.Current.OnButtonRestartGame += RestartGame;
+        UIEvents.Current.OnButtonSelectPerk += SelectPerk;
 
         LevelEvents.Current.OnLevelComplete += WinGame;
         LevelEvents.Current.OnLevelFailed += LoseGame;
         LevelEvents.Current.OnLevelRestart += MainMenu;
         LevelEvents.Current.OnGameLaunched += MainMenu;
+
+        GameEvents.Current.OnSetSelectPerks += ShowPerksMenu;
+    }
+
+
+    private void ShowPerksMenu(List<AbstractPerk> perks)
+    {
+        _perksPopUp.Show();
+        _perksPopUp.SetupPerks(perks);
+    }
+
+    private void SelectPerk(AbstractPerk perk)
+    {
+        _perksPopUp.Hide();
+        GameEvents.Current.SelectPerk(perk);
     }
 
     private void MainMenu()
