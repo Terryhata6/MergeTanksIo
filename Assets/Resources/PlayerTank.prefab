@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2750924625520642430}
   - component: {fileID: 3261821368539663791}
   - component: {fileID: 312650254067247622}
-  - component: {fileID: 7770570882595548572}
+  - component: {fileID: 727677575477533411}
   m_Layer: 0
   m_Name: PlayerTank
   m_TagString: Player
@@ -105,8 +105,8 @@ MonoBehaviour:
   _shootInterval: 1
   _projectileList: []
   _speed: 200
---- !u!135 &7770570882595548572
-SphereCollider:
+--- !u!65 &727677575477533411
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -116,8 +116,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2750924624711566927
 PrefabInstance:
   m_ObjectHideFlags: 0

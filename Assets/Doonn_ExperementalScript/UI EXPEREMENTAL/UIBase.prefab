@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 4233578050155083310}
   - component: {fileID: 6294900708066230789}
   - component: {fileID: 2872477562808686284}
+  - component: {fileID: 2090900266220145440}
   m_Layer: 5
   m_Name: UIBase
   m_TagString: Untagged
@@ -213,6 +214,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2090900266220145440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3664630697197580673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cda9dddc4792d344825d156bfd8e04c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonPrefab: {fileID: 5384491515183169151}
 --- !u!1 &6663079870117975798
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,6 +390,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87ce6fb05f152084d8fd566fd2b99f26, type: 3}
+--- !u!1 &5384491515183169151 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5963081510950939512, guid: 87ce6fb05f152084d8fd566fd2b99f26, type: 3}
+  m_PrefabInstance: {fileID: 1763319281920431367}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8466056500494025931 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7855940226078970316, guid: 87ce6fb05f152084d8fd566fd2b99f26, type: 3}

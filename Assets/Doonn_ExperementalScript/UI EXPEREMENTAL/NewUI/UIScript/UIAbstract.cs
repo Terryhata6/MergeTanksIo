@@ -5,5 +5,5 @@ using UnityEngine.UI;
 
 public abstract class UIAbstract : MonoBehaviour
 {
-
+  //public abstract void Execute();
 }

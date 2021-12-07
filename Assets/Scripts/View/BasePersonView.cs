@@ -31,14 +31,14 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
     private Mesh _mesh;
     private Bounds[] _bounds;
     [SerializeField] private float _boundSize;
-    private SphereCollider _sphereColl;
+    private BoxCollider _boxCollider;
 
     #region {Author:Doonn}
     public void Awake()
     {
         _bounds = new Bounds[_tankMeshes.Count];
 
-        _sphereColl = GetComponent<SphereCollider>();
+        _boxCollider = GetComponent<BoxCollider>();
         for (int i = 0; i < _tankMeshes.Count; i++)
         {
             _bounds[i] = _tankMeshes[i].GetComponent<MeshFilter>().mesh.bounds;
@@ -48,18 +48,23 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
         TankShotProjectileRecordTransform();
     }
 
+
+    //<< Doonn
     private void InitColliderCenterAndSize()
     {
         for (int i = 0; i < _tankMeshes.Count; i++)
         {
             if (_tankMeshes[i].activeSelf)
             {
-                _sphereColl.radius = (_bounds[i].size.x / 2);
-                _sphereColl.center = new Vector3(0, _bounds[i].size.x / 2 , 0);
+                // _sphereColl.radius = (_bounds[i].size.x / 2);
+                // _sphereColl.center = new Vector3(0, _bounds[i].size.x / 2 , 0);
+                _boxCollider.size = _bounds[i].size;
+                _boxCollider.center = new Vector3(0, _bounds[i].size.y / 2, 0);
             }
         }
     }
-
+    //>>END
+    
     public void InitializeShooter(Shooter shooter)
     {
         _shooter = shooter;
