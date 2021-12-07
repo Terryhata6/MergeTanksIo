@@ -63,6 +63,7 @@ public class CollectableController : BaseController, IExecute
             GetRandomPos();
             _tempColl = _pool.GetObject(_tempPos + Vector3.up);
             _tempColl.gameObject.layer = (int)Layers.Collectables;
+            CollectableInit(_tempColl);
             GameEvents.Current.EnvironmentUpdated();
         }
     }
@@ -76,6 +77,7 @@ public class CollectableController : BaseController, IExecute
             _tempColl.transform.position = _tempPos + Vector3.up;
             _tempColl.gameObject.SetActive(true);
             _deadCol.RemoveAt(0);
+            CollectableInit(_tempColl);
             GameEvents.Current.EnvironmentUpdated();
         }
         else
@@ -83,6 +85,11 @@ public class CollectableController : BaseController, IExecute
             Debug.Log("DeadColl null");
         }
         
+    }
+
+    private void CollectableInit(CollectableItem col)
+    {
+        col.Points = Random.Range(1, 10);
     }
 
     private void GetRandomPos()

@@ -17,21 +17,10 @@ public class EnemyView : BasePersonView, IHaveAim
         set => _context = value;
         get => _context;
     }
-
+    
 
     private void OnDestroy()
     {
         GameEvents.Current.EnemyDead(this);
     }
-    // public override void OnTriggerEnter(Collider other)
-    // {
-    //     base.OnTriggerEnter(other);
-    //     if (other.gameObject.layer.Equals((int)Layers.Collectables))
-    //     {
-    //         if ((other.transform.position - transform.position).magnitude < 2f)
-    //         {
-    //             other.gameObject.SetActive(false);
-    //         }
-    //     }
-    // }
 }

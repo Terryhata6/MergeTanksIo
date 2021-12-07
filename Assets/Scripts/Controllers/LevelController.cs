@@ -54,8 +54,9 @@ public class LevelController : BaseController, IFixedExecute
                 GameEvents.Current.AimAppeared(_currentLevel.Aim);
                 GameEvents.Current.VirtualCamSet(_currentLevel.VirtualCam);
                 _environment = _currentLevel.Environment;
-            };
-            LevelEvents.Current.LevelChanged();
+                LevelEvents.Current.LevelChanged();
+            }
+            
         }
     }
 
