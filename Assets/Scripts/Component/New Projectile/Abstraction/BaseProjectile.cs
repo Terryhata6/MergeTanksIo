@@ -18,7 +18,6 @@ public abstract class BaseProjectile : MonoBehaviour
     private void Start()
     {
         transform.localScale = _defaultScale;
-        _idParent = gameObject;
     }
 
     public void SetIdParent(GameObject idParent)
