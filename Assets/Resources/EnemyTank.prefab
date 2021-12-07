@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8417b9fbc1f44e0fa5153b4cfa806ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _points: 0
   _perkManager:
     _ownPlayerPerkList: []
     _ownShooterPerkList: []

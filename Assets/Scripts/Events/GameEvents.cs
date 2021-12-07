@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
@@ -46,6 +47,11 @@ public class GameEvents
     {
         OnEnemyDead?.Invoke(enemy);
     }
+    public event Action OnPlayerDead;
+    public void PlayerDead()
+    {
+        OnPlayerDead?.Invoke();
+    }
 
     public event Action<GameObject> OnAimAppeared;
 
@@ -81,4 +87,18 @@ public class GameEvents
     {
         OnCollectableDisable?.Invoke(col);
     }
+
+    #region Perks
+    public event Action<List<AbstractPerk>> OnSetSelectPerks;
+    public void SetSelectPerks(List<AbstractPerk> perks)
+    {
+        OnSetSelectPerks?.Invoke(perks);
+    }
+
+    public event Action<AbstractPerk> OnSelectPerk;
+    public void SelectPerk(AbstractPerk perk)
+    {
+        OnSelectPerk?.Invoke(perk);
+    }
+    #endregion
 }

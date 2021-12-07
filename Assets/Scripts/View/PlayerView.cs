@@ -15,6 +15,14 @@ public class PlayerView : BasePersonView
     /// <summary>
     /// Test Perks
     /// </summary>
+
+    public override void IsDead()
+    {
+        base.IsDead();
+        GameEvents.Current.PlayerDead();
+        LevelEvents.Current.LevelFailed();
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))

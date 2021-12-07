@@ -35,4 +35,10 @@ public class UIEvents
     {
         OnButtonNextLevel?.Invoke();
     }
+
+    public event Action<AbstractPerk> OnButtonSelectPerk;
+    public void ButtonSelectPerk(AbstractPerk perk)
+    {
+        OnButtonSelectPerk?.Invoke(perk);
+    }
 }
