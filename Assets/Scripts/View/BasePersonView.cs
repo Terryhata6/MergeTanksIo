@@ -3,6 +3,8 @@ using UnityEngine;
 
 public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
 {
+    [SerializeField] protected int _points;  //EnterAlt
+    public int Points => _points; //EnterAlt
     #region {Author:Doonn}
     [SerializeField] protected PerkManager _perkManager; 
     public PerkManager PerkManager => _perkManager;
@@ -58,6 +60,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
             if ((other.transform.position - transform.position).magnitude < 2f)
             {
                 other.gameObject.SetActive(false);
+                GetPoints(other.gameObject.GetComponent<CollectableItem>().Points);
                 if (CheckTankMeshesList(_tankMeshes) == false) return;
                 if (_tankMeshes.Count < 5) return;
                 if (Level >= 5) return; // << Хард Код (Level >= 5)
@@ -69,6 +72,12 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
             }
 
         }
+    }
+    
+    //Enter Alt 07.12
+    private void GetPoints(int points)
+    {
+        _points += points;
     }
 
     // Запись Трансформов от куда вылетают Снаряды
@@ -102,9 +111,9 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
     {
         if (tankMeshes.Count == 0) return false;
 
-        foreach (var item in tankMeshes)
+        for (int i = 0; i < _tankMeshes.Count; i++)
         {
-            if (item == null) return false;
+            if (_tankMeshes[i].Equals(null)) return false;
         }
         return true;
     }
@@ -122,12 +131,14 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
         IsDead();
     }
 
-    public void IsDead()
+    public virtual void IsDead()
     {
+        
         if (ViewParams.IsDead())
         {
             Debug.Log(GetType().ToString() + " DEAD");
         }
+        Destroy(gameObject);
     }
     #endregion
 }

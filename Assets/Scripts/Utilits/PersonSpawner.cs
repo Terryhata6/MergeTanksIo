@@ -18,7 +18,7 @@ public class PersonSpawner : MonoBehaviour
     private int j;
     private List<float> _time;
     private PersonType _playerType;
-    private void Start()
+    private void Awake()
     {
         _playerDino = Resources.Load<GameObject>("PlayerDino");
         _playerTank = Resources.Load<GameObject>("PlayerTank");
@@ -41,7 +41,7 @@ public class PersonSpawner : MonoBehaviour
         
         ShuffleSpawns();
         
-        LevelEvents.Current.OnLevelStart += SpawnEnemies;
+        LevelEvents.Current.OnLevelChanged += SpawnEnemies;
         GameEvents.Current.OnEnemyRespawn += SetEnemyRespawnTime;
         LevelEvents.Current.OnLevelStart += SpawnPlayer;
         GameEvents.Current.OnPlayerTypeChoose += SetPlayerType;
@@ -85,7 +85,7 @@ public class PersonSpawner : MonoBehaviour
         for (int i = 0; i < _time.Count; i++)
         {
             _time[i] -= Time.deltaTime;
-            if (_time[i].Equals(0.0f))
+            if (_time[i] <= 0.0f)
             {
                 _time.RemoveAt(i);
                 Spawn(RandomEnemyType());

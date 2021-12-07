@@ -31,11 +31,15 @@ public class UIController : BaseController
 
         LevelEvents.Current.OnLevelComplete += WinGame;
         LevelEvents.Current.OnLevelFailed += LoseGame;
-
-        Time.timeScale = 0.0f;
-        SwitchUI(UIState.MainMenu);
+        LevelEvents.Current.OnLevelRestart += MainMenu;
+        LevelEvents.Current.OnGameLaunched += MainMenu;
     }
 
+    private void MainMenu()
+    {
+        Time.timeScale = 1.0f;
+        SwitchUI(UIState.MainMenu);
+    }
 
     private void StartGame()
     {
@@ -46,7 +50,7 @@ public class UIController : BaseController
 
     private void PauseGame()
     {
-        Time.timeScale = 0.0f;
+        Time.timeScale = 1.0f;
         SwitchUI(UIState.Pause);
     }
 
@@ -58,7 +62,7 @@ public class UIController : BaseController
 
     private void LoseGame()
     {
-        Time.timeScale = 0.0f;
+        Time.timeScale = 1.0f;
         SwitchUI(UIState.LoseMenu);
     }
 

@@ -45,6 +45,8 @@ public class PlayerController : BaseController, IObjectExecuter, IExecute
         }
 
         GameEvents.Current.OnVirtualCamSet += SetVirtualCamera;
+        GameEvents.Current.OnPlayerDead += RemovePlayer;
+        LevelEvents.Current.OnLevelRestart += SetCameraDefaultPos;
         InputEvents.Current.OnTouchBegan += SetBeganPosition;
         InputEvents.Current.OnTouchEnded += SetIdle;
         InputEvents.Current.OnTouchMoved += SetMove;
@@ -93,7 +95,6 @@ public class PlayerController : BaseController, IObjectExecuter, IExecute
     private void SetBeganPosition (Vector2 position)
     {
         _beganPosition = position;
-        Debug.Log ("Нажалось");
     }
 
 
@@ -121,6 +122,14 @@ public class PlayerController : BaseController, IObjectExecuter, IExecute
         SetPlayerState (PlayerState.Attack);
     }
 
+    private void SetCameraDefaultPos()
+    {
+        if (_camera)
+        {
+            _camera.transform.position = Vector3.up * 30f;
+        }
+    }
+
     private void PlayerInit(PlayerView player)
     {
         player.gameObject.layer = (int) Layers.Players;
@@ -142,6 +151,19 @@ public class PlayerController : BaseController, IObjectExecuter, IExecute
         }
     }
 
+    public void RemovePlayer()
+    {
+        if (_player)
+        {
+            _player = null;
+        }
+
+        if (_camera)
+        {
+            _camera.Follow = null;
+            _camera.LookAt = null;
+        }
+    }
     private void SetVirtualCamera(CinemachineVirtualCamera cam)
     {
         _camera = cam;

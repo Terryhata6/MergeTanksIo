@@ -46,6 +46,11 @@ public class GameEvents
     {
         OnEnemyDead?.Invoke(enemy);
     }
+    public event Action OnPlayerDead;
+    public void PlayerDead()
+    {
+        OnPlayerDead?.Invoke();
+    }
 
     public event Action<GameObject> OnAimAppeared;
 
