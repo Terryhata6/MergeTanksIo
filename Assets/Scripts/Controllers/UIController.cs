@@ -52,6 +52,7 @@ public class UIController : BaseController
     {
         _perksPopUp.Hide();
         GameEvents.Current.SelectPerk(perk);
+        Debug.Log($"Selected perk: {perk}");
     }
 
     private void MainMenu()

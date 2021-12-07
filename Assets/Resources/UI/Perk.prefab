@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4427946813764992287}
   - component: {fileID: 5695238987063663741}
   - component: {fileID: 7048775376148911288}
+  - component: {fileID: -1115376101898475828}
   m_Layer: 5
   m_Name: Perk
   m_TagString: Untagged
@@ -120,3 +121,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-1115376101898475828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3971212989811252575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac613b71e83659499cd5062bf93eb15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonSelect: {fileID: 7048775376148911288}
+  _defaultImage: {fileID: 0}

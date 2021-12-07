@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class SelectablePerkUIView : MonoBehaviour
 {
     [SerializeField] private Button _buttonSelect;
-    [SerializeField] private Sprite _defaultImage;
 
+    private Sprite _defaultImage;
     private Image _image;
     private AbstractPerk _perk;
 

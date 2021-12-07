@@ -37,11 +37,14 @@ public class PopUpPerkMenu : BaseMenuView
         {
             if (perks.Count > _perksUI.Count)
             {
-                for (int i = 0; i < (perks.Count - _perksUI.Count); i++)
+                var diff = perks.Count - _perksUI.Count;
+
+                for (int i = 0; i < diff; i++)
                 {
                     _tempPerkUI = Instantiate(Resources.Load<SelectablePerkUIView>(_perkUIPath));
                     _tempPerkUI.gameObject.transform.parent = _perksParent.transform;
                     _perksUI.Add(_tempPerkUI);
+                    Debug.Log($"√¿Àﬂ, Œ“Ã≈Õ¿ {i}!");
                 }
             }
             else
