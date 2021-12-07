@@ -21,7 +21,7 @@ public class UIHorizintalPanel : UIAbstract
 
         CreateButtonAndAttachToPanel(3);
         InitButton();
-
+        
         UIEvent.CurrentUI.OnClickButton += UIUpdate;
     }
 

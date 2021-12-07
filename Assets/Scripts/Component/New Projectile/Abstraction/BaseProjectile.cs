@@ -18,7 +18,6 @@ public abstract class BaseProjectile : MonoBehaviour
     private void Start()
     {
         transform.localScale = _defaultScale;
-        _idParent = gameObject;
     }
 
     public void SetIdParent(GameObject idParent)
@@ -56,6 +55,8 @@ public abstract class BaseProjectile : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(_idParent == other.gameObject) return;
+        Debug.Log("PArent: " + _idParent);
+        Debug.Log("Collider: " + other.gameObject);
         if (other.gameObject.layer.Equals((int) Layers.Enemies) ||
             other.gameObject.layer.Equals((int) Layers.Players))
         {

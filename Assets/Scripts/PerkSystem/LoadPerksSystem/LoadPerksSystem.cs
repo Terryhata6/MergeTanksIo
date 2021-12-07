@@ -26,6 +26,7 @@ public static class LoadPerksSystem
 
 
 
+//<< UI
     public static List<AbstractPerk> GetRandomPerkList(int returnCountPerk)
     {
         List<AbstractPerk> perks = new List<AbstractPerk>();

@@ -97,8 +97,10 @@ public class Shooter : MonoBehaviour
     private Projectile ShootPooledProjectile(Vector3 position, Quaternion rotation)
     {
         _temporalProjectile = _pool.GetObject();
+
         _temporalProjectile.transform.position = position;
         _temporalProjectile.transform.rotation = rotation;
+        _temporalProjectile.SetIdParent(this.gameObject);
 
         return _temporalProjectile;
     }
@@ -114,7 +116,6 @@ public class Shooter : MonoBehaviour
         {
             _temporalProjectile.AddModification(item);
         }
-        _temporalProjectile.SetIdParent(gameObject);
         return _temporalProjectile;
     }
 

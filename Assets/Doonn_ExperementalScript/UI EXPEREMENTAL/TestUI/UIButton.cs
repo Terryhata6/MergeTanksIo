@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +12,7 @@ public class UIButton : UIAbstract
     //Test
     private PlayerView _view;
     //<<End
-    private void Start()
+    private void TT()
     {
         _view = FindObjectOfType<PlayerView>();
 
@@ -45,8 +43,6 @@ public class UIButton : UIAbstract
     {
         _text.text = text;
     }
-
-
 
     // public static UIButton GetUIComponent()
     // {

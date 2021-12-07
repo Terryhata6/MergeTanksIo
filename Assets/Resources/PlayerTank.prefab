@@ -85,6 +85,7 @@ MonoBehaviour:
     MoveSpeed: 5
     RotationSpeed: 5
     Shield: 0
+  _boundSize: 0
   _state: 0
 --- !u!114 &312650254067247622
 MonoBehaviour:
@@ -98,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e53294eccb00fc44dbba8356e94300b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedProjectile: 30
+  _speedProjectile: 15
   _damage: 10
   _sequentialShots: 0
   _shootInterval: 1
@@ -116,7 +117,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
-  m_Center: {x: 0, y: 1, z: -0.1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &2750924624711566927
 PrefabInstance:
   m_ObjectHideFlags: 0

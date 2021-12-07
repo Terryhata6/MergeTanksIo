@@ -4,12 +4,11 @@ using UnityEngine;
 public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
 {
     #region {Author:Doonn}
-    [SerializeField] protected PerkManager _perkManager; 
+    [SerializeField] protected PerkManager _perkManager;
     public PerkManager PerkManager => _perkManager;
 
     #region Fields
     private Shooter _shooter;
-
     // Player Level Up
     [SerializeField, Range(1, 5)] private int _level = 1;
     public int Level => _level;
@@ -29,10 +28,36 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
     public ViewParamsComponent ViewParams => _viewParams;
     #endregion
 
+    private Mesh _mesh;
+    private Bounds[] _bounds;
+    [SerializeField] private float _boundSize;
+    private SphereCollider _sphereColl;
+
     #region {Author:Doonn}
     public void Awake()
     {
+        _bounds = new Bounds[_tankMeshes.Count];
+
+        _sphereColl = GetComponent<SphereCollider>();
+        for (int i = 0; i < _tankMeshes.Count; i++)
+        {
+            _bounds[i] = _tankMeshes[i].GetComponent<MeshFilter>().mesh.bounds;
+        }
+
+        InitColliderCenterAndSize();
         TankShotProjectileRecordTransform();
+    }
+
+    private void InitColliderCenterAndSize()
+    {
+        for (int i = 0; i < _tankMeshes.Count; i++)
+        {
+            if (_tankMeshes[i].activeSelf)
+            {
+                _sphereColl.radius = (_bounds[i].size.x / 2);
+                _sphereColl.center = new Vector3(0, _bounds[i].size.x / 2 , 0);
+            }
+        }
     }
 
     public void InitializeShooter(Shooter shooter)
@@ -49,6 +74,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
         }
 
         _tankMeshes[index - 1].SetActive(true);
+        InitColliderCenterAndSize();
     }
 
     public virtual void OnTriggerEnter(Collider other)
@@ -127,6 +153,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
         if (ViewParams.IsDead())
         {
             Debug.Log(GetType().ToString() + " DEAD");
+            Destroy(gameObject);
         }
     }
     #endregion
