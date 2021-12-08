@@ -14,20 +14,20 @@ public class PlayerMoveStateModel : BasePlayerStateModel
 
     //Move
     _vectorMove2D = controller.PositionDelta - controller.PositionBegan;
-    _magnitude = Vector3.ClampMagnitude(_vectorMove2D, 100f).magnitude;
 
 
     _tempVector.x = _vectorMove2D.x;
     _tempVector.y = 0;
     _tempVector.z = _vectorMove2D.y;
+    if (_tempVector.Equals(Vector3.zero))
+        {
+          return;
+        }
     player.transform.rotation = Quaternion.Slerp(
       player.transform.rotation,
       Quaternion.LookRotation(_tempVector),
       Time.deltaTime * player.ViewParams.RotationSpeed);
-    if (_tempVector.Equals(Vector3.zero))
-    {
-      return;
-    }
+    
     player.transform.position += player.transform.forward * Time.deltaTime * player.ViewParams.MoveSpeed;
   }
 }
