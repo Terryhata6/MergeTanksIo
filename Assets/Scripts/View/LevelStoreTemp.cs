@@ -5,11 +5,15 @@ using UnityEngine;
 
 public class LevelStoreTemp : MonoBehaviour
 {
-    public static LevelStoreTemp Current;
     [SerializeField] public List<GameObject> Levels;
 
     private void Awake()
     {
-        Current = this;
+        LevelEvents.Current.OnLevelControllerStart += SetLevels;
+    }
+
+    private void SetLevels()
+    {
+        MainController.Current.GetController<LevelController>()?.SetLevels(Levels);
     }
 }

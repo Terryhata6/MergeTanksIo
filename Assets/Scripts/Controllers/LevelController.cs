@@ -4,7 +4,7 @@ using Polarith.AI.Move;
 
 public class LevelController : BaseController, IFixedExecute
 {
-    [SerializeField] private List<GameObject> _levels = new List<GameObject>();
+    private List<GameObject> _levels = new List<GameObject>();
     private LevelConfig _currentLevel;
     private GameObject _levelPrefab;
     private AIMSteeringPerceiver _environment;
@@ -15,7 +15,7 @@ public class LevelController : BaseController, IFixedExecute
     {
         base.Initialize();
         Debug.Log("LevelController Start");
-        SetLevels(LevelStoreTemp.Current.Levels);
+        LevelEvents.Current.LevelControllerStart();
         LevelEvents.Current.OnLevelNext += ChangeLevel;
         LevelEvents.Current.OnGameLaunched += ChangeLevel;
         GameEvents.Current.OnEnvironmentUpdated += UpdateEnvironment;

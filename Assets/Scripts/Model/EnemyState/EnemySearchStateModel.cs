@@ -6,7 +6,7 @@ public class EnemySearchStateModel : BaseEnemyStateModel
     public override void Execute(EnemyView enemy)
     {
         base.Execute(enemy);
-        if (enemy.Context.Context.Decision.Values[2] > 0.2f) //если враг близко - запуск стейта на атаку врага
+        if (enemy.Context.Context.Decision.Values[2] > 0.4f) //если враг близко - запуск стейта на атаку врага
         {
             enemy.State = EnemyState.Attack;
             return;

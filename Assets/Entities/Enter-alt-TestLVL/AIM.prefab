@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 3308400831998557810}
   - component: {fileID: 2702221418084152272}
   - component: {fileID: 8230826439999301586}
+  - component: {fileID: 8260389966457416585}
+  - component: {fileID: 5905741199892617422}
   m_Layer: 0
   m_Name: AIM
   m_TagString: Untagged
@@ -55,15 +57,17 @@ MonoBehaviour:
   - Collect
   - Decor
   - Enemy
+  - Merge
   context:
-    minObjectives: 000100
-    normObjectives: 010101
+    minObjectives: 00010000
+    normObjectives: 01010101
     constraintSolver:
       Unlimited: 0
       Epsilons:
       - 0
       - 0.4
-      - 0.7
+      - 0.4
+      - 0.3
   selfObject: {fileID: 0}
   indicatorGizmo:
     Enabled: 1
@@ -295,3 +299,90 @@ MonoBehaviour:
     OuterRadius: 25
     RadiusMapping: 2
     ForEachReceptor: 0
+--- !u!114 &8260389966457416585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2227447077935191790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1062805814, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 0
+  Label: MergeSeek
+  initialized: 1
+  tabState:
+    tab0: 0
+    tab1: 0
+    tab2: 0
+    tab3: 0
+    tab4: 0
+  advancedInspector: 0
+  FilteredEnvironments:
+  - MergeEnv
+  GameObjects: []
+  velocityGizmo:
+    Enabled: 0
+    Color: {r: 0.5, g: 0.5, b: 1, a: 1}
+    DirectionScale: 1
+    PointSize: 0.2
+  steeringFoldout: 1
+  innerRadiusGizmo:
+    Enabled: 0
+    Color: {r: 0.59607846, g: 1, b: 0.5686275, a: 1}
+  outerRadiusGizmo:
+    Enabled: 0
+    Color: {r: 0.2627451, g: 0.79607844, b: 0.24705882, a: 1}
+  innerCircleGizmo:
+    Enabled: 0
+    Color: {r: 0.59607846, g: 1, b: 0.5686275, a: 1}
+  outerCircleGizmo:
+    Enabled: 0
+    Color: {r: 0.2627451, g: 0.79607844, b: 0.24705882, a: 1}
+  radiusSteeringFoldout: 1
+  Seek:
+    TargetObjective: 3
+    MagnitudeMultiplier: 1
+    SensitivityOffset: 0
+    ValueWriting: 0
+    LayerBlending: 0
+    LayerNormalization: 0
+    ValueMapping: 2
+    UseSignificance: 1
+    UseSensorProjection: 1
+    VectorProjection: 0
+    PresetVelocity: 0
+    Prediction: 0
+    PredictionMagnitude: 0
+    InnerRadius: 0
+    OuterRadius: 25
+    RadiusMapping: 2
+    ForEachReceptor: 0
+--- !u!114 &5905741199892617422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2227447077935191790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -561398845, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 2000
+  Label: Collect
+  initialized: 1
+  tabState:
+    tab0: 0
+    tab1: 0
+    tab2: 0
+    tab3: 0
+    tab4: 0
+  advancedInspector: 0
+  PlanarInterpolation:
+    TargetObjective: 0
+    Constraint: 1

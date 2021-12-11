@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class ObjectPool<T> where T : Component
 {
-    private Queue<T> _objects;
+    private List<T> _objects;
     private List<T> _examples;
     private GameObject _parent;
     private T _temp;
 
     public ObjectPool()
     {
-        _objects = new Queue<T>();
+        _objects = new List<T>();
         _examples = new List<T>();
     }
 
@@ -45,7 +45,7 @@ public class ObjectPool<T> where T : Component
     {
         _temp = GameObject.Instantiate(example, _parent.transform);
         _temp.gameObject.SetActive(false);
-        _objects.Enqueue(_temp);
+        _objects.Add(_temp);
     }
 
     private T GetRandomExample()
@@ -59,25 +59,21 @@ public class ObjectPool<T> where T : Component
 
     public T GetObject()
     {
-        if (_objects.Count == 0)
-        {
-            if (GetRandomExample() == null) return null;
-            FillPool(GetRandomExample());
-        }
-        _temp = _objects.Dequeue();
-        _objects.Enqueue(_temp);
-        _temp.gameObject.SetActive(true);
-        return _temp;
+        return  GetObject(Vector3.up * 100f);
     }
     public T GetObject(Vector3 pos)
     {
-        if (_objects.Count == 0)
+        if (_objects.Count == 0 || _objects[0].gameObject.activeSelf)
         {
             if (GetRandomExample() == null) return null;
             FillPool(GetRandomExample());
+            _objects.Add(_objects[0]);
+            _objects[0] = _objects[_objects.Count - 2];
+            _objects.RemoveAt(_objects.Count - 2);
         }
-        _temp = _objects.Dequeue();
-        _objects.Enqueue(_temp);
+        _temp = _objects[0];
+        _objects.RemoveAt(0);
+        _objects.Add(_temp);
         _temp.transform.position = pos;
         _temp.gameObject.SetActive(true);
         return _temp;
