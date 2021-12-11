@@ -3,17 +3,15 @@ using UnityEngine;
 
 public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
 {
-    #region Points
-    [SerializeField] protected int _points; //EnterAlt
+    [SerializeField] protected int _points;  //EnterAlt
     public int Points => _points; //EnterAlt
-    #endregion
-
     #region {Author:Doonn}
-    [SerializeField] protected PerkManager _perkManager;
+    [SerializeField] protected PerkManager _perkManager; 
     public PerkManager PerkManager => _perkManager;
 
     #region Fields
     private Shooter _shooter;
+
     // Player Level Up
     [SerializeField, Range(1, 5)] private int _level = 1;
     public int Level => _level;
@@ -33,42 +31,11 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
     public ViewParamsComponent ViewParams => _viewParams;
     #endregion
 
-    private Mesh _mesh;
-    private Bounds[] _bounds;
-    [SerializeField] private float _boundSize;
-    private BoxCollider _boxCollider;
-
     #region {Author:Doonn}
     public void Awake()
     {
-        _bounds = new Bounds[_tankMeshes.Count];
-
-        _boxCollider = GetComponent<BoxCollider>();
-        for (int i = 0; i < _tankMeshes.Count; i++)
-        {
-            _bounds[i] = _tankMeshes[i].GetComponent<MeshFilter>().mesh.bounds;
-        }
-
-        InitColliderCenterAndSize();
         TankShotProjectileRecordTransform();
     }
-
-
-    //<< Doonn
-    private void InitColliderCenterAndSize()
-    {
-        for (int i = 0; i < _tankMeshes.Count; i++)
-        {
-            if (_tankMeshes[i].activeSelf)
-            {
-                // _sphereColl.radius = (_bounds[i].size.x / 2);
-                // _sphereColl.center = new Vector3(0, _bounds[i].size.x / 2 , 0);
-                _boxCollider.size = _bounds[i].size;
-                _boxCollider.center = new Vector3(0, _bounds[i].size.y / 2, 0);
-            }
-        }
-    }
-    //>>END
 
     public void InitializeShooter(Shooter shooter)
     {
@@ -84,41 +51,59 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
         }
 
         _tankMeshes[index - 1].SetActive(true);
-        InitColliderCenterAndSize();
     }
-
+//Enter Alt
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer.Equals((int) Layers.Collectables))
+        CheckCollectable(other.gameObject);
+        CheckMerge(other.gameObject);
+    }
+//Enter Alt
+    private void CheckCollectable(GameObject other)
+    {
+        if (other.layer.Equals((int) Layers.Collectables))
         {
-            if ((other.transform.position - transform.position).magnitude < 3f)
+            if ((other.transform.position - transform.position).magnitude < 2f)
             {
-                other.gameObject.SetActive(false);
-                GetPoints(other.gameObject.GetComponent<CollectableItem>().Points);
-                if (CheckTankMeshesList(_tankMeshes) == false) return;
-                if (_tankMeshes.Count < 5) return;
-                if (Level >= 5) return; // << Хард Код (Level >= 5)
-
-                _level++;
-                ChangeTankMesh(Level);
-
-                TankShotProjectileRecordTransform();
+                other.SetActive(false);
+                GetPoints(other.GetComponent<CollectableItem>().Points);
+                
             }
 
         }
     }
+//Enter Alt
+    private void CheckMerge(GameObject other)
+    {
+        if (other.layer.Equals((int) Layers.Merge))
+        {
+            
+            if (CheckTankMeshesList(_tankMeshes) == false) return;
+            if (_tankMeshes.Count < 5) return;
+            if (Level >= 5) return; // << Хард Код (Level >= 5)
 
+            _level++;
+            ChangeTankMesh(Level);
+
+            TankShotProjectileRecordTransform();
+            Destroy(other);
+        }
+    }
+//Enter Alt
+    private void GetMerge(MergeItem item)
+    {
+        UpParams(item.Level);
+    }
+
+    private void UpParams(int multiplier)
+    {
+        
+    }
+    
     //Enter Alt 07.12
     private void GetPoints(int points)
     {
         _points += points;
-
-        //<< Doonn
-        Transaction transaction = new Transaction();
-        transaction.Value = _points;
-        transaction.WhoBuy = gameObject;
-        StoreSystem.SetBuy(transaction);
-        //>> END
     }
 
     // Запись Трансформов от куда вылетают Снаряды
@@ -169,16 +154,17 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
     {
         Debug.Log("Нанес Повреждение");
         ViewParams.ChangeHealth(ViewParams.Health - damage);
-        //IsDead();
+        IsDead();
     }
 
     public virtual void IsDead()
     {
+        
         if (ViewParams.IsDead())
         {
             Debug.Log(GetType().ToString() + " DEAD");
-            Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
     #endregion
 }

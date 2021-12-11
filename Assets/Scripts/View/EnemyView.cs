@@ -2,7 +2,7 @@ using System;
 using Polarith.AI.Move;
 using UnityEngine;
 
-public class EnemyView : BasePersonView, IHaveAim, ITransaction
+public class EnemyView : BasePersonView, IHaveAim
 {
     private EnemyState _state;
     private AIMContext _context;
@@ -18,15 +18,9 @@ public class EnemyView : BasePersonView, IHaveAim, ITransaction
         get => _context;
     }
 
-
-    private void OnDestroy()
+    public override void  IsDead()
     {
         GameEvents.Current.EnemyDead(this);
-    }
-
-    public void CompleteTransaction(Transaction transaction)
-    {
-        _points = transaction.Value;
-        PerkManager.AddPerk(transaction._perk);
+        base.IsDead();
     }
 }

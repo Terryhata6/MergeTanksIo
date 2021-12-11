@@ -4,5 +4,6 @@ public enum Layers
     Players = 7,
     Enemies = 8,
     Decoration = 9,
-    Ground = 10
+    Ground = 10,
+    Merge = 11
 }

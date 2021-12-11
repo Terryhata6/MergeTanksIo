@@ -14,6 +14,12 @@ public class LevelEvents
     
 
     //Events used from UI
+    public event Action OnLevelControllerStart;
+    public void LevelControllerStart()
+    {
+        OnLevelControllerStart?.Invoke();
+    }
+    
     public event Action OnLevelComplete;
     public void LevelComplete()
     {

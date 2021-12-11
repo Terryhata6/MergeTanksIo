@@ -537,6 +537,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Env
       objectReference: {fileID: 0}
+    - target: {fileID: 8332849236129125699, guid: bb3d88e612b417c4b886723dd762410c, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8839340640507703374, guid: bb3d88e612b417c4b886723dd762410c, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -612,7 +616,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2227447077935191791, guid: e705a6ac40d0c8b429d4aeb909b0aff6, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2227447077935191791, guid: e705a6ac40d0c8b429d4aeb909b0aff6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -658,6 +662,34 @@ PrefabInstance:
       propertyPath: SteeringPerceiver
       value: 
       objectReference: {fileID: 1772726771580453374}
+    - target: {fileID: 8260389966457416585, guid: e705a6ac40d0c8b429d4aeb909b0aff6, type: 3}
+      propertyPath: Label
+      value: MergeSeek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260389966457416585, guid: e705a6ac40d0c8b429d4aeb909b0aff6, type: 3}
+      propertyPath: Seek.OuterRadius
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260389966457416585, guid: e705a6ac40d0c8b429d4aeb909b0aff6, type: 3}
+      propertyPath: innerCircleGizmo.Color.b
+      value: 0.5686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260389966457416585, guid: e705a6ac40d0c8b429d4aeb909b0aff6, type: 3}
+      propertyPath: innerCircleGizmo.Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260389966457416585, guid: e705a6ac40d0c8b429d4aeb909b0aff6, type: 3}
+      propertyPath: innerCircleGizmo.Color.r
+      value: 0.59607846
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260389966457416585, guid: e705a6ac40d0c8b429d4aeb909b0aff6, type: 3}
+      propertyPath: FilteredEnvironments.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260389966457416585, guid: e705a6ac40d0c8b429d4aeb909b0aff6, type: 3}
+      propertyPath: FilteredEnvironments.Array.data[0]
+      value: MergeEnv
+      objectReference: {fileID: 0}
     - target: {fileID: 8952745891109789712, guid: e705a6ac40d0c8b429d4aeb909b0aff6, type: 3}
       propertyPath: Seek.OuterRadius
       value: 25
