@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,19 +32,21 @@ public class Shooter : MonoBehaviour
     private List<AbstractPerk> _perkList;
     public List<AbstractPerk> PerkList => _perkList;
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return null;
         if (TryGetComponent(out _basePlayer))
         {
             _projectileController = MainController.Current.GetController<ProjectileController>();
             _projectileController.AddShooterToList(this);
             _basePlayer.InitializeShooter(this);
             _pool = _projectileController.Pool;
+            Debug.Log("jhgjghjhgjghjghjgjgj " + _pool.GetObject());
         }
         else
         {
             Debug.Log("not found", this.gameObject);
-            return;
+            yield break;
         }
         GameEvents.Current.OnRemoveBaseProjectile += RemoveProjectile;
     }
@@ -68,6 +71,7 @@ public class Shooter : MonoBehaviour
         if (_tempInterval >= _shootInterval)
         {
             _projectileTransList = _basePlayer.ShotProjectileTransform;
+
             for (int i = 0; i < _projectileTransList.Count; i++)
             {
                 _temporalProjectile = ShootPooledProjectile(_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation);
@@ -97,7 +101,6 @@ public class Shooter : MonoBehaviour
     private Projectile ShootPooledProjectile(Vector3 position, Quaternion rotation)
     {
         _temporalProjectile = _pool.GetObject();
-
         _temporalProjectile.transform.position = position;
         _temporalProjectile.transform.rotation = rotation;
         _temporalProjectile.SetIdParent(this.gameObject);

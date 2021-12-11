@@ -6,14 +6,14 @@ using UnityEngine;
 public class MainController : MonoBehaviour
 {
     public static MainController Current;
-    
-   private List<BaseController> _controllers;
-   [SerializeField] private bool _useMouse;
-   private List<BaseController> _updateExecuters;
-   private List<BaseController> _fixedUpdateExecuters;
-   private int i;
 
-   public bool UseMouse => _useMouse;
+    private List<BaseController> _controllers;
+    [SerializeField] private bool _useMouse;
+    private List<BaseController> _updateExecuters;
+    private List<BaseController> _fixedUpdateExecuters;
+    private int i;
+
+    public bool UseMouse => _useMouse;
     private void Awake()
     {
         Current = this;
@@ -27,6 +27,8 @@ public class MainController : MonoBehaviour
         AddController(new EnemyController());
         AddController(new ProjectileController()); //<< Doonn
         AddController(new UIController());
+
+
     }
 
     private void Start()
@@ -97,7 +99,7 @@ public class MainController : MonoBehaviour
     {
         //GetController<BaseController>();
         //InputController a = new InputController();
-       // a = GetController<InputController>();
+        // a = GetController<InputController>();
     }
 
     #endregion

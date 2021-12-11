@@ -3,8 +3,11 @@ using UnityEngine;
 
 public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
 {
-    [SerializeField] protected int _points;  //EnterAlt
+    #region Points
+    [SerializeField] protected int _points; //EnterAlt
     public int Points => _points; //EnterAlt
+    #endregion
+
     #region {Author:Doonn}
     [SerializeField] protected PerkManager _perkManager;
     public PerkManager PerkManager => _perkManager;
@@ -66,7 +69,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
         }
     }
     //>>END
-    
+
     public void InitializeShooter(Shooter shooter)
     {
         _shooter = shooter;
@@ -88,7 +91,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
     {
         if (other.gameObject.layer.Equals((int) Layers.Collectables))
         {
-            if ((other.transform.position - transform.position).magnitude < 2f)
+            if ((other.transform.position - transform.position).magnitude < 3f)
             {
                 other.gameObject.SetActive(false);
                 GetPoints(other.gameObject.GetComponent<CollectableItem>().Points);
@@ -104,11 +107,18 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
 
         }
     }
-    
+
     //Enter Alt 07.12
     private void GetPoints(int points)
     {
         _points += points;
+
+        //<< Doonn
+        Transaction transaction = new Transaction();
+        transaction.Value = _points;
+        transaction.WhoBuy = gameObject;
+        StoreSystem.SetBuy(transaction);
+        //>> END
     }
 
     // Запись Трансформов от куда вылетают Снаряды
@@ -159,18 +169,16 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
     {
         Debug.Log("Нанес Повреждение");
         ViewParams.ChangeHealth(ViewParams.Health - damage);
-        IsDead();
+        //IsDead();
     }
 
     public virtual void IsDead()
     {
-        
         if (ViewParams.IsDead())
         {
             Debug.Log(GetType().ToString() + " DEAD");
             Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
     #endregion
 }

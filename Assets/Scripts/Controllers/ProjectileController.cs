@@ -8,7 +8,7 @@ public class ProjectileController : BaseController, IExecute
   private Projectile _projectile;
   private List<Shooter> _shotProjectileList = new List<Shooter>();
 
-  private IProjectileModel _projectileModel;
+  private BaseProjectileModel _projectileModel;
 
 
   public override void Initialize()
@@ -17,7 +17,7 @@ public class ProjectileController : BaseController, IExecute
     _projectile = Resources.Load<Projectile>("Projectile");
 
     _pool = new ObjectPool<Projectile>();
-    _pool.Initialize(_projectile, 1000f);
+    _pool.Initialize(_projectile, 100f);
 
     _projectileModel = new BaseProjectileModel();
   }
@@ -31,7 +31,14 @@ public class ProjectileController : BaseController, IExecute
       _shotProjectileList[i].MoveProjectile();
 
       _shotProjectileList[i].RotationCircleProjectile();
+    }
 
+    foreach (var shooter in _shotProjectileList)
+    {
+       foreach (var projectile in shooter.ProjectileList)
+       {
+            _projectileModel.Execute(projectile);
+       }
     }
   }
 

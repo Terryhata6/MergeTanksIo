@@ -62,7 +62,7 @@ public class CircularProjectilePerk : AbstractPerk
       var x = Mathf.Cos(angle * i) * radius;
       var z = Mathf.Sin(angle * i) * radius;
       
-      var pos = _projectileList[i].transform.position = new Vector3(x,0,z) + ownShoot.transform.position;
+      _projectileList[i].transform.position = new Vector3(x,0,z) + ownShoot.transform.position;
     }
   }
 

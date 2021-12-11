@@ -21,5 +21,5 @@ MonoBehaviour:
     _level: 1
     _maxLevel: 5
   _conflictPerk: {fileID: 0}
-  _fixedExecute: 0
-  _distance: 5
+  _fixedExecute: 1
+  _distance: 50

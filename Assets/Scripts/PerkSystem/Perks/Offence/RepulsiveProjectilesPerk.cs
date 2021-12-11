@@ -8,12 +8,14 @@ public class RepulsiveProjectilesPerk : AbstractPerk
 
   public override void Activate(BaseProjectile ownProjectile)
   {
+    if(ownProjectile.Target == null) return;
+
     Repulsive(ownProjectile, ownProjectile.Target);
   }
 
-  public Vector3 Repulsive(BaseProjectile projectile, GameObject target)
+  private Vector3 Repulsive(BaseProjectile projectile, GameObject target)
   {
-    return target.transform.position += (projectile.transform.forward * _distance);
+    return target.transform.position += (projectile.transform.forward * _distance * Time.deltaTime);
   }
 
   public override void Deactivate(BaseProjectile ownProjectile)

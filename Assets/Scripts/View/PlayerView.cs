@@ -1,7 +1,7 @@
+using System;
 using UnityEngine;
 
-
-public class PlayerView : BasePersonView
+public class PlayerView : BasePersonView, ITransaction
 {
     [SerializeField] private PlayerState _state = PlayerState.Idle;
 
@@ -12,10 +12,6 @@ public class PlayerView : BasePersonView
         _state = state;
     }
 
-    /// <summary>
-    /// Test Perks
-    /// </summary>
-
     public override void IsDead()
     {
         base.IsDead();
@@ -23,13 +19,35 @@ public class PlayerView : BasePersonView
         LevelEvents.Current.LevelFailed();
     }
 
+    public void CompleteTransaction(Transaction transaction)
+    {
+        _points = transaction.Value;
+        PerkManager.AddPerk(transaction._perk);
+    }
+
+    /// <summary>
+    /// Test UI PERK
+    /// </summary>
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            var perk = LoadPerksSystem.GetOnePerkByName("CircularProjectile");
-            var instPerk = Instantiate(perk);
-            _perkManager.AddPerk(instPerk);
+            GameEvents.Current.SetSelectPerks(LoadPerksSystem.GetRandomPerkList(3));
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameEvents.Current.OnSelectPerk += Perk;
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            var ss = LoadPerksSystem.GetOnePerkByName("RicochetPerk");
+            var inst = Instantiate(ss);
+            PerkManager.AddPerk(inst);
+        }
+    }
+
+    void Perk(AbstractPerk perk)
+    {
+        Debug.Log("Get UI PERK: " + perk);
     }
 }
