@@ -52,26 +52,52 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
 
         _tankMeshes[index - 1].SetActive(true);
     }
-
+//Enter Alt
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer.Equals((int) Layers.Collectables))
+        CheckCollectable(other.gameObject);
+        CheckMerge(other.gameObject);
+    }
+//Enter Alt
+    private void CheckCollectable(GameObject other)
+    {
+        if (other.layer.Equals((int) Layers.Collectables))
         {
             if ((other.transform.position - transform.position).magnitude < 2f)
             {
-                other.gameObject.SetActive(false);
-                GetPoints(other.gameObject.GetComponent<CollectableItem>().Points);
-                if (CheckTankMeshesList(_tankMeshes) == false) return;
-                if (_tankMeshes.Count < 5) return;
-                if (Level >= 5) return; // << Хард Код (Level >= 5)
-
-                _level++;
-                ChangeTankMesh(Level);
-
-                TankShotProjectileRecordTransform();
+                other.SetActive(false);
+                GetPoints(other.GetComponent<CollectableItem>().Points);
+                
             }
 
         }
+    }
+//Enter Alt
+    private void CheckMerge(GameObject other)
+    {
+        if (other.layer.Equals((int) Layers.Merge))
+        {
+            
+            if (CheckTankMeshesList(_tankMeshes) == false) return;
+            if (_tankMeshes.Count < 5) return;
+            if (Level >= 5) return; // << Хард Код (Level >= 5)
+
+            _level++;
+            ChangeTankMesh(Level);
+
+            TankShotProjectileRecordTransform();
+            Destroy(other);
+        }
+    }
+//Enter Alt
+    private void GetMerge(MergeItem item)
+    {
+        UpParams(item.Level);
+    }
+
+    private void UpParams(int multiplier)
+    {
+        
     }
     
     //Enter Alt 07.12

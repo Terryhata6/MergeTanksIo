@@ -17,10 +17,10 @@ public class EnemyView : BasePersonView, IHaveAim
         set => _context = value;
         get => _context;
     }
-    
 
-    private void OnDestroy()
+    public override void  IsDead()
     {
         GameEvents.Current.EnemyDead(this);
+        base.IsDead();
     }
 }

@@ -31,11 +31,11 @@ public class MainController : MonoBehaviour
 
     private void Start()
     {
-        foreach (var controller in _controllers)
+        for (int i = 0; i < _controllers.Count; i++)
         {
-            if (controller is IInitialize)
+            if (_controllers[i] is IInitialize)
             {
-                (controller as IInitialize).Initialize();
+                _controllers[i].Initialize();
             }
         }
         LevelEvents.Current.GameLaunched();
