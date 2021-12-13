@@ -8,12 +8,11 @@ public class BaseProjectileModel : IProjectileModel
   {
     foreach (var item in projectile.ModList)
     {
-      Debug.Log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ: ");
-      // if (item.FixedExecute)
-      // {
-      //   Debug.Log("SSSSSSSSSSSSSSSSS");
-      //   item.Activate(projectile);
-      // }
+      if (item.FixedExecute)
+      {
+        Debug.Log("SSSSSSSSSSSSSSSSS");
+        item.Activate(projectile);
+      }
     }
   }
 }

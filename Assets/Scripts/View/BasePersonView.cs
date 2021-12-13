@@ -154,7 +154,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
     {
         Debug.Log("Нанес Повреждение");
         ViewParams.ChangeHealth(ViewParams.Health - damage);
-        IsDead();
+        //IsDead();
     }
 
     public virtual void IsDead()
@@ -167,4 +167,36 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
         Destroy(gameObject);
     }
     #endregion
+
+
+
+    //<<Doonn Debuffs Buffs
+    [SerializeField] private List<Debuff> _debuffList = new List<Debuff>();
+
+    public void AddDebuff(Debuff debuff)
+    {
+        if(!_debuffList.Contains(debuff))
+        {
+            _debuffList.Add(debuff);
+        }
+    }
+
+    public void RemoveDebuff(Debuff debuff)
+    {
+        _debuffList.Remove(debuff);
+    }
+
+    public void UpdateDebuff()
+    {
+        //Обновления Каждый Кадр
+        if(_debuffList == null) return;
+        if(_debuffList.Count > 0)
+        {
+            for (int i = 0; i < _debuffList.Count; i++)
+            {
+                _debuffList[i].Tick();
+            }
+        }
+    }
+    //
 }

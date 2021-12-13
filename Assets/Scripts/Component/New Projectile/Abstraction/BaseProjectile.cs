@@ -14,7 +14,16 @@ public abstract class BaseProjectile : MonoBehaviour
     public GameObject Target => _target;
 
     private GameObject _idParent;
+    //Debuff 
+    private Debuff _debuff;
 
+    public void SetDebuff(Debuff debuff)
+    {
+        if (_debuff != null) return;
+        _debuff = new Debuff();
+    }
+
+    //    
     private void Start()
     {
         transform.localScale = _defaultScale;
@@ -54,7 +63,7 @@ public abstract class BaseProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(_idParent == other.gameObject) return;
+        if (_idParent == other.gameObject) return;
         Debug.Log("PArent: " + _idParent);
         Debug.Log("Collider: " + other.gameObject);
         if (other.gameObject.layer.Equals((int) Layers.Enemies) ||

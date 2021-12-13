@@ -40,7 +40,7 @@ public class PlayerView : BasePersonView, ITransaction
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            var ss = LoadPerksSystem.GetOnePerkByName("RicochetPerk");
+            var ss = LoadPerksSystem.GetOnePerkByName("RepulsiveProjectilesPerk");
             var inst = Instantiate(ss);
             PerkManager.AddPerk(inst);
         }
