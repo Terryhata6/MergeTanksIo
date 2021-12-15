@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Projectile : BaseProjectile, IMoveProjectile
@@ -32,5 +33,10 @@ public class Projectile : BaseProjectile, IMoveProjectile
       Debug.Log("Попал");
       applyDamage.TakeDamage(_damage);
     }
+  }
+
+  private void OnDisable()
+  {
+    ObjectPool<Projectile>.Instance.AddObject(this);
   }
 }

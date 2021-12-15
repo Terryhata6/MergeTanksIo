@@ -1,15 +1,21 @@
 using UnityEngine;
 using System.Collections;
-public class MergeItem : MonoBehaviour, ICollectableItem
+public class MergeItem : MonoBehaviour
 {
     private int _level = 1;
-    private int _points = 1;
+    private float _points = 1;
+    private ObjectPool<CollectableItem> _pool;
+
+    public ObjectPool<CollectableItem> Pool
+    {
+        set => _pool = value;
+    }
     public int Level 
     {
         get => _level;
         set => _level = value;
     } 
-    public int Points 
+    public float Points 
     {
         get => _points;
         set => _points = value;
@@ -22,7 +28,7 @@ public class MergeItem : MonoBehaviour, ICollectableItem
     private Vector3 temp;
     IEnumerator Start()
     {
-        Transform[] transforms = new Transform[10];
+        Transform[] transforms = new Transform[(int)(_points * 0.1f)+1];
         Vector3[] basePos = new Vector3[transforms.Length];
         Vector3[] nextPos = new Vector3[transforms.Length];
 
