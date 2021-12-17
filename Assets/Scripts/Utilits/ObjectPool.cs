@@ -17,7 +17,7 @@ public class ObjectPool<T> : Singleton<ObjectPool<T>>
         Instance = this;
     }
 
-    public void Initialize(List<T> examples, float size) 
+    public void Initialize(List<T> examples, int size) 
     {
         CleanPool();
         if (examples.Count > 0)
@@ -30,7 +30,7 @@ public class ObjectPool<T> : Singleton<ObjectPool<T>>
             }
         }
     }
-    public void Initialize(T example, float size) 
+    public void Initialize(T example, int size) 
     {
         CleanPool();
         if (example)

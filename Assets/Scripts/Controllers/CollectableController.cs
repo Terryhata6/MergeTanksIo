@@ -49,7 +49,7 @@ public class CollectableController : BaseController, IExecute
         if (_collParams)
         {
             Debug.Log("Collectable pOOL INIT");
-            _pool.Initialize(_collParams.Examples ,_collParams.Size + 50f);
+            _pool.Initialize(_collParams.Examples ,_collParams.Size + 50);
         }
     }
 
