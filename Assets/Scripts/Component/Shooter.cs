@@ -74,6 +74,7 @@ public class Shooter : MonoBehaviour
             for (int i = 0; i < _projectileTransList.Count; i++)
             {
                 _temporalProjectile = ShootPooledProjectile(_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation);
+                if(_temporalProjectile == null) return;
                 _temporalProjectile = ProjectileModification();
                 AddProjectile(_temporalProjectile);
             }
@@ -100,9 +101,11 @@ public class Shooter : MonoBehaviour
     private Projectile ShootPooledProjectile(Vector3 position, Quaternion rotation)
     {
         _temporalProjectile = _pool.GetObject();
+        if(_temporalProjectile == null) return _temporalProjectile;
         _temporalProjectile.transform.position = position;
         _temporalProjectile.transform.rotation = rotation;
         _temporalProjectile.SetIdParent(this.gameObject);
+        
 
         return _temporalProjectile;
     }

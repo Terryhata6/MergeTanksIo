@@ -14,7 +14,7 @@ public class ProjectileController : BaseController, IExecute
     _projectile = Resources.Load<Projectile>("Projectile");
 
     _pool = new ObjectPool<Projectile>();
-    _pool.Initialize(_projectile, 100f);
+   // _pool.Initialize(_projectile, 100f);
   }
 
   public override void Execute()
