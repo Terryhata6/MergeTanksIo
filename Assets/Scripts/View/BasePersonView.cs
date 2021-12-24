@@ -182,16 +182,16 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     {
         Debug.Log("Нанес Повреждение");
         ViewParams.ChangeHealth(ViewParams.Health - damage);
-        //IsDead();
+        IsDead();
     }
 
     public virtual void IsDead()
     {
-        if (ViewParams.IsDead())
+        if (ViewParams.IsDead)
         {
             Debug.Log(GetType().ToString() + " DEAD");
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
     #endregion
 
@@ -221,9 +221,6 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
             for (int i = 0; i < _debuffList.Count; i++)
             {
                 var s = (PoisonProjectilePerk) _debuffList[i];
-                Debug.Log(s._tempTime);
-                Debug.Log(s._durationDamage);
-                Debug.Log(s._passedTime);
                 if (_debuffList[i].RemoveDebuff())
                 {
                     RemoveDebuff(_debuffList[i]);

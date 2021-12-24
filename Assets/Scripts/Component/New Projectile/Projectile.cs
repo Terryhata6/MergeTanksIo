@@ -25,9 +25,9 @@ public class Projectile : BaseProjectile, IMoveProjectile
   {
     if (otherCollider.TryGetComponent(out IApplyDamage applyDamage))
     {
-      // Debug.Log("Попал");
-      // if (_damage <= 0) return;
-      // applyDamage.TakeDamage(_damage);
+      Debug.Log("Попал");
+      if (_damage <= 0) return;
+      applyDamage.TakeDamage(_damage);
     }
   }
 

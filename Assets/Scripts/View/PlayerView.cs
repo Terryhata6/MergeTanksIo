@@ -15,8 +15,11 @@ public class PlayerView : BasePersonView, ITransaction
     public override void IsDead()
     {
         base.IsDead();
-        GameEvents.Current.PlayerDead();
-        LevelEvents.Current.LevelFailed();
+        if (ViewParams.IsDead)
+        {
+            GameEvents.Current.PlayerDead();
+            LevelEvents.Current.LevelFailed();
+        }
     }
 
     public void CompleteTransaction(Transaction transaction)
