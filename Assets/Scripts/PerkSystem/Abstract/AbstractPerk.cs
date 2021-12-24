@@ -2,31 +2,74 @@ using UnityEngine;
 
 public abstract class AbstractPerk : ScriptableObject
 {
+    #region Base Parametr Perk
     [SerializeField] protected PerkDataStruct _perkData;
     public PerkDataStruct PerkData => _perkData;
     [SerializeField] protected AbstractPerk _conflictPerk;
     public AbstractPerk ConflictPerk => _conflictPerk;
-    protected ViewParamsComponent _viewParams;
-    protected Shooter _ownShooter;
-    protected BaseProjectile _ownProjectile;
-    [SerializeField][Tooltip("Перк Срабатывает при FixedUpdate")] protected bool _fixedExecute;
-    public bool FixedExecute => _fixedExecute;
-    public virtual void UpdateFixedExecute(ViewParamsComponent viewParams) { }
-    public virtual void UpdateFixedExecute(Shooter ownShoot) { }
-    public virtual void UpdateFixedExecute(BaseProjectile ownProjectile) { }
+    #endregion
 
-    public virtual void Activate(ViewParamsComponent ownViewParams) { }
+    #region  PlayerViewParams
+    protected ViewParamsComponent _ownViewParams;
+    public virtual void Activate(ViewParamsComponent ownViewParams)
+    {
+        _ownViewParams = ownViewParams;
+    }
     public virtual void Deactivate(ViewParamsComponent ownViewParams) { }
 
-    public virtual void Activate(Shooter ownShoot) { }
-    public virtual void Deactivate(Shooter ownShoot) { }
+    //"Перк Срабатывает при FixedUpdate или Update" >> отрабатывает каждый Кадр 
+    protected bool _isActiveBuff;
+    public bool IsActiveBuff => _isActiveBuff;
+    public virtual void ActivateBuff(ViewParamsComponent viewParams) { }
+    #endregion
 
-    public virtual void Activate(BaseProjectile ownProjectile) { }
+    #region  WeaponParametr
+    protected Shooter _ownShooter;
+    public virtual void Activate(Shooter ownShooter)
+    {
+        _ownShooter = ownShooter;
+    }
+    public virtual void Deactivate(Shooter ownShooter) { }
+    public virtual void ActivateBuff(Shooter ownShooter) { }
+    #endregion
 
-    public virtual void Deactivate(BaseProjectile ownProjectile) { }
+
+
+    #region Projectile Parametr Modification
+    protected GameObject _target;
+    protected BaseProjectile _ownProjectile;
+
+    public enum TypeModification
+    {
+        Debuff,
+        Modification
+    }
+    protected TypeModification _modificationType = TypeModification.Modification;
+    public TypeModification ModificationType => _modificationType;
+
+    public virtual void ActivateModification(BaseProjectile ownProjectile) 
+    { 
+        _ownProjectile = ownProjectile;
+    }
+
+    public virtual void ActivateHit(BaseProjectile ownProjectile, GameObject target)
+    {
+        if (target == null) return;
+        _target = target;
+    }
+
+    public virtual void ExecuteDebuff(IStatusEffect statusEffect) { }
+    public virtual void RefreshDebuff() {}
+    public virtual bool RemoveDebuff() { return false; }
+    #endregion
+
+    //public virtual void Activate(BaseProjectile ownProjectile) { } //<< Refactoring
+
+    // public virtual void Deactivate(BaseProjectile ownProjectile) { } //<< Refactoring
 
 
 
+    #region Default Recommended
     public void AddLevel()
     {
         if (_perkData.Level >= _perkData.MaxLevel)
@@ -54,4 +97,5 @@ public abstract class AbstractPerk : ScriptableObject
         }
     }
     protected abstract void InternalRemoveLevel(); //<< На Данный Момент Не Используется
+    #endregion
 }

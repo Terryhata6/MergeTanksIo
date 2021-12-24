@@ -14,12 +14,12 @@ public class Debuff
   public void Apply(BasePersonView basePersonView)
   {
     _basePersonView = basePersonView;
-    basePersonView.AddDebuff(this);
+    //basePersonView.AddDebuff(this);
   }
 
   public void Remove()
   {
-    _basePersonView.RemoveDebuff(this);
+    //_basePersonView.RemoveDebuff(this);
   }
 
   public virtual void Tick()

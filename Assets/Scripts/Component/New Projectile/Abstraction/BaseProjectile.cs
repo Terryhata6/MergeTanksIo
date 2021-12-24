@@ -1,9 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BaseProjectile : MonoBehaviour
 {
-    [SerializeField] protected List<AbstractPerk> _modList;
+    [SerializeField] protected List<AbstractPerk> _modList = new List<AbstractPerk>();
     public List<AbstractPerk> ModList => _modList;
 
     [SerializeField] protected Vector3 _defaultScale;
@@ -14,30 +15,34 @@ public abstract class BaseProjectile : MonoBehaviour
     public GameObject Target => _target;
 
     private GameObject _idParent;
-    //Debuff 
-    private Debuff _debuff;
 
-    public void SetDebuff(Debuff debuff)
-    {
-        if (_debuff != null) return;
-        _debuff = new Debuff();
-    }
+    [SerializeField] private bool _circlePerkActivate;
+    public bool CirclePerkActivate => _circlePerkActivate;
 
-    //    
-    private void Start()
-    {
-        transform.localScale = _defaultScale;
-    }
+    private bool _ricoshetIsActive;
+
+    // private void Start()
+    // {
+    //     transform.localScale = _defaultScale;
+    // }
 
     public void SetIdParent(GameObject idParent)
     {
         _idParent = idParent;
     }
 
+    public void SetRicoshetIsActive(bool flag)
+    {
+        _ricoshetIsActive = flag;
+    }
+
+
     private void OnEnable()
     {
-        _modList = new List<AbstractPerk>();
+        //_modList = new List<BaseProjectilePerk>();
+        _ricoshetIsActive = false;
         Invoke("Coroutine", _lifeTime);
+        //StartCoroutine(Coroutine());
     }
 
     private void Coroutine()
@@ -47,11 +52,17 @@ public abstract class BaseProjectile : MonoBehaviour
 
     private void Disable()
     {
-        gameObject.SetActive(false);
-        _target = null;
-        RemoveBaseProjectile();
-        if (_modList == null) return;
-        _modList = null;
+        if (_circlePerkActivate == false)
+        {
+            gameObject.SetActive(false);
+            _target = null;
+            RemoveBaseProjectile();
+            _modList.Clear();
+            RemoveDebuffList();
+
+            // if (_modList == null) return;
+            // _modList = null;
+        }
     }
 
     public void RemoveBaseProjectile()
@@ -61,24 +72,75 @@ public abstract class BaseProjectile : MonoBehaviour
         gameObject.transform.localScale = _defaultScale;
     }
 
+    public void SetCirclePerkActivate(bool flag)
+    {
+        _circlePerkActivate = flag;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (_idParent == other.gameObject) return;
-        Debug.Log("PArent: " + _idParent);
-        Debug.Log("Collider: " + other.gameObject);
         if (other.gameObject.layer.Equals((int) Layers.Enemies) ||
             other.gameObject.layer.Equals((int) Layers.Players))
         {
             _target = other.gameObject;
+            if (other.gameObject.TryGetComponent(out BasePersonView target))
+            {
+                foreach (var projectileDebuff in _debuffList)
+                {
+                    projectileDebuff.ActivateModification(this);
+                    target.AddDebuffList(projectileDebuff);
+                }
+
+            }
+            foreach (var mod in _modList)
+            {
+                mod.ActivateHit(this, _target);
+            }
             InternalTriggerEnter(other);
             Disable();
         }
+        // if (_ricoshetIsActive)
+        // {
+        //     Invoke("Coroutine", _lifeTime);
+        // }
+        // else
+        // {
+        //     Disable();
+        // }
     }
 
     protected abstract void InternalTriggerEnter(Collider otherCollider);
 
     public void AddModification(AbstractPerk modification)
     {
-        _modList.Add(modification);
+        if (modification == null) return;
+        if (modification.ModificationType == AbstractPerk.TypeModification.Modification)
+        {
+            _modList.Add(modification);
+            modification.ActivateModification(this);
+        }
+        else if (modification.ModificationType == AbstractPerk.TypeModification.Debuff)
+        {
+            AddDebuffList(modification);
+        }
+        // else if (modification.ModificationType == BaseProjectilePerk.TypeModification.Buff)
+        // {
+        //     // TODO AddBuffList(modification);
+        // }
     }
+
+
+    //Debuff 
+    [SerializeField] private List<AbstractPerk> _debuffList = new List<AbstractPerk>();
+
+    private void AddDebuffList(AbstractPerk debuff)
+    {
+        _debuffList.Add(debuff);
+    }
+    private void RemoveDebuffList()
+    {
+        _debuffList.Clear();
+    }
+    //<<END
 }

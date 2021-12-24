@@ -22,15 +22,11 @@ public class Projectile : BaseProjectile, IMoveProjectile
 
   protected override void InternalTriggerEnter(Collider otherCollider)
   {
-    for (int i = 0 ; i < _modList.Count; i++)
+    if (otherCollider.TryGetComponent(out IApplyDamage applyDamage))
     {
-      _modList[i].Activate(this);
-    }
-
-    if(otherCollider.TryGetComponent(out IApplyDamage applyDamage))
-    {
-      Debug.Log("Попал");
-      applyDamage.TakeDamage(_damage);
+      // Debug.Log("Попал");
+      // if (_damage <= 0) return;
+      // applyDamage.TakeDamage(_damage);
     }
   }
 }

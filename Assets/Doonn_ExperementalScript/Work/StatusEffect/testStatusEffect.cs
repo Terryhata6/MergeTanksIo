@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class testStatusEffect : MonoBehaviour
 {
-    private EnemyView _enemy;
+    private BasePersonView _enemy;
 
     //Cashe
     void Awake()
     {
-        _enemy = gameObject.GetComponent<EnemyView>();
+        _enemy = gameObject.GetComponent<BasePersonView>();
     }
 
     /// <summary>

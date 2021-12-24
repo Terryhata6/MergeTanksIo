@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerView : BasePersonView, ITransaction
@@ -30,17 +30,47 @@ public class PlayerView : BasePersonView, ITransaction
     /// </summary>
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             GameEvents.Current.SetSelectPerks(LoadPerksSystem.GetRandomPerkList(3));
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             GameEvents.Current.OnSelectPerk += Perk;
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            var ss = LoadPerksSystem.GetOnePerkByName("ExplosiveProjectile");
+            var inst = Instantiate(ss);
+            PerkManager.AddPerk(inst);
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            var ss = LoadPerksSystem.GetOnePerkByName("PenetrationShoot");
+            var inst = Instantiate(ss);
+            PerkManager.AddPerk(inst);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            var ss = LoadPerksSystem.GetOnePerkByName("PoisonProjectile");
+            var inst = Instantiate(ss);
+            PerkManager.AddPerk(inst);
+        }
         if (Input.GetKeyDown(KeyCode.R))
         {
+            var ss = LoadPerksSystem.GetOnePerkByName("ProjectileSize");
+            var inst = Instantiate(ss);
+            PerkManager.AddPerk(inst);
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
             var ss = LoadPerksSystem.GetOnePerkByName("RepulsiveProjectilesPerk");
+            var inst = Instantiate(ss);
+            PerkManager.AddPerk(inst);
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            var ss = LoadPerksSystem.GetOnePerkByName("RicochetPerk");
             var inst = Instantiate(ss);
             PerkManager.AddPerk(inst);
         }

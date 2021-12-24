@@ -26,7 +26,17 @@ public class ViewParamsComponent
     public void ChangeHealth(float health)
     {
         Health = health;
-        IsDead();
+        if (Health >= MaxHealth)
+        {
+            Health = MaxHealth;
+        }
+        if (Health <= 0)
+        {
+            Debug.Log(Health);
+            Health = 0;
+            IsDead();
+        }
+
     }
 
     public void ChangeMoveSpeed(float moveSpeed)
@@ -42,13 +52,7 @@ public class ViewParamsComponent
     #region Interaction
     public bool IsDead()
     {
-        if (Health <= 0)
-        {
-            Debug.Log(Health);
-            Health = 0;
-            return true;
-        }
-        return false;
+        return true;
     }
     #endregion
 }

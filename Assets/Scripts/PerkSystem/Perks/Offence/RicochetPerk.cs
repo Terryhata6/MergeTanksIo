@@ -1,24 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 //Рикошет
-[CreateAssetMenu(fileName = "RicochetPerk", menuName = "ScriptableObjects/Ricochet", order = 1)]
+[CreateAssetMenu(fileName = "Ricochet", menuName = "Perks/Projectile/Ricochet", order = 1)]
 public class RicochetPerk : AbstractPerk
 {
-  public override void Activate(BaseProjectile projectile)
+
+  private RicochetPerk()
   {
-    _ownProjectile = projectile;
-    Intercat(projectile.Target);
-    //Ricoshet(projectile);
+    _perkData.SetModBelongs(PerkType.ProjectileMod);
+    _perkData.SetTypePerk(PerkType.Offence);
+    _modificationType = TypeModification.Modification;
   }
-  private void Intercat(GameObject target) {
-    if(target == null) return;
-    Ricoshet(_ownProjectile);
+
+  public override void ActivateModification(BaseProjectile ownProjectile)
+  {
+    base.ActivateModification(ownProjectile);
+    ownProjectile.SetRicoshetIsActive(true);
+  }
+  public override void ActivateHit(BaseProjectile ownProjectile, GameObject target)
+  {
+    base.ActivateHit(ownProjectile, target);
+    Ricoshet(ownProjectile);
   }
 
   public void Ricoshet(BaseProjectile projectile)
   {
+    //projectile.transform.forward -= projectile.transform.forward;
     Ray ray = new Ray(projectile.transform.position, projectile.transform.forward);
     RaycastHit hit;
 

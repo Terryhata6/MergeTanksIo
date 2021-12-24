@@ -2,16 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ElectronicShield", menuName = "ScriptableObjects/ElectronicShield", order = 1)]
+[CreateAssetMenu(fileName = "ElectronicShield", menuName = "Perks/ViewParams/ElectronicShield", order = 1)]
 public class ElectronicShieldPerks : AbstractPerk
 {
   [SerializeField] private float _shield = 100f;
+
+  private ElectronicShieldPerks()
+  {
+    _perkData.SetModBelongs(PerkType.ViewParamsMod);
+    _perkData.SetTypePerk(PerkType.Defence);
+  }
   
   public override void Activate(ViewParamsComponent viewParams)
   {
     base.Activate(viewParams);
-    _viewParams = viewParams;
-    _viewParams.ChangeShield(_viewParams.Shield + _shield);
+    _ownViewParams = viewParams;
+    _ownViewParams.ChangeShield(_ownViewParams.Shield + _shield);
   }
 
   public override void Deactivate(ViewParamsComponent viewParams)
@@ -21,11 +27,11 @@ public class ElectronicShieldPerks : AbstractPerk
 
   protected override void InternalAddLevel()
   {
-    _viewParams.ChangeShield(_viewParams.Shield + _shield);
+    _ownViewParams.ChangeShield(_ownViewParams.Shield + _shield);
   }
 
   protected override void InternalRemoveLevel()
   {
-    _viewParams.ChangeShield(_viewParams.Shield - _shield);
+    _ownViewParams.ChangeShield(_ownViewParams.Shield - _shield);
   }
 }

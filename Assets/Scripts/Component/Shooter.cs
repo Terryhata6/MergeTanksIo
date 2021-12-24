@@ -29,8 +29,8 @@ public class Shooter : MonoBehaviour
 
     private ProjectileController _projectileController;
 
-    private List<AbstractPerk> _perkList;
-    public List<AbstractPerk> PerkList => _perkList;
+    private List<AbstractPerk> _perkProjectileList;
+    public List<AbstractPerk> PerkProjectileList => _perkProjectileList;
 
     private IEnumerator Start()
     {
@@ -41,7 +41,6 @@ public class Shooter : MonoBehaviour
             _projectileController.AddShooterToList(this);
             _basePlayer.InitializeShooter(this);
             _pool = _projectileController.Pool;
-            Debug.Log("jhgjghjhgjghjghjgjgj " + _pool.GetObject());
         }
         else
         {
@@ -53,7 +52,7 @@ public class Shooter : MonoBehaviour
 
     public void Shooting(List<AbstractPerk> perks)
     {
-        _perkList = perks;
+        _perkProjectileList = perks;
         if (!_sequentialShots)
         {
             Volley(perks);
@@ -113,12 +112,13 @@ public class Shooter : MonoBehaviour
         _temporalProjectile.ChangeSpeed(SpeedProjectile);
         _temporalProjectile.ChangeDamage(Damage);
 
-        if (_perkList == null) return _temporalProjectile;
+        if (_perkProjectileList == null) return _temporalProjectile;
 
-        foreach (var item in _perkList)
+        foreach (var perkProjectile in _perkProjectileList)
         {
-            _temporalProjectile.AddModification(item);
+            _temporalProjectile.AddModification(perkProjectile);
         }
+
         return _temporalProjectile;
     }
 

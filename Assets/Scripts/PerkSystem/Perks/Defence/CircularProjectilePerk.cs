@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Снаряды По Кругу
-[CreateAssetMenu(fileName = "CircularProjectile", menuName = "ScriptableObjects/CircularProjectile", order = 1)]
+[CreateAssetMenu(fileName = "CircularProjectile", menuName = "Perks/Shooter/CircularProjectile", order = 1)]
 public class CircularProjectilePerk : AbstractPerk
 {
   [SerializeField] private int _count;
@@ -10,6 +10,12 @@ public class CircularProjectilePerk : AbstractPerk
 
   private GameObject _circleProjectile;
   private List<Projectile> _projectileList = new List<Projectile>();
+
+  private CircularProjectilePerk()
+  {
+    _perkData.SetModBelongs(PerkType.WeaponMod);
+    _perkData.SetTypePerk(PerkType.Defence);
+  }
 
   public override void Activate(Shooter ownShoot)
   {
@@ -70,10 +76,9 @@ public class CircularProjectilePerk : AbstractPerk
   {
     var projectile = Resources.Load<Projectile>("Projectile");
     var inst = Instantiate(projectile);
-
+    inst.SetCirclePerkActivate(true);
     // var temporalProjectile = ownShoot.Pool.GetObject();
     // return temporalProjectile;
-
     return inst;
   }
 

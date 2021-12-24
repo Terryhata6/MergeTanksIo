@@ -7,6 +7,7 @@ public abstract class BasePlayerStateModel : IPlayerState
     {
         if (!view.State.Equals(PlayerState.Dead))
         {
+            view.UpdateDebuff();
             if (view.PerkManager == null) return;
             view.PerkManager.ExecutePerks(view.ViewParams);
         }
