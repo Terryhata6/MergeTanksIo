@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Utilits;
 
-public class ObjectPool<T> where T : Component
+public class ObjectPool<T> : Singleton<ObjectPool<T>>
+    where T : Component
 {
     private List<T> _objects;
     private List<T> _examples;
@@ -12,9 +14,10 @@ public class ObjectPool<T> where T : Component
     {
         _objects = new List<T>();
         _examples = new List<T>();
+        Instance = this;
     }
 
-    public void Initialize(List<T> examples, float size) //������������� �� ������� ������ ��������
+    public void Initialize(List<T> examples, int size) 
     {
         CleanPool();
         if (examples.Count > 0)
@@ -27,7 +30,7 @@ public class ObjectPool<T> where T : Component
             }
         }
     }
-    public void Initialize(T example, float size) // ������������� � ����� ��������
+    public void Initialize(T example, int size) 
     {
         CleanPool();
         if (example)
@@ -41,7 +44,7 @@ public class ObjectPool<T> where T : Component
         }
     }
 
-    private void FillPool(T example) //����� �������� � �������� ������� � ��� , ����� ������� ��������� � ������������ �������� 
+    private void FillPool(T example) 
     {
         _temp = GameObject.Instantiate(example, _parent.transform);
         _temp.gameObject.SetActive(false);
@@ -63,21 +66,23 @@ public class ObjectPool<T> where T : Component
     }
     public T GetObject(Vector3 pos)
     {
-        if (_objects.Count == 0 || _objects[0].gameObject.activeSelf)
+        if (_objects.Count == 0 )
         {
             if (GetRandomExample() == null) return null;
             FillPool(GetRandomExample());
-            _objects.Add(_objects[0]);
-            _objects[0] = _objects[_objects.Count - 2];
-            _objects.RemoveAt(_objects.Count - 2);
         }
         _temp = _objects[0];
         _objects.RemoveAt(0);
-        _objects.Add(_temp);
         _temp.transform.position = pos;
         _temp.gameObject.SetActive(true);
         return _temp;
     }
+
+    public void AddObject(T obj)
+    {
+        _objects.Add(obj);
+    }
+    
     public void CleanPool()
     {
         if (_parent)

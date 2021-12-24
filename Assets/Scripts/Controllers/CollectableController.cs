@@ -6,7 +6,6 @@ public class CollectableController : BaseController, IExecute
     private CollectablesParam _collParams;
     private CollectableItem _tempColl;
     private ObjectPool<CollectableItem> _pool;
-    private List<CollectableItem> _deadCol;
     private List<CollectableItem> _activeColl;
     private float _tempMaxY;
     private float _tempMaxZ;
@@ -26,12 +25,10 @@ public class CollectableController : BaseController, IExecute
         GameEvents.Current.OnItemCollected += SetMovingCoin;
         GameEvents.Current.OnCollectablesParamSet += SetParams;
         GameEvents.Current.OnCollectableDisable += DeleteActiveCol;
-        GameEvents.Current.OnCollectableDisable += SetDeadCol;
 
-        
+
         _pool = new ObjectPool<CollectableItem>();
         _activeColl = new List<CollectableItem>();
-        _deadCol = new List<CollectableItem>();
         _respawnDelays = new List<float>();
         _respawnDelay = 4f;
         Debug.Log("CollectableController start");
@@ -52,7 +49,7 @@ public class CollectableController : BaseController, IExecute
         if (_collParams)
         {
             Debug.Log("Collectable pOOL INIT");
-            _pool.Initialize(_collParams.Examples ,_collParams.Size + 50f);
+            _pool.Initialize(_collParams.Examples ,_collParams.Size + 50);
         }
     }
 
@@ -60,31 +57,18 @@ public class CollectableController : BaseController, IExecute
     {
         for (_index = 0; _index < size; _index++)
         {
-            GetRandomPos();
-            _tempColl = _pool.GetObject(_tempPos + Vector3.up);
-            _tempColl.gameObject.layer = (int)Layers.Collectables;
-            CollectableInit(_tempColl);
-            GameEvents.Current.EnvironmentUpdated();
+            SpawnCollectable();
         }
     }
 
     private void SpawnCollectable()
     {
-        if (_deadCol.Count != 0)
-        {
-            GetRandomPos();
-            _tempColl = _deadCol[0];
-            _tempColl.transform.position = _tempPos + Vector3.up;
-            _tempColl.gameObject.SetActive(true);
-            _deadCol.RemoveAt(0);
-            CollectableInit(_tempColl);
-            GameEvents.Current.EnvironmentUpdated();
-        }
-        else
-        {
-            Debug.Log("DeadColl null");
-        }
-        
+        GetRandomPos();
+        _tempColl = _pool.GetObject(_tempPos + Vector3.up);
+        _tempColl.gameObject.layer = (int)Layers.Collectables;
+        CollectableInit(_tempColl);
+        GameEvents.Current.EnvironmentUpdated();
+
     }
 
     private void CollectableInit(CollectableItem col)
@@ -126,12 +110,6 @@ public class CollectableController : BaseController, IExecute
         _respawnDelays.Add(time);
     }
 
-    private void SetDeadCol(CollectableItem col)
-    {
-        _deadCol.Add(col);
-        
-    }
-    
     private void Respawn()
     {
         for (_index = 0; _index < _respawnDelays.Count; _index++)
@@ -159,7 +137,12 @@ public class CollectableController : BaseController, IExecute
         {
             _activeColl.Remove(col);
         }
-        SetCollectableToRespawn(_respawnDelay);
+
+        if (col.Respawn)
+        {
+            SetCollectableToRespawn(_respawnDelay);
+        }
+        
     }
 
     private void SetParams(CollectablesParam cp)
