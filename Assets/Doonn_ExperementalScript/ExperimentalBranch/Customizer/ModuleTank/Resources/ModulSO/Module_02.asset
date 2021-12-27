@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3547df9ea2162a438eb4f8bb547b801, type: 3}
-  m_Name: Module 4
+  m_Name: Module_02
   m_EditorClassIdentifier: 
-  _typeModul: 2
-  _name: 
+  _typeModul: 1
+  _name: Modul_02
   _description: 
   _sprite: {fileID: 0}
-  _prefab: {fileID: 8041600816088781770, guid: e05a1bebc83853c49bc894daebf5019a, type: 3}
+  _prefab: {fileID: 919132149155446097, guid: be24b107e23a56e4c80776ef8f861ccc, type: 3}

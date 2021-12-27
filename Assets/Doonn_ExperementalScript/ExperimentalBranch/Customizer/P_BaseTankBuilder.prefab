@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6c0a73787cb6e4bb87bdf640fab03c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _BaseTankBuilder: {fileID: 3183542063894526550}
   _transformOriginModulList:
   - {fileID: 5612387944091918186}
   - {fileID: 1246754731007378829}

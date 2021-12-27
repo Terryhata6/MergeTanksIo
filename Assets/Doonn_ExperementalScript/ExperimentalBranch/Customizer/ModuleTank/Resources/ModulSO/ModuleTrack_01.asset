@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3547df9ea2162a438eb4f8bb547b801, type: 3}
-  m_Name: Module 2
+  m_Name: ModuleTrack_01
   m_EditorClassIdentifier: 
   _typeModul: 2
-  _name: asda
-  _description: asdasd
-  _sprite: {fileID: 21300000, guid: ca7e58701bebb3d4292e010ce3d8063f, type: 3}
-  _prefab: {fileID: 6078246867135296067, guid: 9402aa699a007a646ad82a037b959b02, type: 3}
+  _name: Track_01
+  _description: 
+  _sprite: {fileID: 0}
+  _prefab: {fileID: 919132149155446097, guid: d0abf370fc7965f4ca43c00876b9bb50, type: 3}

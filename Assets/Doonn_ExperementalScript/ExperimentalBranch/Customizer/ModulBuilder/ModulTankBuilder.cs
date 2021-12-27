@@ -15,11 +15,11 @@ public class ModulTankBuilder : MonoBehaviour
         _commandsList.Add(new BaseConfgBuilder(_transformOriginModulList, _moduls));
         ExecuteBuilder();
     }
-    public void Click(int index)
+    public void Click(ModulTankSO modulTank)
     {
         foreach (var command in _commandsList)
         {
-            command.CommandExecuteDoOnce(index);
+            command.CommandExecuteDoOnce(modulTank);
         }
     }
 
