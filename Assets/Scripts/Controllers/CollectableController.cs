@@ -63,11 +63,18 @@ public class CollectableController : BaseController, IExecute
 
     private void SpawnCollectable()
     {
-        GetRandomPos();
-        _tempColl = _pool.GetObject(_tempPos + Vector3.up);
-        _tempColl.gameObject.layer = (int)Layers.Collectables;
-        CollectableInit(_tempColl);
-        GameEvents.Current.EnvironmentUpdated();
+
+        if (GetRandomPos())
+        {
+            _tempColl = _pool.GetObject(_tempPos + Vector3.up);
+            _tempColl.gameObject.layer = (int)Layers.Collectables;
+            CollectableInit(_tempColl);
+            GameEvents.Current.EnvironmentUpdated();
+        }
+        else
+        {
+            _index--;
+        }
 
     }
 
@@ -76,18 +83,20 @@ public class CollectableController : BaseController, IExecute
         col.Points = Random.Range(1, 10);
     }
 
-    private void GetRandomPos()
+    private bool GetRandomPos()
     {
         _tempPos.x = Random.Range(_tempMinX, _tempMaxX);
         _tempPos.y = Random.Range(_tempMaxY, _tempMaxY);
         _tempPos.z = Random.Range(_tempMinZ, _tempMaxZ);
-        Physics.Raycast(_tempPos, Vector3.down, out _hit, 1f);
-        if (_hit.collider)
+        Physics.Raycast(_tempPos, Vector3.down, out _hit, 2f);
+        if (_hit.collider == null || _hit.collider.gameObject.layer!.Equals((int)Layers.Ground))
         {
-            if (_hit.collider.gameObject.layer!.Equals(Layers.Ground))
-            {
-                GetRandomPos();
-            }
+            Debug.Log(_hit.collider);
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
     

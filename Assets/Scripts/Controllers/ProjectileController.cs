@@ -17,7 +17,7 @@ public class ProjectileController : BaseController, IExecute
     _projectile = Resources.Load<Projectile>("Projectile");
 
     _pool = new ObjectPool<Projectile>();
-    _pool.Initialize(_projectile, 1000f);
+    _pool.Initialize(_projectile, 1000);
 
     _projectileModel = new BaseProjectileModel();
   }
