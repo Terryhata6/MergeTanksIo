@@ -1,6 +1,6 @@
 public enum TypeModul
 {
-   Base,
-   Weapon,
-   Track,
+  Base,
+  Weapon,
+  Track,
 }

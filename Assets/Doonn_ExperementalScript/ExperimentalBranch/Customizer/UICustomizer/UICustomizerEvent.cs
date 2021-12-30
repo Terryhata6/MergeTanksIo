@@ -5,10 +5,10 @@ public class UICustomizerEvent : MonoBehaviour
 {
     public static UICustomizerEvent Current = new UICustomizerEvent();
 
-    public event Action<int> OnBtnClick;
-    public void OnClickBtn(int Id)
+    public event Action<int, TypeModul> OnBtnClick;
+    public void OnClickBtn(int Id, TypeModul modulType)
     {
-        OnBtnClick?.Invoke(Id);
+        OnBtnClick?.Invoke(Id, modulType);
     }
 
     public event Action<ModulTankSO> OnGetModulTank;
@@ -16,6 +16,4 @@ public class UICustomizerEvent : MonoBehaviour
     {
         OnGetModulTank?.Invoke(modulTank);
     }
-
-
 }

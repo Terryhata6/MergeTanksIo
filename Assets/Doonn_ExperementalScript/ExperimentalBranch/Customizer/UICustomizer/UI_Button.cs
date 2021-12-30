@@ -10,6 +10,7 @@ public class UI_Button : MonoBehaviour
     [SerializeField] private Text _text;
 
     public int ID {get;set;}
+    public TypeModul Type;
 
     public void BtnInit()
     {
@@ -19,7 +20,7 @@ public class UI_Button : MonoBehaviour
     private void Click()
     {
         Debug.Log("SSS: " + ID);
-        UICustomizerEvent.Current.OnClickBtn(ID);
+        UICustomizerEvent.Current.OnClickBtn(ID, Type);
     }
 
     public void SetImage(Image image)

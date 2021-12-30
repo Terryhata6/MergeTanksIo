@@ -189,7 +189,6 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     {
         if (ViewParams.IsDead)
         {
-            Debug.Log(GetType().ToString() + " DEAD");
             Destroy(gameObject);
         }
     }

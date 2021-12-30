@@ -25,25 +25,6 @@ public class CustomizerController : MonoBehaviour
     private void Update()
     {
         MoveCameraOrbit();
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            ///_modulTankBuilder.Click(0);
-        }
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            ///_modulTankBuilder.Click(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            //_modulTankBuilder.Click(2);
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-           // _modulTankBuilder.Click(3);
-        }
     }
 
     private void MoveCameraOrbit()
@@ -59,12 +40,10 @@ public class CustomizerController : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow))
         {
             _orbitTransposer.m_Heading.m_Bias += 0.1f;
-            Debug.Log("Right");
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             _orbitTransposer.m_Heading.m_Bias -= 0.1f;
-            Debug.Log("Left");
         }
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Module", menuName = "Customizer/Modul/Base/Module", order = 1)]
+[CreateAssetMenu(fileName = "Modul", menuName = "Customizer/Base/TankModul", order = 1)]
 public class ModulTankSO : ScriptableObject
 {
     [SerializeField] private TypeModul _typeModul;
@@ -15,4 +15,13 @@ public class ModulTankSO : ScriptableObject
     public Sprite Sprite => _sprite;
     [SerializeField] private GameObject _prefab;
     public GameObject Prefab => _prefab;
+
+    public Transform PivotTransform => _prefab.transform.GetChild(0);
+
+    // TODO Параметры Но Это Не Точно
+
+    private void OnValidate()
+    {
+        _name = _prefab.name;
+    }
 }

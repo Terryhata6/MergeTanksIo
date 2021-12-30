@@ -19,6 +19,9 @@ public class UICustomizer : MonoBehaviour
 
     List<ModulTankSO> _modulTrackList = new List<ModulTankSO>();
     List<ModulTankSO> _modulWeaponList = new List<ModulTankSO>();
+    List<ModulTankSO> _modulBaseList = new List<ModulTankSO>();
+
+    List<GameObject> _buttonPrefabList = new List<GameObject>();
 
     private void Start()
     {
@@ -29,34 +32,13 @@ public class UICustomizer : MonoBehaviour
         //
 
         _allModuls = LoadModulTank.AllLoadModulTank();
+        Init();
+
         UICustomizerEvent.Current.OnBtnClick += Test;
         //InitModulsTank();
     }
 
-    private void ClickBase()
-    {
-        for (int i = 0; i < _allModuls.Length; i++)
-        {
-            if (_allModuls[i].ModulType == TypeModul.Base)
-            {
-
-            }
-        }
-    }
-    private void ClickTrack()
-    {
-        for (int i = 0; i < _allModuls.Length; i++)
-        {
-            if (_allModuls[i].ModulType == TypeModul.Track)
-            {
-                _modulTrackList.Add(_allModuls[i]);
-            }
-        }
-
-        if (_modulTrackList == null || _modulTrackList.Count <= 0) return;
-        InitModulsTank(_modulTrackList);
-    }
-    private void ClickWeapon()
+    private void Init()
     {
         for (int i = 0; i < _allModuls.Length; i++)
         {
@@ -65,18 +47,126 @@ public class UICustomizer : MonoBehaviour
                 _modulWeaponList.Add(_allModuls[i]);
             }
         }
-
-        if (_modulWeaponList == null || _modulWeaponList.Count <= 0) return;
         InitModulsTank(_modulWeaponList);
+
+        for (int i = 0; i < _allModuls.Length; i++)
+        {
+            if (_allModuls[i].ModulType == TypeModul.Track)
+            {
+                _modulTrackList.Add(_allModuls[i]);
+            }
+        }
+
+        InitModulsTank(_modulTrackList);
+
+        for (int i = 0; i < _allModuls.Length; i++)
+        {
+            if (_allModuls[i].ModulType == TypeModul.Base)
+            {
+                _modulBaseList.Add(_allModuls[i]);
+            }
+        }
+        InitModulsTank(_modulBaseList);
     }
 
-    private void Test(int id)
+    private void ClickBase()
     {
+        for (int i = 0; i < _buttonPrefabList.Count; i++)
+        {
+            if (_buttonPrefabList[i].GetComponent<UI_Button>().Type == TypeModul.Base)
+            {
+                _buttonPrefabList[i].SetActive(true);
+            }
+        }
+        for (int i = 0; i < _buttonPrefabList.Count; i++)
+        {
+            if (_buttonPrefabList[i].GetComponent<UI_Button>().Type == TypeModul.Weapon)
+            {
+                _buttonPrefabList[i].SetActive(false);
+            }
+        }
+        for (int i = 0; i < _buttonPrefabList.Count; i++)
+        {
+            if (_buttonPrefabList[i].GetComponent<UI_Button>().Type == TypeModul.Track)
+            {
+                _buttonPrefabList[i].SetActive(false);
+            }
+        }
+    }
+
+    private void ClickTrack()
+    {
+        for (int i = 0; i < _buttonPrefabList.Count; i++)
+        {
+            if (_buttonPrefabList[i].GetComponent<UI_Button>().Type == TypeModul.Track)
+            {
+                _buttonPrefabList[i].SetActive(true);
+            }
+        }
+
+        for (int i = 0; i < _buttonPrefabList.Count; i++)
+        {
+            if (_buttonPrefabList[i].GetComponent<UI_Button>().Type == TypeModul.Weapon)
+            {
+                _buttonPrefabList[i].SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < _buttonPrefabList.Count; i++)
+        {
+            if (_buttonPrefabList[i].GetComponent<UI_Button>().Type == TypeModul.Base)
+            {
+                _buttonPrefabList[i].SetActive(false);
+            }
+        }
+
+    }
+    private void ClickWeapon()
+    {
+        Debug.Log("QQQQQQQQQQQQQQ");
+        for (int i = 0; i < _buttonPrefabList.Count; i++)
+        {
+            if (_buttonPrefabList[i].GetComponent<UI_Button>().Type == TypeModul.Weapon)
+            {
+                _buttonPrefabList[i].SetActive(true);
+            }
+        }
+        for (int i = 0; i < _buttonPrefabList.Count; i++)
+        {
+            if (_buttonPrefabList[i].GetComponent<UI_Button>().Type == TypeModul.Track)
+            {
+                _buttonPrefabList[i].SetActive(false);
+            }
+        }
+        for (int i = 0; i < _buttonPrefabList.Count; i++)
+        {
+            if (_buttonPrefabList[i].GetComponent<UI_Button>().Type == TypeModul.Base)
+            {
+                _buttonPrefabList[i].SetActive(false);
+            }
+        }
+
+    }
+
+    private void Test(int id, TypeModul modulType)
+    {
+        if (modulType == TypeModul.Weapon)
+        {
+            UICustomizerEvent.Current.GetModulTank(_modulWeaponList[id]);
+        }
+        else if (modulType == TypeModul.Track)
+        {
+            UICustomizerEvent.Current.GetModulTank(_modulTrackList[id]);
+        }
+        else if (modulType == TypeModul.Base)
+        {
+            UICustomizerEvent.Current.GetModulTank(_modulBaseList[id]);
+        }
+
+        
         //Debug.Log("Test: " + modulTank);
         //_tempModul = _allModuls[id];
         //Debug.Log("Test: " + _tempModul.Prefab);
-        //UICustomizerEvent.Current.GetModulTank(_modulTrackList[id]);
-        UICustomizerEvent.Current.GetModulTank(_modulWeaponList[id]);
     }
 
     private void InitModulsTank(List<ModulTankSO> modulList)
@@ -94,11 +184,13 @@ public class UICustomizer : MonoBehaviour
             var btnComponent = btn.gameObject.GetComponent<UI_Button>();
             btnComponent.BtnInit();
             btnComponent.ID = i;
-
+            btnComponent.Type = modulList[i].ModulType;
             //var nameModul = _allModuls[i].Name;
             var nameModul = modulList[i].Name;
 
             btnComponent.SetText(nameModul);
+            btn.SetActive(false);
+            _buttonPrefabList.Add(btn);
         }
     }
 }

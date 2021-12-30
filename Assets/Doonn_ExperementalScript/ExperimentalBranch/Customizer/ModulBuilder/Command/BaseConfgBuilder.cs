@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseConfgBuilder : ICommandBuilder
+public class BaseConfgBuilder //: ICommandBuilder
 {
     private List<GameObject> _baseGameObjectsList = new List<GameObject>(); // Сюда Записываются Компоненты и тд
     private List<MeshFilter> _meshFiltersList = new List<MeshFilter>();
@@ -17,17 +17,17 @@ public class BaseConfgBuilder : ICommandBuilder
     }
 
     // Выполняется При Инициализации
-    void ICommand.CommandExecute()
-    {
-        CreateBaseGameObject();
-        DefaultModul();
-    }
+    // void ICommand.CommandInit()
+    // {
+    //     CreateBaseGameObject();
+    //     DefaultModul();
+    // }
 
     // Выполняется При Нажатии На Кнопу UI
-    void ICommand.CommandExecuteDoOnce(ModulTankSO modulTank)
-    {
-        DeffineModul(modulTank, modulTank.ModulType);
-    }
+    // void ICommand.CommandExecute(ModulTankSO modulTank)
+    // {
+    //     DeffineModul(modulTank, modulTank.ModulType);
+    // }
 
     // Создаем Пустые Обьекты и делаем дочерними, позиционируем, и добовляем компоненты
     private void CreateBaseGameObject()
@@ -35,8 +35,10 @@ public class BaseConfgBuilder : ICommandBuilder
         foreach (var origin in _transformOriginModulList)
         {
             var go = new GameObject();
-            go.transform.parent = origin;
+            //go.transform.parent = origin;
             go.transform.position = origin.position;
+            go.name = origin.name.Replace("Module_", ""); //<< Хард Код
+
             var meshFilter = go.AddComponent<MeshFilter>();
             _meshFiltersList.Add(meshFilter);
             var meshRenderer = go.AddComponent<MeshRenderer>();
@@ -49,10 +51,10 @@ public class BaseConfgBuilder : ICommandBuilder
     // Ставим Модули По Умолчанию << Исполняем 1 раз при инициализации
     private void DefaultModul()
     {
-        foreach (var modul in _moduls)
-        {
-            DeffineModul(modul, modul.ModulType);
-        }
+        // foreach (var modul in _moduls)
+        // {
+        //     DeffineModul(modul, modul.ModulType);
+        // }
     }
     //<<END
 
@@ -62,26 +64,27 @@ public class BaseConfgBuilder : ICommandBuilder
         switch (typeModul)
         {
             case TypeModul.Base:
-                Debug.Log(typeModul);
+                Debug.Log("typeModul");
                 //ChangeComponents(modulTank);
+                //ChangingComponentsTheBaseGameObject(modulTank);
                 break;
             case TypeModul.Weapon:
-                Debug.Log(typeModul);
-                ChangingComponentsTheBaseGameObject(modulTank);
+                Debug.Log("Weapon");
+                //ChangingComponentsTheBaseGameObject(modulTank);
                 //SearchOriginModulAndCorrectPosition(modulTank);
                 //ChangeComponents(modulTank);
                 break;
-            case TypeModul.Track:
-                Debug.Log(typeModul);
-                ChangingComponentsTheBaseGameObject(modulTank);
-                //SearchOriginModulAndCorrectPosition(modulTank);
-                //ChangeComponents(modulTank);
-                break;
+                // case TypeModul.Track:
+                //     Debug.Log(typeModul);
+                //     ChangingComponentsTheBaseGameObject(modulTank);
+                //     //SearchOriginModulAndCorrectPosition(modulTank);
+                //     //ChangeComponents(modulTank);
+                //     break;
         }
     }
     //<<END
 
-    // Добовляем Все Компоненты из базы в наш _baseGameObjectsList
+    // Добовляем Все Компоненты из ModulTankSO в наш _baseGameObjectsList BaseGameObject
     private void ChangingComponentsTheBaseGameObject(ModulTankSO modulTank)
     {
         GameObject tempBaseGameObject = null;
@@ -91,7 +94,7 @@ public class BaseConfgBuilder : ICommandBuilder
         for (int i = 0; i < _transformOriginModulList.Count; i++)
         {
             var str = _transformOriginModulList[i].name;
-            str = str.Replace("Module_", "");
+            str = str.Replace("Module_", ""); //<< Hard Code
             if (str == modulTank.ModulType.ToString())
             {
                 var modulRenderer = modulTank.Prefab.GetComponent<MeshRenderer>();
@@ -117,13 +120,14 @@ public class BaseConfgBuilder : ICommandBuilder
     // Поикс Центр Масс (Origin подругому Pivot) И Корректируем позицию Правильно (относительно Позиции _transformOriginModulList)
     private void SearchOriginModulAndCorrectPosition(GameObject baseGameObject, Transform transformOrigin)
     {
+        Debug.Log("SASDADADADADADAD");
         var meshFilter = baseGameObject.GetComponent<MeshFilter>();
         var bound = meshFilter.sharedMesh.bounds;
 
         var position = new Vector3(0, transformOrigin.position.y - bound.size.y, 0);
         baseGameObject.transform.position = position;
 
-        if(bound.min.y < 0)
+        if (bound.min.y < 0)
         {
             Debug.Log("Да Меньше Епта");
             var pos = baseGameObject.transform.position;
@@ -132,10 +136,84 @@ public class BaseConfgBuilder : ICommandBuilder
             pos.y = r;
             baseGameObject.transform.position = pos;
         }
+
+        TankIsComplete();
     }
     //<<END
 
-    private float _boundMinY;
+    private void TankIsComplete()
+    {
+        for (int i = 0; i < _meshFiltersList.Count; i++)
+        {
+            if (_meshFiltersList[i].mesh == null)
+            {
+                Debug.Log("В Мешфильтре Не Назначен Мешь");
+                return;
+            }
+        }
+
+        Debug.Log("Весь Танк Укомплектован");
+
+        CorrectTowerPos();
+    }
+
+    // Проверяем Корректно Ли Стыкуется Башенка К Базе Если нет То Корректируем
+    private void CorrectTowerPos()
+    {
+        // GameObject baseModul = null;
+        // GameObject weaponModul = null;
+        // for (int i = 0; i < _baseGameObjectsList.Count; i++)
+        // {
+        //     if (_meshFiltersList[i].mesh == null) return;
+        //     string name = _baseGameObjectsList[i].name;
+        //     if (name == "Base")
+        //     {
+        //         baseModul = _baseGameObjectsList[i];
+        //     }
+        //     else if (name == "Weapon")
+        //     {
+        //         weaponModul = _baseGameObjectsList[i];
+        //     }
+        // }
+
+        // if (baseModul == null || weaponModul == null) return;
+
+        // var baseMeshFilter = baseModul.GetComponent<MeshFilter>();
+        // var weaponMeshFilter = weaponModul.GetComponent<MeshFilter>();
+
+        // if (baseMeshFilter == null || weaponMeshFilter == null) return;
+
+        // var tt = baseMeshFilter.sharedMesh.bounds.max.y;
+        // var zz = baseMeshFilter.sharedMesh.bounds.min.y;
+        
+        // var testBoundParrnt = _transformOriginModulList[1].gameObject;
+       
+        // var coollider = testBoundParrnt.AddComponent<BoxCollider>();
+        // coollider.size = new Vector3(4,0,4);
+
+
+        // _transformOriginModulList[1].transform.position = new Vector3(0,tt,0);
+
+
+        //_transformOriginModulList[1].transform.position = new Vector3(0,baseBoundMaxY,0);
+        // var weaponBoundMinY = weaponMeshFilter.sharedMesh.bounds.min.y;
+
+        // //_transformOriginModulList[1].transform.position = new Vector3(0,weaponBoundMinY,0);
+        // weaponBoundMinY = baseBoundMaxY;
+        // _transformOriginModulList[1].transform.position = new Vector3(0, weaponBoundMinY, 0);
+        // //_baseGameObjectsList[1].transform.parent = _transformOriginModulList[1].transform;
+
+        // if (weaponBoundMinY < baseBoundMaxY)
+        // {
+        //     Debug.Log("ASDASDASDADASDADAD");
+
+        //     //_baseGameObjectsList[1].transform.position = new Vector3(0,(_transformOriginModulList[1].transform.position.y),0);
+        // }
+    }
+    //<<END
+
+    //OLDOLDOLDOLDOLDOLD
+    //private float _boundMinY;
     // private void SearchOriginModulAndCorrectPosition(ModulTankSO modulTank)
     // {
     //     var meshFilter = modulTank.Prefab.GetComponent<MeshFilter>();
@@ -172,9 +250,5 @@ public class BaseConfgBuilder : ICommandBuilder
     //         }
     //     }
     // }
-
-    public void CommandExecuteDoOnce(int index)
-    {
-        throw new System.NotImplementedException();
-    }
+    //<<END
 }
