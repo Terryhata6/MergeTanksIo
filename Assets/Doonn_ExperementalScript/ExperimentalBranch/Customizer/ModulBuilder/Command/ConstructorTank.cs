@@ -64,19 +64,19 @@ public class ConstructorTank : ICommandBuilder
 
             if (pivot.Pivot.transform.name == modulTank.PivotTransform.transform.GetChild(0).name)
             {
-                pivot.Pivot.position = modulTank.PivotTransform.transform.GetChild(0).transform.position;
-                pivot.Pivot.rotation = modulTank.PivotTransform.transform.GetChild(0).transform.rotation;
+                pivot.Pivot.localPosition = modulTank.PivotTransform.transform.GetChild(0).transform.position;
+                pivot.Pivot.localRotation = modulTank.PivotTransform.transform.GetChild(0).transform.rotation;
             }
             if (pivot.Pivot.transform.name == modulTank.PivotTransform.transform.GetChild(1).name)
             {
-                pivot.Pivot.position = modulTank.PivotTransform.transform.GetChild(1).transform.position;
-                pivot.Pivot.rotation = modulTank.PivotTransform.transform.GetChild(1).transform.rotation;
+                pivot.Pivot.localPosition = modulTank.PivotTransform.transform.GetChild(1).transform.position;
+                pivot.Pivot.localRotation = modulTank.PivotTransform.transform.GetChild(1).transform.rotation;
 
             }
             if (pivot.Pivot.transform.name == modulTank.PivotTransform.transform.GetChild(2).name)
             {
-                pivot.Pivot.position = modulTank.PivotTransform.transform.GetChild(2).transform.position;
-                pivot.Pivot.rotation = modulTank.PivotTransform.transform.GetChild(2).transform.rotation;
+                pivot.Pivot.localPosition = modulTank.PivotTransform.transform.GetChild(2).transform.position;
+                pivot.Pivot.localRotation = modulTank.PivotTransform.transform.GetChild(2).transform.rotation;
             }
 
         }
