@@ -44,6 +44,16 @@ public class ModulTankBuilder : MonoBehaviour
         _commandsList.Add(new ConstructorTank(_transformPivotList, _go, _modulPivotList));
         // ExecuteBuilder();
     }
+
+    private void OnEnable()
+    {
+        UICustomizerEvent.Current.OnGetModulTank += Click;
+    }
+    private void OnDisable()
+    {
+        UICustomizerEvent.Current.OnGetModulTank -= Click;
+    }
+
     public void Click(ModulTankSO modulTank)
     {
         foreach (var command in _commandsList)

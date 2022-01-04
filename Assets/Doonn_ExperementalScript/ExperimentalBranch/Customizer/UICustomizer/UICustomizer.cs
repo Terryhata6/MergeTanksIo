@@ -35,7 +35,6 @@ public class UICustomizer : MonoBehaviour
         Init();
 
         UICustomizerEvent.Current.OnBtnClick += Test;
-        //InitModulsTank();
     }
 
     private void Init()
