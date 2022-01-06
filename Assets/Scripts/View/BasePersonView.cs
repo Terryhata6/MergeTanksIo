@@ -130,11 +130,25 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     }
 
     //Enter Alt 07.12
-    private void GetPoints(int points)
+    protected void GetPoints(int points) //<< Поменял с private на protected для тестов
     {
         _points += points;
+        CheckStorePrice(); //<<Doonn
     }
 
+    //>>Doonn
+    private void CheckStorePrice()
+    {
+        if (_points >= StoreSystem.Price)
+        {
+            Debug.Log("Можно Покупать: Цена = " + StoreSystem.Price + " Points: " + _points);
+            StartTransaction();
+        }
+    }
+
+    protected virtual void StartTransaction(){}
+
+    //<<END
     // Запись Трансформов от куда вылетают Снаряды
     public void TankShotProjectileRecordTransform()
     {

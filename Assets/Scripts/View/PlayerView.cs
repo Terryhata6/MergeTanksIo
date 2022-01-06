@@ -22,10 +22,19 @@ public class PlayerView : BasePersonView, ITransaction
         }
     }
 
+    protected override void StartTransaction()
+    {
+        base.StartTransaction();
+       Transaction transaction = new Transaction();
+       transaction.Value = _points;
+       transaction.WhoBuy = gameObject;
+       StoreSystem.SetBuy(transaction);
+    }
+
     public void CompleteTransaction(Transaction transaction)
     {
         _points = transaction.Value;
-        PerkManager.AddPerk(transaction._perk);
+        PerkManager.AddPerk(transaction.Perk);
     }
 
     /// <summary>
@@ -35,48 +44,52 @@ public class PlayerView : BasePersonView, ITransaction
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameEvents.Current.SetSelectPerks(LoadPerksSystem.GetRandomPerkList(3));
+            GetPoints(10);
         }
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            GameEvents.Current.OnSelectPerk += Perk;
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            var ss = LoadPerksSystem.GetOnePerkByName("ExplosiveProjectile");
-            var inst = Instantiate(ss);
-            PerkManager.AddPerk(inst);
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            var ss = LoadPerksSystem.GetOnePerkByName("PenetrationShoot");
-            var inst = Instantiate(ss);
-            PerkManager.AddPerk(inst);
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            var ss = LoadPerksSystem.GetOnePerkByName("PoisonProjectile");
-            var inst = Instantiate(ss);
-            PerkManager.AddPerk(inst);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            var ss = LoadPerksSystem.GetOnePerkByName("ProjectileSize");
-            var inst = Instantiate(ss);
-            PerkManager.AddPerk(inst);
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            var ss = LoadPerksSystem.GetOnePerkByName("RepulsiveProjectilesPerk");
-            var inst = Instantiate(ss);
-            PerkManager.AddPerk(inst);
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            var ss = LoadPerksSystem.GetOnePerkByName("RicochetPerk");
-            var inst = Instantiate(ss);
-            PerkManager.AddPerk(inst);
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     GameEvents.Current.SetSelectPerks(LoadPerksSystem.GetRandomPerkList(3));
+        // }
+        // if (Input.GetKeyDown(KeyCode.LeftControl))
+        // {
+        //     GameEvents.Current.OnSelectPerk += Perk;
+        // }
+        // if (Input.GetKeyDown(KeyCode.Q))
+        // {
+        //     var ss = LoadPerksSystem.GetOnePerkByName("ExplosiveProjectile");
+        //     var inst = Instantiate(ss);
+        //     PerkManager.AddPerk(inst);
+        // }
+        // if (Input.GetKeyDown(KeyCode.W))
+        // {
+        //     var ss = LoadPerksSystem.GetOnePerkByName("PenetrationShoot");
+        //     var inst = Instantiate(ss);
+        //     PerkManager.AddPerk(inst);
+        // }
+        // if (Input.GetKeyDown(KeyCode.E))
+        // {
+        //     var ss = LoadPerksSystem.GetOnePerkByName("PoisonProjectile");
+        //     var inst = Instantiate(ss);
+        //     PerkManager.AddPerk(inst);
+        // }
+        // if (Input.GetKeyDown(KeyCode.R))
+        // {
+        //     var ss = LoadPerksSystem.GetOnePerkByName("ProjectileSize");
+        //     var inst = Instantiate(ss);
+        //     PerkManager.AddPerk(inst);
+        // }
+        // if (Input.GetKeyDown(KeyCode.A))
+        // {
+        //     var ss = LoadPerksSystem.GetOnePerkByName("RepulsiveProjectilesPerk");
+        //     var inst = Instantiate(ss);
+        //     PerkManager.AddPerk(inst);
+        // }
+        // if (Input.GetKeyDown(KeyCode.S))
+        // {
+        //     var ss = LoadPerksSystem.GetOnePerkByName("RicochetPerk");
+        //     var inst = Instantiate(ss);
+        //     PerkManager.AddPerk(inst);
+        // }
     }
 
     void Perk(AbstractPerk perk)

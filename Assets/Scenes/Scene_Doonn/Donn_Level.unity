@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 312650254067247622, guid: f22f3b307b48fb14cb29b4f9d1704945, type: 3}
       propertyPath: _shootInterval
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 372073126657136579, guid: f22f3b307b48fb14cb29b4f9d1704945, type: 3}
       propertyPath: m_IsActive
@@ -249,7 +249,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &555689619
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -369,6 +369,7 @@ MonoBehaviour:
     MoveSpeed: 0
     RotationSpeed: 0
     Shield: 0
+  _boundSize: 0
   _debuffList: []
 --- !u!1 &705507993
 GameObject:

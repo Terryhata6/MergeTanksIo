@@ -6,6 +6,7 @@ using UnityEngine;
 public static class StoreSystem
 {
   private static readonly int _price = 20;
+  public static int Price => _price;
   private static readonly int _productCount = 3;
   private static Transaction _transaction;
   static StoreSystem()
@@ -42,7 +43,7 @@ public static class StoreSystem
     {
       GameEvents.Current.SetSelectPerks(LoadPerksSystem.GetRandomPerkList(_productCount));
       SubstractCoins(ref _transaction);
-      GivePerk(_transaction._perk);
+      GivePerk(_transaction.Perk);
     }
   }
 
@@ -61,7 +62,7 @@ public static class StoreSystem
   private static void GivePerk(AbstractPerk perk)
   {
     if (perk == null) return;
-    _transaction.Perk(perk);
+    _transaction.Perk = perk;
     Debug.Log(perk);
     FinishTransaction();
   }
@@ -72,7 +73,7 @@ public static class StoreSystem
     {
       var perk = LoadPerksSystem.GetRandomPerkList(1);
       SubstractCoins(ref _transaction);
-      _transaction.Perk(perk[0]);
+      _transaction.Perk = perk[0];
       FinishTransaction();
     }
   }
