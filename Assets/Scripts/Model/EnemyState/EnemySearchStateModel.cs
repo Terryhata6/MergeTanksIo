@@ -22,7 +22,7 @@ public class EnemySearchStateModel : BaseEnemyStateModel
 
     private void RandomMove(EnemyView enemy)
     {
-        _dir = Vector3.up - _enemyTransform.position;
+        _dir = Vector3.up * 0.5f - _enemyTransform.position;
         _enemyTransform.rotation = Quaternion.Slerp(
             enemy.transform.rotation,
             Quaternion.LookRotation(_dir), 

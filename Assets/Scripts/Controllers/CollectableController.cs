@@ -20,11 +20,13 @@ public class CollectableController : BaseController, IExecute
     private float _respawnDelay;
     private List<float> _respawnDelays;
 
+
     public override void Initialize()
     {
         GameEvents.Current.OnItemCollected += SetMovingCoin;
         GameEvents.Current.OnCollectablesParamSet += SetParams;
         GameEvents.Current.OnCollectableDisable += DeleteActiveCol;
+        GameEvents.Current.OnCollectableDisable += ReturnCollToPool;
 
 
         _pool = new ObjectPool<CollectableItem>();
@@ -37,9 +39,9 @@ public class CollectableController : BaseController, IExecute
     public override void Execute()
     {
         Respawn();
-        for (int i = 0; i < _activeColl.Count; i++)
+        for (_index = 0; _index < _activeColl.Count; _index++)
         {
-            MoveCollectable(_activeColl[i]); // движение coin
+            MoveCollectable(_activeColl[_index]); // движение coin
         }
     }
 
@@ -63,24 +65,24 @@ public class CollectableController : BaseController, IExecute
 
     private void SpawnCollectable()
     {
-
+        GetRandomPos();
         if (GetRandomPos())
         {
             _tempColl = _pool.GetObject(_tempPos + Vector3.up);
             _tempColl.gameObject.layer = (int)Layers.Collectables;
             CollectableInit(_tempColl);
-            GameEvents.Current.EnvironmentUpdated();
         }
         else
         {
-            _index--;
+            _respawnDelays.Add(0.5f);
         }
-
+        GameEvents.Current.EnvironmentUpdated();
     }
 
     private void CollectableInit(CollectableItem col)
     {
         col.Points = Random.Range(1, 10);
+        col.NeedRespawn = true;
     }
 
     private bool GetRandomPos()
@@ -88,10 +90,10 @@ public class CollectableController : BaseController, IExecute
         _tempPos.x = Random.Range(_tempMinX, _tempMaxX);
         _tempPos.y = Random.Range(_tempMaxY, _tempMaxY);
         _tempPos.z = Random.Range(_tempMinZ, _tempMaxZ);
-        Physics.Raycast(_tempPos, Vector3.down, out _hit, 2f);
+        Physics.Raycast(_tempPos + Vector3.up, Vector3.down * 10f, out _hit, 4f);
+        Debug.Log(_hit.collider);
         if (_hit.collider == null || _hit.collider.gameObject.layer!.Equals((int)Layers.Ground))
         {
-            Debug.Log(_hit.collider);
             return false;
         }
         else
@@ -147,11 +149,15 @@ public class CollectableController : BaseController, IExecute
             _activeColl.Remove(col);
         }
 
-        if (col.Respawn)
+        if (col.NeedRespawn)
         {
             SetCollectableToRespawn(_respawnDelay);
         }
-        
+    }
+
+    private void ReturnCollToPool(CollectableItem col)
+    {
+        _pool.AddObject(col);
     }
 
     private void SetParams(CollectablesParam cp)
@@ -161,6 +167,11 @@ public class CollectableController : BaseController, IExecute
             Debug.Log("Collectables Params set"); 
             _collParams = cp;
             _respawnDelay = _collParams.RespawnDelay;
+            if (_collParams.Ground.Equals(null))
+            {
+                Debug.LogError("noGround");
+                return;
+            }
             CalculateBounds(_collParams.Vertices,_collParams.Ground);
             PoolInit();
             SpawnCollectables(_collParams.Size);

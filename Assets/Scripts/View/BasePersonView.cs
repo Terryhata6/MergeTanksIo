@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
 {
@@ -56,7 +57,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
     public virtual void OnTriggerEnter(Collider other)
     {
         CheckCollectable(other.gameObject);
-        CheckMerge(other.gameObject);
+        //CheckMerge(other.gameObject);
     }
 //Enter Alt
     private void CheckCollectable(GameObject other)
@@ -67,9 +68,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
             {
                 other.SetActive(false);
                 GetPoints(other.GetComponent<CollectableItem>().Points);
-                
             }
-
         }
     }
 //Enter Alt
@@ -164,7 +163,52 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
         {
             Debug.Log(GetType().ToString() + " DEAD");
         }
+        
         Destroy(gameObject);
     }
     #endregion
+    
+    //eNTER-ALT
+    
+    [SerializeField] private GameObject example;
+    [SerializeField] private float radius;
+    [SerializeField] float iterator = 0f;
+
+    float tempRad;
+    private Vector3 temp;
+
+    IEnumerator SprayCollectables()
+    {
+        Transform[] transforms = new Transform[10];
+        Vector3[] basePos = new Vector3[transforms.Length];
+        Vector3[] nextPos = new Vector3[transforms.Length];
+
+
+        for (int i = 0; i < 10; i++)
+        {
+            transforms[i] = Instantiate(example, Vector3.up * 10f, Quaternion.identity).transform;
+            basePos[i] = transforms[i].position;
+            tempRad = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+            nextPos[i] = new Vector3(Mathf.Cos(tempRad), 0, Mathf.Sin(tempRad)) * radius;
+        }
+
+        bool count = true;
+        while (count)
+        {
+            for (int j = 0; j < transforms.Length; j++)
+            {
+                temp = Vector3.Lerp(basePos[j], nextPos[j], iterator);
+                temp.y = -10 * ((iterator - 0.5f) * (iterator - 0.5f)) + iterator; // Менять параболу тут
+                transforms[j].position = temp;
+            }
+
+            iterator += Time.deltaTime / 3f;
+            if (iterator >= 1)
+            {
+                count = false;
+            }
+
+            yield return null;
+        }
+    }
 }

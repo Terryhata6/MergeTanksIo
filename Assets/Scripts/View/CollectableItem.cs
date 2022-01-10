@@ -7,7 +7,7 @@ public class CollectableItem : MonoBehaviour, ICollectableItem
     private Transform _target;
     private int _points = 1;
 
-    public bool Respawn = true;
+    public bool NeedRespawn = true;
     public int Points // ƒописать логику занесени€ количества поинтов
     {
         get => _points;
@@ -31,7 +31,6 @@ public class CollectableItem : MonoBehaviour, ICollectableItem
     private void OnDisable()
     {
         GameEvents.Current.CollectableDisable(this);
-        ObjectPool<CollectableItem>.Instance.AddObject(this);
     }
     
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1263187532362316957}
   - component: {fileID: 7509111080828234405}
   - component: {fileID: 2012642030623525943}
-  - component: {fileID: 3054488567260449920}
+  - component: {fileID: 5440429815756192787}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -82,8 +82,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &3054488567260449920
-SphereCollider:
+--- !u!64 &5440429815756192787
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,9 +92,10 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8013871046531800807
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +162,5 @@ MonoBehaviour:
   _mesh: {fileID: 7509111080828234405}
   _ground: {fileID: 1263187532362316957}
   _respawnDelay: 2
-  _collectablesPerSpawn: 2
   _examples:
   - {fileID: 9003782417101310511, guid: b5586a4ac74a2654c9fde17d45482eb9, type: 3}

@@ -34,9 +34,4 @@ public class Projectile : BaseProjectile, IMoveProjectile
       applyDamage.TakeDamage(_damage);
     }
   }
-
-  private void OnDisable()
-  {
-    ObjectPool<Projectile>.Instance.AddObject(this);
-  }
 }
