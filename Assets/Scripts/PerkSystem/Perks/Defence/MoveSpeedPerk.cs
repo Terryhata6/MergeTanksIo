@@ -1,17 +1,23 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MoveSpeed", menuName = "ScriptableObjects/MoveSpeed", order = 1)]
+[CreateAssetMenu(fileName = "MoveSpeed", menuName = "Perks/ViewParams/MoveSpeed", order = 1)]
 public class MoveSpeedPerk : AbstractPerk
 {
   [SerializeField] private float _speed = 10f; //<< Percentag
   private float _tempPrecentage;
 
+  private MoveSpeedPerk()
+  {
+    _perkData.SetModBelongs(PerkType.ViewParamsMod);
+    _perkData.SetTypePerk(PerkType.Defence);
+  }
+
   public override void Activate(ViewParamsComponent ownPlayer)
   {
-    _viewParams = ownPlayer;
+    _ownViewParams = ownPlayer;
 
-    float newSpeed = AddMoveSpeed(_viewParams.MoveSpeed);
-    _viewParams.ChangeMoveSpeed(newSpeed);
+    float newSpeed = AddMoveSpeed(_ownViewParams.MoveSpeed);
+    _ownViewParams.ChangeMoveSpeed(newSpeed);
   }
 
   private float AddMoveSpeed(float speed)
@@ -30,8 +36,8 @@ public class MoveSpeedPerk : AbstractPerk
 
   protected override void InternalAddLevel()
   {
-    float newSpeed = AddMoveSpeed(_viewParams.MoveSpeed);
-    _viewParams.ChangeMoveSpeed(newSpeed);
+    float newSpeed = AddMoveSpeed(_ownViewParams.MoveSpeed);
+    _ownViewParams.ChangeMoveSpeed(newSpeed);
   }
 
   protected override void InternalRemoveLevel()

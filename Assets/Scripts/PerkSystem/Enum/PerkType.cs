@@ -1,6 +1,9 @@
 public enum PerkType
 {
     Defence,
-    Offence
+    Offence,
+    
+    ViewParamsMod,
+    WeaponMod,
+    ProjectileMod
 }
-

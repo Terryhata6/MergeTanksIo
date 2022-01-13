@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Сквозные выстрелы (сквозь стены, конфликтует с рикошетом)
-[CreateAssetMenu(fileName = "PenetrationShoot", menuName = "ScriptableObjects/PenetrationShoot", order = 1)]
+[CreateAssetMenu(fileName = "PenetrationShoot", menuName = "Perks/Projectile/PenetrationShoot", order = 1)]
 public class PenetrationShootPerk : AbstractPerk
 {
 
     [SerializeField] private int _penetrationCount;
-    public override void Activate(BaseProjectile ownProjectile)
+
+    private PenetrationShootPerk()
     {
-        base.Activate(ownProjectile);
+        _perkData.SetModBelongs(PerkType.ProjectileMod);
+        _perkData.SetTypePerk(PerkType.Offence);
+        _modificationType = TypeModification.Modification;
+    }
+
+    public override void ActivateModification(BaseProjectile ownProjectile)
+    {
+        base.ActivateModification(ownProjectile);
         if (ownProjectile.Target == null) return;
     }
 

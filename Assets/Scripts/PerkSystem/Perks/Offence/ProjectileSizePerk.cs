@@ -2,31 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ProjectileSize", menuName = "ScriptableObjects/ProjectileSize", order = 1)]
+[CreateAssetMenu(fileName = "ProjectileSize", menuName = "Perks/Projectile/ProjectileSize", order = 1)]
 public class ProjectileSizePerk : AbstractPerk
 {
-  [SerializeField] float _size;
+  [SerializeField] private float _size;
+  [SerializeField] private float _sizePerLevel;
 
-  public override void Activate(BaseProjectile projectile)
+
+  private ProjectileSizePerk()
   {
-    _ownProjectile = projectile;
+    _perkData.SetModBelongs(PerkType.ProjectileMod);
+    _perkData.SetTypePerk(PerkType.Offence);
+    _modificationType = TypeModification.Modification;
+  }
+  
+  public override void ActivateModification(BaseProjectile projectile)
+  {
+    base.ActivateModification(projectile);
 
-    projectile.gameObject.transform.localScale += new Vector3(_size, _size, _size);
+    projectile.transform.localScale += new Vector3(_size, _size, _size);
 
   }
 
-  public override void Deactivate(BaseProjectile projectile)
-  {
-    // TODO
-  }
+  // public override void Deactivate(BaseProjectile projectile)
+  // {
+  //   // TODO
+  // }
 
   protected override void InternalAddLevel()
   {
-    _size += 0.1f;
+    _size += _sizePerLevel;
   }
 
   protected override void InternalRemoveLevel()
   {
-    _size -= 0.1f;
+    _size -= _sizePerLevel;
   }
 }

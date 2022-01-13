@@ -26,13 +26,14 @@ public static class LoadPerksSystem
 
 
 
+//<< UI
     public static List<AbstractPerk> GetRandomPerkList(int returnCountPerk)
     {
         List<AbstractPerk> perks = new List<AbstractPerk>();
 
         for (int i = 0; i < returnCountPerk; i++)
         {
-            int randomIndex = Random.Range(0, AllPerks.Length);
+            int randomIndex = Random.Range(0, AllPerks.Length-1);
             var getPerkFromIndex = AllPerks[randomIndex];
 
             if (!perks.Contains(getPerkFromIndex))

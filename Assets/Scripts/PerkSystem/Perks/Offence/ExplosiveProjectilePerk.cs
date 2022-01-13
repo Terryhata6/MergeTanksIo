@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // Разрывной снаряд (добавляет АО эффект)
-[CreateAssetMenu(fileName = "ExplosiveProjectile", menuName = "ScriptableObjects/ExplosiveProjectile", order = 1)]
+[CreateAssetMenu(fileName = "ExplosiveProjectile", menuName = "Perks/Projectile/ExplosiveProjectile", order = 1)]
 public class ExplosiveProjectilePerk : AbstractPerk
 {
     [SerializeField] float _exsplosionRadius;
+    [SerializeField] float _exsplosionRadiusPerLevel;
 
-
-    public override void Activate(BaseProjectile baseProjectile)
+    private ExplosiveProjectilePerk()
     {
-        base.Activate(baseProjectile);
+        _perkData.SetModBelongs(PerkType.ProjectileMod);
+        _perkData.SetTypePerk(PerkType.Offence);
+        _modificationType = TypeModification.Modification;
+    }
 
+    public override void ActivateModification(BaseProjectile baseProjectile)
+    {
+        base.ActivateModification(baseProjectile);
         if (baseProjectile.Target == null) return;
         ExplosionDamage(baseProjectile.transform.position, _exsplosionRadius);
     }
@@ -42,7 +46,7 @@ public class ExplosiveProjectilePerk : AbstractPerk
 
     protected override void InternalAddLevel()
     {
-        // TODO
+        _exsplosionRadius += _exsplosionRadiusPerLevel;
     }
 
     protected override void InternalRemoveLevel()
