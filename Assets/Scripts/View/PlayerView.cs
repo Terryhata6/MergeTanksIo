@@ -92,8 +92,8 @@ public class PlayerView : BasePersonView, ITransaction
         // }
     }
 
-    void Perk(AbstractPerk perk)
-    {
-        Debug.Log("Get UI PERK: " + perk);
-    }
+    // void Perk(AbstractPerk perk)
+    // {
+    //     Debug.Log("Get UI PERK: " + perk);
+    // }
 }

@@ -199,10 +199,16 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         IsDead();
     }
 
+    [SerializeField] private GameObject _garbageDeath;
+    private Transform _ownerPointDeath;
     public virtual void IsDead()
     {
         if (ViewParams.IsDead)
         {
+            var inst = Instantiate(_garbageDeath);
+            inst.transform.position = transform.position;
+            GarbageDeath dead = inst.GetComponent<GarbageDeath>();
+            dead.Init(inst, transform);
             Destroy(gameObject);
         }
     }

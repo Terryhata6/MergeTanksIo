@@ -21,7 +21,7 @@ public class ModulTankBuilder : MonoBehaviour
     // Не Даем Добавлять Больше Двух Элементов
     private void OnValidate()
     {
-        if (_transformPivotList.Count > 4)
+        if (_transformPivotList.Count > 4) //<<HardCode
         {
             for (int i = 3; i < _transformPivotList.Count; i++)
             {

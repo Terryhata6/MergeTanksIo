@@ -8,6 +8,7 @@ public class UI_Button_ModulType: MonoBehaviour
     [SerializeField] private Button _btn;
 
     [SerializeField] private Sprite _btnSprite;
+    public Sprite BtnSprite => _btnSprite;
 
     private void OnValidate()
     {
