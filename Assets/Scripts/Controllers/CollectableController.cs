@@ -13,7 +13,12 @@ public class CollectableController : BaseController, IExecute
     private float _tempMinY;
     private float _tempMinZ;
     private float _tempMinX;
+    private int _tempNumber;
     private int _index;
+    private CollectableSpray _spray;
+    private List<Transform> _tempTransforms;
+    private GameObject _tempObj;
+    private GameObject _mergeObj;
     private List<Vector3> _vertices;
     private Vector3 _tempPos;
     private RaycastHit _hit;
@@ -27,11 +32,15 @@ public class CollectableController : BaseController, IExecute
         GameEvents.Current.OnCollectablesParamSet += SetParams;
         GameEvents.Current.OnCollectableDisable += DeleteActiveCol;
         GameEvents.Current.OnCollectableDisable += ReturnCollToPool;
+        GameEvents.Current.OnPersonDead += SprayCollectables;
+        GameEvents.Current.OnSprayAvaible += SetSpray;
+        GameEvents.Current.OnMergeObj += SetMergeObj;
 
 
         _pool = new ObjectPool<CollectableItem>();
         _activeColl = new List<CollectableItem>();
         _respawnDelays = new List<float>();
+        _tempTransforms = new List<Transform>();
         _respawnDelay = 4f;
         Debug.Log("CollectableController start");
     }
@@ -91,7 +100,6 @@ public class CollectableController : BaseController, IExecute
         _tempPos.y = Random.Range(_tempMaxY, _tempMaxY);
         _tempPos.z = Random.Range(_tempMinZ, _tempMaxZ);
         Physics.Raycast(_tempPos + Vector3.up, Vector3.down * 10f, out _hit, 4f);
-        Debug.Log(_hit.collider);
         if (_hit.collider == null || _hit.collider.gameObject.layer!.Equals((int)Layers.Ground))
         {
             return false;
@@ -175,6 +183,52 @@ public class CollectableController : BaseController, IExecute
             CalculateBounds(_collParams.Vertices,_collParams.Ground);
             PoolInit();
             SpawnCollectables(_collParams.Size);
+        }
+    }
+
+    private void SetSpray(CollectableSpray spray)
+    {
+        if (spray)
+        {
+            Debug.Log("CollectableSpray Set");
+            _spray = spray; 
+        }
+    }
+
+    private void SprayCollectables(BasePersonView view)
+    {
+        _tempNumber = (int)(view.Points * 0.05f) + 1;
+        for (int _index = 0; _index < _tempNumber; _index++)
+        {
+            _tempColl = _pool.GetObject(view.Position);
+            _tempColl.gameObject.layer = (int)Layers.Collectables;
+            _tempColl.Points = 10;
+            _tempColl.NeedRespawn = false;
+            _tempTransforms.Add(_tempColl.transform);
+            GameEvents.Current.EnvironmentUpdated();
+        }
+        if (_spray)
+        {
+            _spray.SprayCollectables(_tempTransforms, 3f, 3f);
+            _tempObj = GameObject.Instantiate(_mergeObj, view.Position, Quaternion.identity);
+            //_tempObj.GetComponent<MeshFilter>().mesh = view.GetComponent<MeshFilter>().mesh;
+            //_spray.SprayCollectable(_tempObj.transform, 0f, 2f);
+        }
+        _tempTransforms.Clear();
+    }
+
+    private void SetMergeObj(GameObject obj)
+    {
+        if (obj.Equals(null))
+        {
+            return;
+        }
+        _mergeObj = obj;
+        _mergeObj.layer = (int) Layers.Merge;
+        if (_mergeObj.TryGetComponent(out MeshFilter LOL).Equals(false))
+        {
+            _mergeObj.AddComponent<MeshFilter>();
+            LOL = null;
         }
     }
 

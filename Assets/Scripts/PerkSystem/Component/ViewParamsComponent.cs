@@ -44,7 +44,7 @@ public class ViewParamsComponent
     {
         if (Health <= 0)
         {
-            Debug.Log(Health);
+       //     Debug.Log(Health);
             Health = 0;
             return true;
         }

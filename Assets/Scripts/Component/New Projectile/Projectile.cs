@@ -30,7 +30,7 @@ public class Projectile : BaseProjectile, IMoveProjectile
 
     if(otherCollider.TryGetComponent(out IApplyDamage applyDamage))
     {
-      Debug.Log("Попал");
+//      Debug.Log("Попал");
       applyDamage.TakeDamage(_damage);
     }
   }

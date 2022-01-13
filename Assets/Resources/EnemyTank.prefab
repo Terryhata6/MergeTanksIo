@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8417b9fbc1f44e0fa5153b4cfa806ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _points: 0
+  _points: 100
   _perkManager:
     _ownPlayerPerkList: []
     _ownShooterPerkList: []
@@ -81,7 +81,7 @@ MonoBehaviour:
   - {fileID: 3119450032064385688}
   - {fileID: 8357174604567989755}
   _viewParams:
-    Health: 100
+    Health: 10
     MaxHealth: 100
     MoveSpeed: 5
     RotationSpeed: 5

@@ -53,6 +53,20 @@ public class GameEvents
         OnPlayerDead?.Invoke();
     }
 
+    public event Action<BasePersonView> OnPersonDead;
+
+    public void PersonDead(BasePersonView view)
+    {
+        OnPersonDead?.Invoke(view);
+    }
+    
+    public event Action<CollectableSpray> OnSprayAvaible;
+
+    public void SprayAvaible(CollectableSpray spray)
+    {
+        OnSprayAvaible?.Invoke(spray);
+    }
+
     public event Action<GameObject> OnAimAppeared;
 
     public void AimAppeared(GameObject aim)
@@ -100,5 +114,11 @@ public class GameEvents
     {
         OnSelectPerk?.Invoke(perk);
     }
+    public event Action<GameObject> OnMergeObj;
+    public void MergeObj(GameObject Obj)
+    {
+        OnMergeObj?.Invoke(Obj);
+    }
+    
     #endregion
 }

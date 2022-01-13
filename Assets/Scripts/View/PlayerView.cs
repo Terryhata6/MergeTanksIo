@@ -18,9 +18,12 @@ public class PlayerView : BasePersonView
 
     public override void IsDead()
     {
+        if (ViewParams.IsDead())
+        {
+            GameEvents.Current.PlayerDead();
+            LevelEvents.Current.LevelFailed();
+        }
         base.IsDead();
-        GameEvents.Current.PlayerDead();
-        LevelEvents.Current.LevelFailed();
     }
 
     void Update()

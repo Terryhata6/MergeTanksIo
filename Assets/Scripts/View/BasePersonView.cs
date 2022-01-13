@@ -35,6 +35,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
     #region {Author:Doonn}
     public void Awake()
     {
+        _level = 1;
         TankShotProjectileRecordTransform();
     }
 
@@ -57,12 +58,12 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
     public virtual void OnTriggerEnter(Collider other)
     {
         CheckCollectable(other.gameObject);
-        //CheckMerge(other.gameObject);
+        CheckMerge(other.gameObject);
     }
 //Enter Alt
     private void CheckCollectable(GameObject other)
     {
-        if (other.layer.Equals((int) Layers.Collectables))
+        if (other.layer.Equals((int) Layers.Collectables) && _viewParams.IsDead() == false)
         {
             if ((other.transform.position - transform.position).magnitude < 2f)
             {
@@ -74,29 +75,31 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
 //Enter Alt
     private void CheckMerge(GameObject other)
     {
-        if (other.layer.Equals((int) Layers.Merge))
+        if (other.layer.Equals((int) Layers.Merge) && _viewParams.IsDead() == false)
         {
-            
-            if (CheckTankMeshesList(_tankMeshes) == false) return;
-            if (_tankMeshes.Count < 5) return;
-            if (Level >= 5) return; // << Хард Код (Level >= 5)
-
-            _level++;
-            ChangeTankMesh(Level);
-
-            TankShotProjectileRecordTransform();
+            Debug.Log(other);
             Destroy(other);
+            GetMerge();
         }
     }
 //Enter Alt
-    private void GetMerge(MergeItem item)
+    private void GetMerge()
     {
-        UpParams(item.Level);
+        // if (CheckTankMeshesList(_tankMeshes) == false) return;
+        // if (_tankMeshes.Count < 5) return;
+        // if (Level >= 5) return; // << Хард Код (Level >= 5)
+        //
+        // _level++;
+        // ChangeTankMesh(Level);
+        // TankShotProjectileRecordTransform();
+        // UpParams();
     }
 
-    private void UpParams(int multiplier)
+    private void UpParams( )
     {
-        
+        _viewParams.MaxHealth *= 1.5f;
+        _viewParams.MoveSpeed *= 0.75f;
+        _viewParams.RotationSpeed *= 0.75f;
     }
     
     //Enter Alt 07.12
@@ -145,13 +148,21 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
 
     public void Attack()
     {
+        if (_viewParams.IsDead().Equals(true))
+        {
+            return;
+        }
         if (_shooter == null) return;
         _shooter.Shooting(_perkManager.OwnShooterPerkList);
     }
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("Нанес Повреждение");
+        if (_viewParams.IsDead().Equals(true))
+        {
+            return;
+        }
+        //Debug.Log("Нанес Повреждение");
         ViewParams.ChangeHealth(ViewParams.Health - damage);
         IsDead();
     }
@@ -162,53 +173,12 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
         if (ViewParams.IsDead())
         {
             Debug.Log(GetType().ToString() + " DEAD");
+            GameEvents.Current.PersonDead(this);
+            Destroy(gameObject);
         }
         
-        Destroy(gameObject);
+        
+        
     }
     #endregion
-    
-    //eNTER-ALT
-    
-    [SerializeField] private GameObject example;
-    [SerializeField] private float radius;
-    [SerializeField] float iterator = 0f;
-
-    float tempRad;
-    private Vector3 temp;
-
-    IEnumerator SprayCollectables()
-    {
-        Transform[] transforms = new Transform[10];
-        Vector3[] basePos = new Vector3[transforms.Length];
-        Vector3[] nextPos = new Vector3[transforms.Length];
-
-
-        for (int i = 0; i < 10; i++)
-        {
-            transforms[i] = Instantiate(example, Vector3.up * 10f, Quaternion.identity).transform;
-            basePos[i] = transforms[i].position;
-            tempRad = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-            nextPos[i] = new Vector3(Mathf.Cos(tempRad), 0, Mathf.Sin(tempRad)) * radius;
-        }
-
-        bool count = true;
-        while (count)
-        {
-            for (int j = 0; j < transforms.Length; j++)
-            {
-                temp = Vector3.Lerp(basePos[j], nextPos[j], iterator);
-                temp.y = -10 * ((iterator - 0.5f) * (iterator - 0.5f)) + iterator; // Менять параболу тут
-                transforms[j].position = temp;
-            }
-
-            iterator += Time.deltaTime / 3f;
-            if (iterator >= 1)
-            {
-                count = false;
-            }
-
-            yield return null;
-        }
-    }
 }
