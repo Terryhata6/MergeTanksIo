@@ -8,5 +8,17 @@ public class BaseEnemyStateModel : IEnemyState
     {
         _enemyTransform = enemy.transform;
 
+        //>> Doonn
+        /*
+        Я думаю надо добавить EnemyState.Dead.
+        что бы была проверка стоит ли апдейтить ну это не точно
+        Пример:
+        if(!enemy.state == EnemyState.Dead)
+        {
+          enemy.UpdateDebuff();
+        }
+        */
+        enemy.UpdateDebuff();
+        //<<END
     }
 }

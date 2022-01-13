@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5208545700885542773}
   - component: {fileID: -6846491970631796437}
   - component: {fileID: 983147516948102266}
-  - component: {fileID: 4918471507183419561}
+  - component: {fileID: -337218138280446990}
   m_Layer: 0
   m_Name: EnemyTank
   m_TagString: Player
@@ -86,6 +86,7 @@ MonoBehaviour:
     MoveSpeed: 5
     RotationSpeed: 5
     Shield: 0
+  _boundSize: 0
 --- !u!114 &983147516948102266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,8 +105,8 @@ MonoBehaviour:
   _shootInterval: 1
   _projectileList: []
   _speed: 0
---- !u!135 &4918471507183419561
-SphereCollider:
+--- !u!65 &-337218138280446990
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -115,8 +116,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 1, z: -0.1}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &5208545701328438360
 PrefabInstance:
   m_ObjectHideFlags: 0

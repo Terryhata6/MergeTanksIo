@@ -22,7 +22,7 @@ public class GameEvents
     {
         OnCollectablesParamSet?.Invoke(cp);
     }
-  
+
 
 
     // public void RemoveProjectile(Projectile projectile)
@@ -73,7 +73,7 @@ public class GameEvents
     {
         OnAimAppeared?.Invoke(aim);
     }
-    
+
     public event Action<CinemachineVirtualCamera> OnVirtualCamSet;
 
     public void VirtualCamSet(CinemachineVirtualCamera camera)

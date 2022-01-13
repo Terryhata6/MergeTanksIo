@@ -1,7 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-
-public class PlayerView : BasePersonView
+public class PlayerView : BasePersonView, ITransaction
 {
     [SerializeField] private PlayerState _state = PlayerState.Idle;
 
@@ -11,10 +11,6 @@ public class PlayerView : BasePersonView
     {
         _state = state;
     }
-
-    /// <summary>
-    /// Test Perks
-    /// </summary>
 
     public override void IsDead()
     {
@@ -26,13 +22,78 @@ public class PlayerView : BasePersonView
         base.IsDead();
     }
 
+    protected override void StartTransaction()
+    {
+        base.StartTransaction();
+       Transaction transaction = new Transaction();
+       transaction.Value = _points;
+       transaction.WhoBuy = gameObject;
+       StoreSystem.SetBuy(transaction);
+    }
+
+    public void CompleteTransaction(Transaction transaction)
+    {
+        _points = transaction.Value;
+        PerkManager.AddPerk(transaction.Perk);
+    }
+
+    /// <summary>
+    /// Test UI PERK
+    /// </summary>
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            var perk = LoadPerksSystem.GetOnePerkByName("CircularProjectile");
-            var instPerk = Instantiate(perk);
-            _perkManager.AddPerk(instPerk);
+            GetPoints(10);
         }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     GameEvents.Current.SetSelectPerks(LoadPerksSystem.GetRandomPerkList(3));
+        // }
+        // if (Input.GetKeyDown(KeyCode.LeftControl))
+        // {
+        //     GameEvents.Current.OnSelectPerk += Perk;
+        // }
+        // if (Input.GetKeyDown(KeyCode.Q))
+        // {
+        //     var ss = LoadPerksSystem.GetOnePerkByName("ExplosiveProjectile");
+        //     var inst = Instantiate(ss);
+        //     PerkManager.AddPerk(inst);
+        // }
+        // if (Input.GetKeyDown(KeyCode.W))
+        // {
+        //     var ss = LoadPerksSystem.GetOnePerkByName("PenetrationShoot");
+        //     var inst = Instantiate(ss);
+        //     PerkManager.AddPerk(inst);
+        // }
+        // if (Input.GetKeyDown(KeyCode.E))
+        // {
+        //     var ss = LoadPerksSystem.GetOnePerkByName("PoisonProjectile");
+        //     var inst = Instantiate(ss);
+        //     PerkManager.AddPerk(inst);
+        // }
+        // if (Input.GetKeyDown(KeyCode.R))
+        // {
+        //     var ss = LoadPerksSystem.GetOnePerkByName("ProjectileSize");
+        //     var inst = Instantiate(ss);
+        //     PerkManager.AddPerk(inst);
+        // }
+        // if (Input.GetKeyDown(KeyCode.A))
+        // {
+        //     var ss = LoadPerksSystem.GetOnePerkByName("RepulsiveProjectilesPerk");
+        //     var inst = Instantiate(ss);
+        //     PerkManager.AddPerk(inst);
+        // }
+        // if (Input.GetKeyDown(KeyCode.S))
+        // {
+        //     var ss = LoadPerksSystem.GetOnePerkByName("RicochetPerk");
+        //     var inst = Instantiate(ss);
+        //     PerkManager.AddPerk(inst);
+        // }
     }
+
+    // void Perk(AbstractPerk perk)
+    // {
+    //     Debug.Log("Get UI PERK: " + perk);
+    // }
 }

@@ -13,6 +13,9 @@ public class ViewParamsComponent
     //>>End
     public float Shield;
 
+    private bool _isDead = false;
+ //   public bool IsDead => _isDead;
+
     public void ChangeMaxHealth(float maxHealth)
     {
         MaxHealth = maxHealth;
@@ -26,7 +29,17 @@ public class ViewParamsComponent
     public void ChangeHealth(float health)
     {
         Health = health;
-        IsDead();
+        if (Health >= MaxHealth)
+        {
+            Health = MaxHealth;
+        }
+        if (Health <= 0)
+        {
+            Debug.Log(Health);
+            Health = 0;
+            IsDead();
+        }
+
     }
 
     public void ChangeMoveSpeed(float moveSpeed)

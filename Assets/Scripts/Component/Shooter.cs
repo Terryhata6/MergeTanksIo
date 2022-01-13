@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,11 +29,12 @@ public class Shooter : MonoBehaviour
 
     private ProjectileController _projectileController;
 
-    private List<AbstractPerk> _perkList;
-    public List<AbstractPerk> PerkList => _perkList;
+    private List<AbstractPerk> _perkProjectileList;
+    public List<AbstractPerk> PerkProjectileList => _perkProjectileList;
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return null;
         if (TryGetComponent(out _basePlayer))
         {
             _projectileController = MainController.Current.GetController<ProjectileController>();
@@ -43,14 +45,14 @@ public class Shooter : MonoBehaviour
         else
         {
             Debug.Log("not found", this.gameObject);
-            return;
+            yield break;
         }
         GameEvents.Current.OnRemoveBaseProjectile += RemoveProjectile;
     }
 
     public void Shooting(List<AbstractPerk> perks)
     {
-        _perkList = perks;
+        _perkProjectileList = perks;
         if (!_sequentialShots)
         {
             Volley(perks);
@@ -68,9 +70,11 @@ public class Shooter : MonoBehaviour
         if (_tempInterval >= _shootInterval)
         {
             _projectileTransList = _basePlayer.ShotProjectileTransform;
+
             for (int i = 0; i < _projectileTransList.Count; i++)
             {
                 _temporalProjectile = ShootPooledProjectile(_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation);
+                if(_temporalProjectile == null) return;
                 _temporalProjectile = ProjectileModification();
                 AddProjectile(_temporalProjectile);
             }
@@ -97,8 +101,11 @@ public class Shooter : MonoBehaviour
     private Projectile ShootPooledProjectile(Vector3 position, Quaternion rotation)
     {
         _temporalProjectile = _pool.GetObject();
+        if(_temporalProjectile == null) return _temporalProjectile;
         _temporalProjectile.transform.position = position;
         _temporalProjectile.transform.rotation = rotation;
+        _temporalProjectile.SetIdParent(this.gameObject);
+        
 
         return _temporalProjectile;
     }
@@ -108,13 +115,13 @@ public class Shooter : MonoBehaviour
         _temporalProjectile.ChangeSpeed(SpeedProjectile);
         _temporalProjectile.ChangeDamage(Damage);
 
-        if (_perkList == null) return _temporalProjectile;
+        if (_perkProjectileList == null) return _temporalProjectile;
 
-        foreach (var item in _perkList)
+        foreach (var perkProjectile in _perkProjectileList)
         {
-            _temporalProjectile.AddModification(item);
+            _temporalProjectile.AddModification(perkProjectile);
         }
-        _temporalProjectile.SetIdParent(gameObject);
+
         return _temporalProjectile;
     }
 

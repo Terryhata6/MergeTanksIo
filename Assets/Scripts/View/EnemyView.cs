@@ -18,12 +18,12 @@ public class EnemyView : BasePersonView, IHaveAim
         get => _context;
     }
 
-    public override void  IsDead()
+    public override void IsDead()
     {
         if (ViewParams.IsDead())
         {
             GameEvents.Current.EnemyDead(this);
         }
-        base.IsDead();
+
     }
 }

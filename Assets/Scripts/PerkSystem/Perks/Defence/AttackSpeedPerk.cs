@@ -2,27 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AttackSpeed", menuName = "ScriptableObjects/AttackSpeed", order = 1)]
+[CreateAssetMenu(fileName = "AttackSpeed", menuName = "Perks/Shooter/AttackSpeed", order = 1)]
 public class AttackSpeedPerk : AbstractPerk
 {
   [SerializeField] private float _speed = 10f; //<< Percentag
   private float _tempPrecentage;
 
-  public override void Activate(Shooter ownShoot)
+  private AttackSpeedPerk()
   {
-    _ownShooter = ownShoot;
+    _perkData.SetModBelongs(PerkType.WeaponMod);
+    _perkData.SetTypePerk(PerkType.Defence);
+  }
 
-    float newSpeed = AttackSpeed(ownShoot.ShootInterval);
-    ownShoot.ChangeShootInterval(newSpeed);
+  public override void Activate(Shooter ownShooter)
+  {
+    base.Activate(ownShooter);
+
+    float newSpeed = AttackSpeed(ownShooter.ShootInterval);
+    ownShooter.ChangeShootInterval(newSpeed);
 
   }
 
 
-  public override void Deactivate(Shooter ownShoot)
+  public override void Deactivate(Shooter ownShooter)
   {
-    float newSpeed = ownShoot.ShootInterval + _tempPrecentage * PerkData.Level;
+    float newSpeed = ownShooter.ShootInterval + _tempPrecentage * PerkData.Level;
 
-    ownShoot.ChangeShootInterval(newSpeed);
+    ownShooter.ChangeShootInterval(newSpeed);
 
   }
 

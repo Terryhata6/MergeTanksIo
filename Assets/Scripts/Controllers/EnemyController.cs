@@ -1,6 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
 using Polarith.AI.Move;
+using UnityEngine;
 
 public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
 {
@@ -19,7 +19,7 @@ public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
         _states.Add(EnemyState.Attack, new EnemyAttackStateModel());
         _states.Add(EnemyState.Search, new EnemySearchStateModel());
         _states.Add(EnemyState.Collect, new EnemyCollectStateModel());
-        
+
         GameEvents.Current.OnAimAppeared += SetAim;
         GameEvents.Current.OnEnemyDead += RemoveObj;
     }
@@ -27,9 +27,9 @@ public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
     public override void FixedExecute()
     {
         base.Execute();
-        for (int i = 0; i < _enemies.Count; i ++ )
+        for (int i = 0; i < _enemies.Count; i++)
         {
-            
+
             _states[_enemies[i].State].Execute(_enemies[i]);
             _enemies[i].Attack();
         }

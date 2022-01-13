@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 
-public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
+public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, IStatusEffect
 {
-    [SerializeField] protected int _points;  //EnterAlt
+    [SerializeField] protected int _points; //EnterAlt
     public int Points => _points; //EnterAlt
     #region {Author:Doonn}
-    [SerializeField] protected PerkManager _perkManager; 
+    [SerializeField] protected PerkManager _perkManager;
     public PerkManager PerkManager => _perkManager;
 
     #region Fields
@@ -32,12 +32,39 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
     public ViewParamsComponent ViewParams => _viewParams;
     #endregion
 
+    private Mesh _mesh;
+    private Bounds[] _bounds;
+    [SerializeField] private float _boundSize;
+    private BoxCollider _boxCollider;
+
     #region {Author:Doonn}
     public void Awake()
     {
-        _level = 1;
+        _bounds = new Bounds[_tankMeshes.Count];
+        _boxCollider = GetComponent<BoxCollider>();
+        for (int i = 0; i < _tankMeshes.Count; i++)
+        {
+            _bounds[i] = _tankMeshes[i].GetComponent<MeshFilter>().mesh.bounds;
+        }
+        InitColliderCenterAndSize();
         TankShotProjectileRecordTransform();
     }
+
+    //<< Doonn
+    private void InitColliderCenterAndSize()
+    {
+        for (int i = 0; i < _tankMeshes.Count; i++)
+        {
+            if (_tankMeshes[i].activeSelf)
+            {
+                // _sphereColl.radius = (_bounds[i].size.x / 2);
+                // _sphereColl.center = new Vector3(0, _bounds[i].size.x / 2 , 0);
+                _boxCollider.size = _bounds[i].size;
+                _boxCollider.center = new Vector3(0, _bounds[i].size.y / 2, 0);
+            }
+        }
+    }
+    //>>END
 
     public void InitializeShooter(Shooter shooter)
     {
@@ -54,13 +81,13 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
 
         _tankMeshes[index - 1].SetActive(true);
     }
-//Enter Alt
+    //Enter Alt
     public virtual void OnTriggerEnter(Collider other)
     {
         CheckCollectable(other.gameObject);
         CheckMerge(other.gameObject);
     }
-//Enter Alt
+    //Enter Alt
     private void CheckCollectable(GameObject other)
     {
         if (other.layer.Equals((int) Layers.Collectables) && _viewParams.IsDead() == false)
@@ -72,17 +99,16 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
             }
         }
     }
-//Enter Alt
+    //Enter Alt
     private void CheckMerge(GameObject other)
     {
         if (other.layer.Equals((int) Layers.Merge) && _viewParams.IsDead() == false)
         {
-            Debug.Log(other);
             Destroy(other);
             GetMerge();
         }
     }
-//Enter Alt
+    //Enter Alt
     private void GetMerge()
     {
         // if (CheckTankMeshesList(_tankMeshes) == false) return;
@@ -101,13 +127,27 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
         _viewParams.MoveSpeed *= 0.75f;
         _viewParams.RotationSpeed *= 0.75f;
     }
-    
+
     //Enter Alt 07.12
-    private void GetPoints(int points)
+    protected void GetPoints(int points) //<< Поменял с private на protected для тестов
     {
         _points += points;
+        CheckStorePrice(); //<<Doonn
     }
 
+    //>>Doonn
+    private void CheckStorePrice()
+    {
+        if (_points >= StoreSystem.Price)
+        {
+            Debug.Log("Можно Покупать: Цена = " + StoreSystem.Price + " Points: " + _points);
+            StartTransaction();
+        }
+    }
+
+    protected virtual void StartTransaction(){}
+
+    //<<END
     // Запись Трансформов от куда вылетают Снаряды
     public void TankShotProjectileRecordTransform()
     {
@@ -119,7 +159,6 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
             Debug.Log("List Slot Empty");
             return;
         }
-
 
         foreach (GameObject Tank in _tankMeshes)
         {
@@ -153,7 +192,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
             return;
         }
         if (_shooter == null) return;
-        _shooter.Shooting(_perkManager.OwnShooterPerkList);
+        _shooter.Shooting(_perkManager.OwnProjectileModList);
     }
 
     public void TakeDamage(float damage)
@@ -166,19 +205,55 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead
         ViewParams.ChangeHealth(ViewParams.Health - damage);
         IsDead();
     }
-
+    
     public virtual void IsDead()
     {
-        
         if (ViewParams.IsDead())
         {
             Debug.Log(GetType().ToString() + " DEAD");
             GameEvents.Current.PersonDead(this);
             Destroy(gameObject);
         }
-        
-        
-        
     }
     #endregion
+
+    //<<Doonn Debuffs Buffs
+    #region<Doonn> Debuffs Buffs
+    [SerializeField] private List<AbstractPerk> _debuffList = new List<AbstractPerk>();
+
+    public void AddDebuffList(AbstractPerk debuff)
+    {
+        _debuffList.Clear();
+        if (debuff == null) return;
+        debuff.RefreshDebuff();
+        _debuffList.Add(debuff);
+    }
+
+    public void RemoveDebuff(AbstractPerk debuff)
+    {
+        _debuffList.Remove(debuff);
+    }
+
+    //Обновления Каждый Кадр
+    public void UpdateDebuff()
+    {
+        if (_debuffList == null) return;
+        if (_debuffList.Count > 0)
+        {
+            for (int i = 0; i < _debuffList.Count; i++)
+            {
+                var s = (PoisonProjectilePerk) _debuffList[i];
+                if (_debuffList[i].RemoveDebuff())
+                {
+                    RemoveDebuff(_debuffList[i]);
+                }
+                else
+                {
+                    _debuffList[i].ExecuteDebuff(this);
+                }
+            }
+        }
+    }
+    #endregion
+    //<<END
 }

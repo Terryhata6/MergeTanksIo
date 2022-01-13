@@ -44,7 +44,7 @@ public class PopUpPerkMenu : BaseMenuView
                     _tempPerkUI = Instantiate(Resources.Load<SelectablePerkUIView>(_perkUIPath));
                     _tempPerkUI.gameObject.transform.parent = _perksParent.transform;
                     _perksUI.Add(_tempPerkUI);
-                    Debug.Log($"ÃÀËß, ÎÒÌÅÍÀ {i}!");
+                    Debug.Log($"ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ {i}!");
                 }
             }
             else
