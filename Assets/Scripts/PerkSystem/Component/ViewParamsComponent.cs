@@ -37,7 +37,6 @@ public class ViewParamsComponent
         {
             Debug.Log(Health);
             Health = 0;
-            IsDead();
         }
 
     }

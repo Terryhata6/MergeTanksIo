@@ -24,6 +24,6 @@ public class EnemyView : BasePersonView, IHaveAim
         {
             GameEvents.Current.EnemyDead(this);
         }
-
+        base.IsDead();
     }
 }

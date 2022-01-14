@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8512958481125651391}
   - component: {fileID: 8544375902688466397}
   - component: {fileID: 6737577534249195093}
+  - component: {fileID: -8139566069966181139}
   m_Layer: 11
   m_Name: MergeCapsule
   m_TagString: Untagged
@@ -96,3 +97,15 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-8139566069966181139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3921307059266348679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74cf5a1bfc024d89bef31d3991330b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

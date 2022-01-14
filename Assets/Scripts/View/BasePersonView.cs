@@ -31,8 +31,6 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     [SerializeField] private ViewParamsComponent _viewParams = new ViewParamsComponent();
     public ViewParamsComponent ViewParams => _viewParams;
     #endregion
-
-    private Mesh _mesh;
     private Bounds[] _bounds;
     [SerializeField] private float _boundSize;
     private BoxCollider _boxCollider;
@@ -44,9 +42,9 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         _boxCollider = GetComponent<BoxCollider>();
         for (int i = 0; i < _tankMeshes.Count; i++)
         {
-            _bounds[i] = _tankMeshes[i].GetComponent<MeshFilter>().mesh.bounds;
+            _bounds[i] = _tankMeshes[i].GetComponent<MeshFilter>().sharedMesh.bounds;
         }
-        InitColliderCenterAndSize();
+       InitColliderCenterAndSize();
         TankShotProjectileRecordTransform();
     }
 
@@ -104,28 +102,31 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     {
         if (other.layer.Equals((int) Layers.Merge) && _viewParams.IsDead() == false)
         {
-            Destroy(other);
+            if (other.TryGetComponent(out MergeItem obj))
+            {
+                obj.Merge();
+            }
             GetMerge();
         }
     }
     //Enter Alt
     private void GetMerge()
     {
-        // if (CheckTankMeshesList(_tankMeshes) == false) return;
-        // if (_tankMeshes.Count < 5) return;
-        // if (Level >= 5) return; // << Хард Код (Level >= 5)
-        //
-        // _level++;
-        // ChangeTankMesh(Level);
-        // TankShotProjectileRecordTransform();
-        // UpParams();
+        if (CheckTankMeshesList(_tankMeshes) == false) return;
+        if (_tankMeshes.Count < 5) return;
+        if (Level >= 5) return; // << Хард Код (Level >= 5)
+        
+        _level++;
+        ChangeTankMesh(Level);
+        TankShotProjectileRecordTransform();
+        UpParams();
     }
 
     private void UpParams( )
     {
         _viewParams.MaxHealth *= 1.5f;
         _viewParams.MoveSpeed *= 0.75f;
-        _viewParams.RotationSpeed *= 0.75f;
+        _viewParams.RotationSpeed *= 0.75f; // ПЕРЕНЕСИ В VIEWPARAMS 
     }
 
     //Enter Alt 07.12
@@ -138,11 +139,11 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     //>>Doonn
     private void CheckStorePrice()
     {
-        if (_points >= StoreSystem.Price)
-        {
-            Debug.Log("Можно Покупать: Цена = " + StoreSystem.Price + " Points: " + _points);
-            StartTransaction();
-        }
+        // if (_points >= StoreSystem.Price)
+        // {
+        //     Debug.Log("Можно Покупать: Цена = " + StoreSystem.Price + " Points: " + _points);
+        //     StartTransaction();
+        // }
     }
 
     protected virtual void StartTransaction(){}

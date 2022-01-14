@@ -20,7 +20,8 @@ public class CollectableSpray : MonoBehaviour
 
     public void SprayCollectable(Transform transform, float radius, float height)
     {
-        _tempTF[0] = transform;
+        _tempTF.Clear();
+        _tempTF.Add(transform);
         SprayCollectables(_tempTF,radius,height);
     }
 
@@ -49,7 +50,10 @@ public class CollectableSpray : MonoBehaviour
             {
                 temp = Vector3.Lerp(basePos[j], nextPos[j], iterator);
                 temp.y = -1.8f * ((x) * (x)) + height; // Менять параболу тут
-                objects[j].position = temp;
+                if (objects[j])
+                {
+                    objects[j].position = temp;
+                }
             }
             iterator += Time.deltaTime;
             x += Time.deltaTime * 2f;

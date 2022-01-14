@@ -66,6 +66,7 @@ public class CollectableController : BaseController, IExecute
 
     private void SpawnCollectables(int size)
     {
+        
         for (_index = 0; _index < size; _index++)
         {
             SpawnCollectable();
@@ -74,7 +75,6 @@ public class CollectableController : BaseController, IExecute
 
     private void SpawnCollectable()
     {
-        GetRandomPos();
         if (GetRandomPos())
         {
             _tempColl = _pool.GetObject(_tempPos + Vector3.up);
@@ -100,7 +100,7 @@ public class CollectableController : BaseController, IExecute
         _tempPos.y = Random.Range(_tempMaxY, _tempMaxY);
         _tempPos.z = Random.Range(_tempMinZ, _tempMaxZ);
         Physics.Raycast(_tempPos + Vector3.up, Vector3.down * 10f, out _hit, 4f);
-        if (_hit.collider == null || _hit.collider.gameObject.layer!.Equals((int)Layers.Ground))
+        if (_hit.collider == null || _hit.collider.gameObject.layer != (int)Layers.Ground)
         {
             return false;
         }
@@ -211,8 +211,7 @@ public class CollectableController : BaseController, IExecute
         {
             _spray.SprayCollectables(_tempTransforms, 3f, 3f);
             _tempObj = GameObject.Instantiate(_mergeObj, view.Position, Quaternion.identity);
-            //_tempObj.GetComponent<MeshFilter>().mesh = view.GetComponent<MeshFilter>().mesh;
-            //_spray.SprayCollectable(_tempObj.transform, 0f, 2f);
+            _spray.SprayCollectable(_tempObj.transform, 0f, 2f);
         }
         _tempTransforms.Clear();
     }
