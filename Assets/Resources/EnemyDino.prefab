@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3867564584887073147}
   - component: {fileID: 5504910567974189402}
   - component: {fileID: -7168474945499673212}
-  - component: {fileID: -7163538126736724595}
+  - component: {fileID: -8956088361399494732}
+  - component: {fileID: 8922893507529643835}
   m_Layer: 0
   m_Name: EnemyDino
   m_TagString: Untagged
@@ -99,8 +100,42 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!135 &-7163538126736724595
-SphereCollider:
+--- !u!114 &-8956088361399494732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4374644173496155940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417b9fbc1f44e0fa5153b4cfa806ed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _points: 100
+  _perkManager:
+    _ownPlayerPerkList: []
+    _ownShooterPerkList: []
+    _ownProjectileModList: []
+    _frozenPerkList: []
+  _level: 1
+  _shotProjectileTransform: []
+  _tankMeshes:
+  - {fileID: 5267408001498998918, guid: e31ce9b3ce483b54ea1171952a251175, type: 3}
+  - {fileID: 2945773170363313983, guid: e31ce9b3ce483b54ea1171952a251175, type: 3}
+  - {fileID: 7731723360924461512, guid: e31ce9b3ce483b54ea1171952a251175, type: 3}
+  - {fileID: 3119450032064385688, guid: e31ce9b3ce483b54ea1171952a251175, type: 3}
+  - {fileID: 8357174604567989755, guid: e31ce9b3ce483b54ea1171952a251175, type: 3}
+  _viewParams:
+    Health: 10
+    MaxHealth: 100
+    MoveSpeed: 5
+    RotationSpeed: 5
+    Shield: 0
+  _boundSize: 0
+  _debuffList: []
+--- !u!65 &8922893507529643835
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -110,5 +145,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

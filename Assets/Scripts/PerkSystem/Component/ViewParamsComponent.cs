@@ -14,7 +14,7 @@ public class ViewParamsComponent
     public float Shield;
 
     private bool _isDead = false;
-    public bool IsDead => _isDead;
+ //   public bool IsDead => _isDead;
 
     public void ChangeMaxHealth(float maxHealth)
     {
@@ -37,7 +37,6 @@ public class ViewParamsComponent
         {
             Debug.Log(Health);
             Health = 0;
-            ChangeIsDead();
         }
 
     }
@@ -53,9 +52,15 @@ public class ViewParamsComponent
     }
 
     #region Interaction
-    public void ChangeIsDead()
+    public bool IsDead()
     {
-        _isDead = true;
+        if (Health <= 0)
+        {
+       //     Debug.Log(Health);
+            Health = 0;
+            return true;
+        }
+        return false;
     }
     #endregion
 }

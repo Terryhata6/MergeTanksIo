@@ -53,6 +53,8 @@ public class LevelController : BaseController, IFixedExecute
                 GameEvents.Current.CollectablesParamSet(_currentLevel.CollectableParams);
                 GameEvents.Current.AimAppeared(_currentLevel.Aim);
                 GameEvents.Current.VirtualCamSet(_currentLevel.VirtualCam);
+                GameEvents.Current.SprayAvaible(_currentLevel.Spray);
+                GameEvents.Current.MergeObj(_currentLevel.MergeObj);
                 _environment = _currentLevel.Environment;
                 LevelEvents.Current.LevelChanged();
             }

@@ -14,12 +14,12 @@ public class PlayerView : BasePersonView, ITransaction
 
     public override void IsDead()
     {
-        base.IsDead();
-        if (ViewParams.IsDead)
+        if (ViewParams.IsDead())
         {
             GameEvents.Current.PlayerDead();
             LevelEvents.Current.LevelFailed();
         }
+        base.IsDead();
     }
 
     protected override void StartTransaction()

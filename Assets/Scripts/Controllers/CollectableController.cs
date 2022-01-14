@@ -13,23 +13,34 @@ public class CollectableController : BaseController, IExecute
     private float _tempMinY;
     private float _tempMinZ;
     private float _tempMinX;
+    private int _tempNumber;
     private int _index;
+    private CollectableSpray _spray;
+    private List<Transform> _tempTransforms;
+    private GameObject _tempObj;
+    private GameObject _mergeObj;
     private List<Vector3> _vertices;
     private Vector3 _tempPos;
     private RaycastHit _hit;
     private float _respawnDelay;
     private List<float> _respawnDelays;
 
+
     public override void Initialize()
     {
         GameEvents.Current.OnItemCollected += SetMovingCoin;
         GameEvents.Current.OnCollectablesParamSet += SetParams;
         GameEvents.Current.OnCollectableDisable += DeleteActiveCol;
+        GameEvents.Current.OnCollectableDisable += ReturnCollToPool;
+        GameEvents.Current.OnPersonDead += SprayCollectables;
+        GameEvents.Current.OnSprayAvaible += SetSpray;
+        GameEvents.Current.OnMergeObj += SetMergeObj;
 
 
         _pool = new ObjectPool<CollectableItem>();
         _activeColl = new List<CollectableItem>();
         _respawnDelays = new List<float>();
+        _tempTransforms = new List<Transform>();
         _respawnDelay = 4f;
         Debug.Log("CollectableController start");
     }
@@ -37,9 +48,9 @@ public class CollectableController : BaseController, IExecute
     public override void Execute()
     {
         Respawn();
-        for (int i = 0; i < _activeColl.Count; i++)
+        for (_index = 0; _index < _activeColl.Count; _index++)
         {
-            MoveCollectable(_activeColl[i]); // движение coin
+            MoveCollectable(_activeColl[_index]); // движение coin
         }
     }
 
@@ -55,6 +66,7 @@ public class CollectableController : BaseController, IExecute
 
     private void SpawnCollectables(int size)
     {
+        
         for (_index = 0; _index < size; _index++)
         {
             SpawnCollectable();
@@ -63,31 +75,38 @@ public class CollectableController : BaseController, IExecute
 
     private void SpawnCollectable()
     {
-        GetRandomPos();
-        _tempColl = _pool.GetObject(_tempPos + Vector3.up);
-        _tempColl.gameObject.layer = (int)Layers.Collectables;
-        CollectableInit(_tempColl);
+        if (GetRandomPos())
+        {
+            _tempColl = _pool.GetObject(_tempPos + Vector3.up);
+            _tempColl.gameObject.layer = (int)Layers.Collectables;
+            CollectableInit(_tempColl);
+        }
+        else
+        {
+            _respawnDelays.Add(0.5f);
+        }
         GameEvents.Current.EnvironmentUpdated();
-
     }
 
     private void CollectableInit(CollectableItem col)
     {
         col.Points = Random.Range(1, 10);
+        col.NeedRespawn = true;
     }
 
-    private void GetRandomPos()
+    private bool GetRandomPos()
     {
         _tempPos.x = Random.Range(_tempMinX, _tempMaxX);
         _tempPos.y = Random.Range(_tempMaxY, _tempMaxY);
         _tempPos.z = Random.Range(_tempMinZ, _tempMaxZ);
-        Physics.Raycast(_tempPos, Vector3.down, out _hit, 1f);
-        if (_hit.collider)
+        Physics.Raycast(_tempPos + Vector3.up, Vector3.down * 10f, out _hit, 4f);
+        if (_hit.collider == null || _hit.collider.gameObject.layer != (int)Layers.Ground)
         {
-            if (_hit.collider.gameObject.layer!.Equals(Layers.Ground))
-            {
-                GetRandomPos();
-            }
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
     
@@ -138,11 +157,15 @@ public class CollectableController : BaseController, IExecute
             _activeColl.Remove(col);
         }
 
-        if (col.Respawn)
+        if (col.NeedRespawn)
         {
             SetCollectableToRespawn(_respawnDelay);
         }
-        
+    }
+
+    private void ReturnCollToPool(CollectableItem col)
+    {
+        _pool.AddObject(col);
     }
 
     private void SetParams(CollectablesParam cp)
@@ -152,9 +175,59 @@ public class CollectableController : BaseController, IExecute
             Debug.Log("Collectables Params set"); 
             _collParams = cp;
             _respawnDelay = _collParams.RespawnDelay;
+            if (_collParams.Ground.Equals(null))
+            {
+                Debug.LogError("noGround");
+                return;
+            }
             CalculateBounds(_collParams.Vertices,_collParams.Ground);
             PoolInit();
             SpawnCollectables(_collParams.Size);
+        }
+    }
+
+    private void SetSpray(CollectableSpray spray)
+    {
+        if (spray)
+        {
+            Debug.Log("CollectableSpray Set");
+            _spray = spray; 
+        }
+    }
+
+    private void SprayCollectables(BasePersonView view)
+    {
+        _tempNumber = (int)(view.Points * 0.05f) + 1;
+        for (int _index = 0; _index < _tempNumber; _index++)
+        {
+            _tempColl = _pool.GetObject(view.Position);
+            _tempColl.gameObject.layer = (int)Layers.Collectables;
+            _tempColl.Points = 10;
+            _tempColl.NeedRespawn = false;
+            _tempTransforms.Add(_tempColl.transform);
+            GameEvents.Current.EnvironmentUpdated();
+        }
+        if (_spray)
+        {
+            _spray.SprayCollectables(_tempTransforms, 3f, 3f);
+            _tempObj = GameObject.Instantiate(_mergeObj, view.Position, Quaternion.identity);
+            _spray.SprayCollectable(_tempObj.transform, 0f, 2f);
+        }
+        _tempTransforms.Clear();
+    }
+
+    private void SetMergeObj(GameObject obj)
+    {
+        if (obj.Equals(null))
+        {
+            return;
+        }
+        _mergeObj = obj;
+        _mergeObj.layer = (int) Layers.Merge;
+        if (_mergeObj.TryGetComponent(out MeshFilter LOL).Equals(false))
+        {
+            _mergeObj.AddComponent<MeshFilter>();
+            LOL = null;
         }
     }
 

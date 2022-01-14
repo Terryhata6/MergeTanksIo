@@ -151,7 +151,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.2830189, g: 0.26969498, b: 0.23335709, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -392,4 +392,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Levels:
-  - {fileID: 3318521386731568896, guid: 711721b254f45d44d98746eda20c36aa, type: 3}
+  - {fileID: 8013871046531800807, guid: 1468cef6f8ef38f46849d21b72204e12, type: 3}
