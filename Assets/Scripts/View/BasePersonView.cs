@@ -69,7 +69,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     public void InitializeShooter(Shooter shooter)
     {
         _shooter = shooter;
-        _perkManager = new PerkManager(_viewParams, _shooter);
+        _perkManager = new PerkManager(_viewParams, _shooter);//
     }
 
     public void ChangeTankMesh(int index)
@@ -115,7 +115,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
             ChangeTankMesh(Level);
 
             TankShotProjectileRecordTransform();
-            Destroy(other);
+            Destroy(other); //<< Почему
         }
     }
     //Enter Alt
@@ -124,10 +124,10 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         UpParams(item.Level);
     }
 
-    private void UpParams(int multiplier)
+    private void UpParams(int multiplier) // Перенести 
     {
 
-    }
+    } 
 
     //Enter Alt 07.12
     protected void GetPoints(int points) //<< Поменял с private на protected для тестов
@@ -199,16 +199,16 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         IsDead();
     }
 
-    [SerializeField] private GameObject _garbageDeath;
-    private Transform _ownerPointDeath;
+    // [SerializeField] private GameObject _garbageDeath;
+    // private Transform _ownerPointDeath;
     public virtual void IsDead()
     {
         if (ViewParams.IsDead)
         {
-            var inst = Instantiate(_garbageDeath);
-            inst.transform.position = transform.position;
-            GarbageDeath dead = inst.GetComponent<GarbageDeath>();
-            dead.Init(inst, transform);
+            // var inst = Instantiate(_garbageDeath);
+            // inst.transform.position = transform.position;
+            // GarbageDeath dead = inst.GetComponent<GarbageDeath>();
+            // dead.Init(inst, transform);
             Destroy(gameObject);
         }
     }
@@ -234,7 +234,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     //Обновления Каждый Кадр
     public void UpdateDebuff()
     {
-        if (_debuffList == null) return;
+        //if (_debuffList == null) return;
         if (_debuffList.Count > 0)
         {
             for (int i = 0; i < _debuffList.Count; i++)
