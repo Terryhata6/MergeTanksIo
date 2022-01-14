@@ -86,13 +86,13 @@ public class Projectile : BaseProjectile, IMoveProjectile
   {
     if (otherCollider.TryGetComponent(out IApplyDamage applyDamage))
     {
-      Debug.Log("Попал");
+     Debug.Log("Попал");
       if (_damage <= 0) return;
       applyDamage.TakeDamage(_damage);
     }
   }
 
-  // private void OnDisable()
+// private void OnDisable()
   // {
   //   ObjectPool<Projectile>.Instance.AddObject(this);
   // }

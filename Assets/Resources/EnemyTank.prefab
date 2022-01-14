@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -337218138280446990}
   m_Layer: 0
   m_Name: EnemyTank
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,10 +67,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8417b9fbc1f44e0fa5153b4cfa806ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _points: 0
+  _points: 100
   _perkManager:
     _ownPlayerPerkList: []
     _ownShooterPerkList: []
+    _ownProjectileModList: []
     _frozenPerkList: []
   _level: 1
   _shotProjectileTransform: []
@@ -81,12 +82,13 @@ MonoBehaviour:
   - {fileID: 3119450032064385688}
   - {fileID: 8357174604567989755}
   _viewParams:
-    Health: 100
+    Health: 10
     MaxHealth: 100
     MoveSpeed: 5
     RotationSpeed: 5
     Shield: 0
   _boundSize: 0
+  _debuffList: []
 --- !u!114 &983147516948102266
 MonoBehaviour:
   m_ObjectHideFlags: 0

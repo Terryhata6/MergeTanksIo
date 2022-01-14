@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, IStatusEffect
 {
@@ -30,8 +31,6 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     [SerializeField] private ViewParamsComponent _viewParams = new ViewParamsComponent();
     public ViewParamsComponent ViewParams => _viewParams;
     #endregion
-
-    private Mesh _mesh;
     private Bounds[] _bounds;
     [SerializeField] private float _boundSize;
     private BoxCollider _boxCollider;
@@ -40,13 +39,12 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     public void Awake()
     {
         _bounds = new Bounds[_tankMeshes.Count];
-
         _boxCollider = GetComponent<BoxCollider>();
         for (int i = 0; i < _tankMeshes.Count; i++)
         {
-            _bounds[i] = _tankMeshes[i].GetComponent<MeshFilter>().mesh.bounds;
+            _bounds[i] = _tankMeshes[i].GetComponent<MeshFilter>().sharedMesh.bounds;
         }
-        InitColliderCenterAndSize();
+       InitColliderCenterAndSize();
         TankShotProjectileRecordTransform();
     }
 
@@ -90,43 +88,45 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     //Enter Alt
     private void CheckCollectable(GameObject other)
     {
-        if (other.layer.Equals((int) Layers.Collectables))
+        if (other.layer.Equals((int) Layers.Collectables) && _viewParams.IsDead() == false)
         {
             if ((other.transform.position - transform.position).magnitude < 2f)
             {
                 other.SetActive(false);
                 GetPoints(other.GetComponent<CollectableItem>().Points);
-
             }
-
         }
     }
     //Enter Alt
     private void CheckMerge(GameObject other)
     {
-        if (other.layer.Equals((int) Layers.Merge))
+        if (other.layer.Equals((int) Layers.Merge) && _viewParams.IsDead() == false)
         {
-
-            if (CheckTankMeshesList(_tankMeshes) == false) return;
-            if (_tankMeshes.Count < 5) return;
-            if (Level >= 5) return; // << Хард Код (Level >= 5)
-
-            _level++;
-            ChangeTankMesh(Level);
-
-            TankShotProjectileRecordTransform();
-            Destroy(other);
+            if (other.TryGetComponent(out MergeItem obj))
+            {
+                obj.Merge();
+            }
+            GetMerge();
         }
     }
     //Enter Alt
-    private void GetMerge(MergeItem item)
+    private void GetMerge()
     {
-        UpParams(item.Level);
+        if (CheckTankMeshesList(_tankMeshes) == false) return;
+        if (_tankMeshes.Count < 5) return;
+        if (Level >= 5) return; // << Хард Код (Level >= 5)
+        
+        _level++;
+        ChangeTankMesh(Level);
+        TankShotProjectileRecordTransform();
+        UpParams();
     }
 
-    private void UpParams(int multiplier)
+    private void UpParams( )
     {
-
+        _viewParams.MaxHealth *= 1.5f;
+        _viewParams.MoveSpeed *= 0.75f;
+        _viewParams.RotationSpeed *= 0.75f; // ПЕРЕНЕСИ В VIEWPARAMS 
     }
 
     //Enter Alt 07.12
@@ -139,11 +139,11 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     //>>Doonn
     private void CheckStorePrice()
     {
-        if (_points >= StoreSystem.Price)
-        {
-            Debug.Log("Можно Покупать: Цена = " + StoreSystem.Price + " Points: " + _points);
-            StartTransaction();
-        }
+        // if (_points >= StoreSystem.Price)
+        // {
+        //     Debug.Log("Можно Покупать: Цена = " + StoreSystem.Price + " Points: " + _points);
+        //     StartTransaction();
+        // }
     }
 
     protected virtual void StartTransaction(){}
@@ -188,27 +188,31 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
 
     public void Attack()
     {
+        if (_viewParams.IsDead().Equals(true))
+        {
+            return;
+        }
         if (_shooter == null) return;
         _shooter.Shooting(_perkManager.OwnProjectileModList);
     }
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("Нанес Повреждение");
+        if (_viewParams.IsDead().Equals(true))
+        {
+            return;
+        }
+        //Debug.Log("Нанес Повреждение");
         ViewParams.ChangeHealth(ViewParams.Health - damage);
         IsDead();
     }
-
-    [SerializeField] private GameObject _garbageDeath;
-    private Transform _ownerPointDeath;
+    
     public virtual void IsDead()
     {
-        if (ViewParams.IsDead)
+        if (ViewParams.IsDead())
         {
-            var inst = Instantiate(_garbageDeath);
-            inst.transform.position = transform.position;
-            GarbageDeath dead = inst.GetComponent<GarbageDeath>();
-            dead.Init(inst, transform);
+            Debug.Log(GetType().ToString() + " DEAD");
+            GameEvents.Current.PersonDead(this);
             Destroy(gameObject);
         }
     }

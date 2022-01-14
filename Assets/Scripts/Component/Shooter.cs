@@ -144,6 +144,12 @@ public class Shooter : MonoBehaviour
         {
             _projectileList.Remove((Projectile) projectile);
         }
+
+        if (projectile is Projectile && _pool!.Equals(null))
+        {
+            _pool.AddObject(projectile as Projectile);
+        }
+
     }
 
     public void MoveProjectile()

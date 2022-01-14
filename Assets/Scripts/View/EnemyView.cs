@@ -20,10 +20,10 @@ public class EnemyView : BasePersonView, IHaveAim
 
     public override void IsDead()
     {
-        base.IsDead();
-        if (ViewParams.IsDead)
+        if (ViewParams.IsDead())
         {
             GameEvents.Current.EnemyDead(this);
         }
+        base.IsDead();
     }
 }

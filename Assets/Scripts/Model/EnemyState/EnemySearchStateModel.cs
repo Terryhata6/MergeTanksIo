@@ -6,7 +6,7 @@ public class EnemySearchStateModel : BaseEnemyStateModel
     public override void Execute(EnemyView enemy)
     {
         base.Execute(enemy);
-        if (enemy.Context.Context.Decision.Values[2] > 0.7f) //если враг близко - запуск стейта на атаку врага
+        if (enemy.Context.Context.Decision.Values[2] > 0f) //если враг близко - запуск стейта на атаку врага
         {
             enemy.State = EnemyState.Attack;
             return;
@@ -22,7 +22,7 @@ public class EnemySearchStateModel : BaseEnemyStateModel
 
     private void RandomMove(EnemyView enemy)
     {
-        _dir = Vector3.up - _enemyTransform.position;
+        _dir = Vector3.up * 0.4f - _enemyTransform.position;
         _enemyTransform.rotation = Quaternion.Slerp(
             enemy.transform.rotation,
             Quaternion.LookRotation(_dir), 

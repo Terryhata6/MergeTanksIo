@@ -1,5 +1,4 @@
 
-using Cinemachine;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -59,6 +58,7 @@ public class PersonSpawner : MonoBehaviour
             _spawn = GetSpawn();
             _obj = Instantiate(_personConfs[person].Prefab, _spawn.position, _spawn.rotation);
             _personConfs[person].Controller?.AddObj(_obj);
+            GameEvents.Current.EnvironmentUpdated();
         }
     }
 
