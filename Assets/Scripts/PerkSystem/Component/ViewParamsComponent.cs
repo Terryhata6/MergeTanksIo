@@ -35,7 +35,6 @@ public class ViewParamsComponent
         }
         if (Health <= 0)
         {
-            Debug.Log(Health);
             Health = 0;
         }
 

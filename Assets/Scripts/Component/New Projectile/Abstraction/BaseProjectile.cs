@@ -21,10 +21,10 @@ public abstract class BaseProjectile : MonoBehaviour
 
     private bool _ricoshetIsActive;
 
-    // private void Start()
-    // {
-    //     transform.localScale = _defaultScale;
-    // }
+    private void Start()
+    {
+        _lifeTime = 3f;
+    }
 
     public void SetIdParent(GameObject idParent)
     {
@@ -41,14 +41,15 @@ public abstract class BaseProjectile : MonoBehaviour
     {
         //_modList = new List<BaseProjectilePerk>();
         _ricoshetIsActive = false;
-        Invoke("Coroutine", _lifeTime);
+        StartCoroutine(LifeTime(_lifeTime));
+        // Invoke("Coroutine", _lifeTime);
         //StartCoroutine(Coroutine());
     }
 
-    private void Coroutine()
-    {
-        Disable();
-    }
+    // private void Coroutine()
+    // {
+    //     Disable();
+    // }
 
     private void Disable()
     {
@@ -141,6 +142,16 @@ public abstract class BaseProjectile : MonoBehaviour
     private void RemoveDebuffList()
     {
         _debuffList.Clear();
+    }
+
+    private IEnumerator LifeTime(float lifetime)
+    {
+        while (lifetime >= 0)
+        {
+            lifetime -= Time.deltaTime;
+            yield return null;
+        }
+        Disable();
     }
     //<<END
 }
