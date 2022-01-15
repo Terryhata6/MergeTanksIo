@@ -9,18 +9,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b10f0674af5c92418c0544d38d3d28f, type: 3}
+  m_Script: {fileID: 11500000, guid: e56d5345df5cc2a4dac9b12112f659e4, type: 3}
   m_Name: CircularProjectile
   m_EditorClassIdentifier: 
   _perkData:
     _name: 
     _description: 
-    _sprite: {fileID: 21300000, guid: f11819516ad7c174c9b91102cff79195, type: 3}
-    _typePerk: 1
+    _sprite: {fileID: 21300000, guid: be900173ba3c8af488c9cc3f4041e9e2, type: 3}
+    _typePerk: 0
+    _modBelongs: 3
+    _perkEffect: 0
     _priority: 0
     _level: 1
     _maxLevel: 5
   _conflictPerk: {fileID: 0}
-  _fixedExecute: 0
+  _ownViewParams:
+    Health: 0
+    MaxHealth: 0
+    MoveSpeed: 0
+    RotationSpeed: 0
+    Shield: 0
+    _isDead: 0
+  _isActiveBuff: 0
+  _ownShooter: {fileID: 0}
+  _target: {fileID: 0}
+  _ownProjectile: {fileID: 0}
+  _modificationType: 1
   _count: 1
-  _radius: 3
+  _radius: 5
+  _circleProjectile: {fileID: 0}
+  _projectileList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

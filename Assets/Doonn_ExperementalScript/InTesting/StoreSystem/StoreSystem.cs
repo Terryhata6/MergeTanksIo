@@ -82,6 +82,8 @@ public static class StoreSystem
   {
     if (_transaction.WhoBuy.TryGetComponent(out ITransaction ownTransaction))
     {
+      Debug.Log("SDKAJFDJASHFJASH");
+
       Debug.Log("КУПИЛ: " + _transaction.WhoBuy);
       ownTransaction.CompleteTransaction(_transaction);
     }

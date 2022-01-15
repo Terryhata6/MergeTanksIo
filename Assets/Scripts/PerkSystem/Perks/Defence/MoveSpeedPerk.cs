@@ -14,10 +14,12 @@ public class MoveSpeedPerk : AbstractPerk
 
   public override void Activate(ViewParamsComponent ownPlayer)
   {
-    _ownViewParams = ownPlayer;
+    if (ownPlayer == null) return;
 
-    float newSpeed = AddMoveSpeed(_ownViewParams.MoveSpeed);
-    _ownViewParams.ChangeMoveSpeed(newSpeed);
+    base.Activate(ownPlayer);
+
+    float newSpeed = AddMoveSpeed(ownPlayer.MoveSpeed);
+    ownPlayer.ChangeMoveSpeed(newSpeed);
   }
 
   private float AddMoveSpeed(float speed)

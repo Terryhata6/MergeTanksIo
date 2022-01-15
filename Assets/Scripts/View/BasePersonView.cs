@@ -1,6 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
 
 public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, IStatusEffect
 {
@@ -44,7 +44,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         {
             _bounds[i] = _tankMeshes[i].GetComponent<MeshFilter>().sharedMesh.bounds;
         }
-       InitColliderCenterAndSize();
+        InitColliderCenterAndSize();
         TankShotProjectileRecordTransform();
     }
 
@@ -66,6 +66,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
 
     public void InitializeShooter(Shooter shooter)
     {
+        if(shooter == null) return;
         _shooter = shooter;
         _perkManager = new PerkManager(_viewParams, _shooter);
     }
@@ -115,14 +116,14 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         if (CheckTankMeshesList(_tankMeshes) == false) return;
         if (_tankMeshes.Count < 5) return;
         if (Level >= 5) return; // << Хард Код (Level >= 5)
-        
+
         _level++;
         ChangeTankMesh(Level);
         TankShotProjectileRecordTransform();
         UpParams();
     }
 
-    private void UpParams( )
+    private void UpParams()
     {
         _viewParams.MaxHealth *= 1.5f;
         _viewParams.MoveSpeed *= 0.75f;
@@ -139,14 +140,14 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     //>>Doonn
     private void CheckStorePrice()
     {
-        // if (_points >= StoreSystem.Price)
-        // {
-        //     Debug.Log("Можно Покупать: Цена = " + StoreSystem.Price + " Points: " + _points);
-        //     StartTransaction();
-        // }
+        if (_points >= StoreSystem.Price)
+        {
+            Debug.Log("Можно Покупать: Цена = " + StoreSystem.Price + " Points: " + _points);
+            StartTransaction();
+        }
     }
 
-    protected virtual void StartTransaction(){}
+    protected virtual void StartTransaction() { }
 
     //<<END
     // Запись Трансформов от куда вылетают Снаряды
@@ -206,7 +207,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         ViewParams.ChangeHealth(ViewParams.Health - damage);
         IsDead();
     }
-    
+
     public virtual void IsDead()
     {
         if (ViewParams.IsDead())

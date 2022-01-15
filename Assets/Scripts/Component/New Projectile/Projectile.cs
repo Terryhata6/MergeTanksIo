@@ -56,7 +56,7 @@ public class Projectile : BaseProjectile, IMoveProjectile
 
     // if (_isViewCamera) //TEST
     // {
-      transform.Translate(transform.forward * (_speed * Time.deltaTime), Space.World);
+    transform.Translate(transform.forward * (_speed * Time.deltaTime), Space.World);
     // }
     // else
     // {
@@ -82,17 +82,18 @@ public class Projectile : BaseProjectile, IMoveProjectile
     _damage = damage;
   }
 
-  protected override void InternalTriggerEnter(Collider otherCollider)
+  protected override void Interact(Collider otherCollider)
   {
     if (otherCollider.TryGetComponent(out IApplyDamage applyDamage))
     {
-     Debug.Log("Попал");
+      Debug.Log("Попал");
       if (_damage <= 0) return;
       applyDamage.TakeDamage(_damage);
+      Disable();
     }
   }
 
-// private void OnDisable()
+  // private void OnDisable()
   // {
   //   ObjectPool<Projectile>.Instance.AddObject(this);
   // }

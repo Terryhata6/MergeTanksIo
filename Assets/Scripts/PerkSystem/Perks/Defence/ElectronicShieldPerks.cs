@@ -15,9 +15,10 @@ public class ElectronicShieldPerks : AbstractPerk
   
   public override void Activate(ViewParamsComponent viewParams)
   {
+    if(viewParams == null) return;
     base.Activate(viewParams);
     _ownViewParams = viewParams;
-    _ownViewParams.ChangeShield(_ownViewParams.Shield + _shield);
+    viewParams.ChangeShield(viewParams.Shield + _shield);
   }
 
   public override void Deactivate(ViewParamsComponent viewParams)

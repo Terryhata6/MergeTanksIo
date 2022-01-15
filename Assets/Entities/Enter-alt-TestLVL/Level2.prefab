@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 7769086342474379856}
   - component: {fileID: 5035535478597943395}
   m_Layer: 10
-  m_Name: level2
+  m_Name: Level2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14a26fb7d39203448e384c67f184509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _size: 0
+  _size: 100
   _mesh: {fileID: 7509111080828234405}
   _ground: {fileID: 1263187532362316957}
   _respawnDelay: 2
