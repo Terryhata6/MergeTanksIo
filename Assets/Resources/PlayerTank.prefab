@@ -82,8 +82,8 @@ MonoBehaviour:
   - {fileID: 4985419512357891219}
   - {fileID: 2134673106803045360}
   _viewParams:
-    Health: 100
-    MaxHealth: 100
+    Health: 75
+    MaxHealth: 75
     MoveSpeed: 5
     RotationSpeed: 5
     Shield: 0
