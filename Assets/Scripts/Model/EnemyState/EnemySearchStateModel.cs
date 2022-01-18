@@ -1,33 +1,44 @@
-using UnityEngine;
 
 public class EnemySearchStateModel : BaseEnemyStateModel
 {
-
     public override void Execute(EnemyView enemy)
     {
         base.Execute(enemy);
-        if (enemy.Context.Context.Decision.Values[2] > 0f) //если враг близко - запуск стейта на атаку врага
+        if (enemy.AIMEnemyValue > 0f) //если враг близко - запуск стейта на атаку врага
         {
+            enemy.TurnOnSeek(SeekLabels.Enemy);
             enemy.State = EnemyState.Attack;
+            enemy.CoolDown = 1f;
+            return;
+        }
+        
+        if (enemy.AIMMergeValue > 0f) //если враг близко - запуск стейта на атаку врага
+        {
+            enemy.TurnOnSeek(SeekLabels.Merge);
+            enemy.State = EnemyState.Merge;
+            enemy.CoolDown = 1f;
             return;
         }
 
-        if (enemy.Context.Context.Decision.Values[0] > 0f) //если валюта близко - запуск стейта для сбора валюты
+        if (enemy.AIMCollectableValue > 0f) //если валюта близко - запуск стейта для сбора валюты
         {
             enemy.State = EnemyState.Collect;
+            enemy.CoolDown = 1f;
             return;
         }
-        RandomMove(enemy);
-    }
 
-    private void RandomMove(EnemyView enemy)
-    {
-        _dir = Vector3.up * 0.4f - _enemyTransform.position;
-        _enemyTransform.rotation = Quaternion.Slerp(
-            enemy.transform.rotation,
-            Quaternion.LookRotation(_dir), 
-            Time.deltaTime * enemy.ViewParams.RotationSpeed);
-        _enemyTransform.position += _enemyTransform.forward * Time.deltaTime * enemy.ViewParams.MoveSpeed;
-    }
+        if (enemy.OnBorderOfMap)
+        {
+            enemy.CoolDown *= 0.1f;
+        }
 
+        if (enemy.CoolDown <= 0f)
+        {
+            enemy.CoolDown = 7f;
+            GetRandomDirection(out _dir);
+        }
+
+        enemy.CountReactionCooldown();
+        enemy.Move(_dir);
+    }
 }

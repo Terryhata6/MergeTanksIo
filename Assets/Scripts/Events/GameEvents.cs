@@ -67,9 +67,9 @@ public class GameEvents
         OnSprayAvaible?.Invoke(spray);
     }
 
-    public event Action<GameObject> OnAimAppeared;
+    public event Action<AIMComponents> OnAimAppeared;
 
-    public void AimAppeared(GameObject aim)
+    public void AimAppeared(AIMComponents aim)
     {
         OnAimAppeared?.Invoke(aim);
     }

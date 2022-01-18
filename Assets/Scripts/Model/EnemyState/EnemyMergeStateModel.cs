@@ -1,5 +1,5 @@
 
-public class EnemyAttackStateModel : BaseEnemyStateModel
+public class EnemyMergeStateModel : BaseEnemyStateModel
 {
     public override void Execute(EnemyView enemy)
     {
@@ -8,7 +8,7 @@ public class EnemyAttackStateModel : BaseEnemyStateModel
         enemy.GetAimDirect(out _dir);
         enemy.Move(_dir);
         
-        if (enemy.AIMEnemyValue.Equals(0f))
+        if (enemy.AIMMergeValue.Equals(0f))
         {
             enemy.TurnOnAllSeek();
             enemy.State = EnemyState.Search;
