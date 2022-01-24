@@ -25,10 +25,10 @@ public class PlayerView : BasePersonView, ITransaction
     protected override void StartTransaction()
     {
         base.StartTransaction();
-       Transaction transaction = new Transaction();
-       transaction.Value = _points;
-       transaction.WhoBuy = gameObject;
-       StoreSystem.SetBuy(transaction);
+        Transaction transaction = new Transaction();
+        transaction.Value = _points;
+        transaction.WhoBuy = gameObject;
+        StoreSystem.SetBuy(transaction);
     }
 
     public void CompleteTransaction(Transaction transaction)
