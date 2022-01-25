@@ -51,7 +51,7 @@ public abstract class BaseProjectile : MonoBehaviour
     //     Disable();
     // }
 
-    private void Disable()
+    protected void Disable()
     {
         if (_circlePerkActivate == false)
         {
@@ -98,8 +98,8 @@ public abstract class BaseProjectile : MonoBehaviour
             {
                 mod.ActivateHit(this, _target);
             }
-            InternalTriggerEnter(other);
-            Disable();
+            Interact(other);
+           // Disable();
         }
         // if (_ricoshetIsActive)
         // {
@@ -111,7 +111,7 @@ public abstract class BaseProjectile : MonoBehaviour
         // }
     }
 
-    protected abstract void InternalTriggerEnter(Collider otherCollider);
+    protected abstract void Interact(Collider otherCollider);
 
     public void AddModification(AbstractPerk modification)
     {
