@@ -58,8 +58,8 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
             {
                 // _sphereColl.radius = (_bounds[i].size.x / 2);
                 // _sphereColl.center = new Vector3(0, _bounds[i].size.x / 2 , 0);
-                _boxCollider.size = _bounds[i].size;
-                _boxCollider.center = new Vector3(0, _bounds[i].size.y / 2, 0);
+                _boxCollider.size = new Vector3(_bounds[i].size.x,5f,_bounds[i].size.z);
+                _boxCollider.center = new Vector3(0, _boxCollider.size.y / 2, 0);
             }
         }
     }

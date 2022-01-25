@@ -7,9 +7,9 @@ public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
     private List<EnemyView> _enemies;
     private Dictionary<EnemyState, IEnemyState> _states;
     private EnemyView _temp;
-    private GameObject _aim;
+    private AIMComponents _aim;
     private GameObject _tempAim;
-    private AIMContext _tempContext;
+    private AIMComponents _tempAimComponents;
 
     public override void Initialize()
     {
@@ -19,6 +19,7 @@ public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
         _states.Add(EnemyState.Attack, new EnemyAttackStateModel());
         _states.Add(EnemyState.Search, new EnemySearchStateModel());
         _states.Add(EnemyState.Collect, new EnemyCollectStateModel());
+        _states.Add(EnemyState.Merge, new EnemyMergeStateModel());
 
         GameEvents.Current.OnAimAppeared += SetAim;
         GameEvents.Current.OnEnemyDead += RemoveObj;
@@ -41,18 +42,19 @@ public class EnemyController : BaseController, IObjectExecuter, IFixedExecute
         enemy.State = EnemyState.Search;
         if (_aim)
         {
-            _tempAim = GameObject.Instantiate(_aim, enemy.transform);
+            _tempAim = GameObject.Instantiate(_aim.gameObject, enemy.transform);
             _tempAim.SetActive(true);
-            if (_tempAim.TryGetComponent(out _tempContext))
+            if (_tempAim.TryGetComponent(out _tempAimComponents))
             {
-                enemy.Context = _tempContext;
+                enemy.Context = _tempAimComponents.Context;
+                enemy.SetSeekers(_tempAimComponents.Seekers);
             }
             _tempAim.transform.localPosition = Vector3.zero;
             enemy.Context.SelfObject = enemy.gameObject;
         }
     }
 
-    private void SetAim(GameObject aim)
+    private void SetAim(AIMComponents aim)
     {
         _aim = aim;
     }
