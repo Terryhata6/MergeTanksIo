@@ -45,9 +45,9 @@
 //   private void CreateEmptyGameObject(Shooter ownShoot)
 //   {
 //     _circleProjectile = new GameObject();
-//     _circleProjectile.name = "CircleProjectile_" + ownShoot.gameObject.name;
-//     _circleProjectile.transform.position = ownShoot.transform.position;
-//     _circleProjectile.transform.rotation = ownShoot.transform.rotation;
+//     _circleProjectile.name = "CircleProjectile_" + ownShoot.OwnGameObject.gameObject.name;
+//     _circleProjectile.transform.position = ownShoot.OwnGameObject.transform.position;
+//     _circleProjectile.transform.rotation = ownShoot.OwnGameObject.transform.rotation;
 
 //     // _circleProjectile.transform.parent = ownShoot.Pool.Parent.transform; // Парентим В Пулл Projectile
 //   }
@@ -68,7 +68,8 @@
 //       var x = Mathf.Cos(angle * i) * radius;
 //       var z = Mathf.Sin(angle * i) * radius;
       
-//       _projectileList[i].transform.position = new Vector3(x,0,z) + ownShoot.transform.position;
+//       if(ownShoot.OwnGameObject == null) return;
+//       _projectileList[i].transform.position = new Vector3(x,0,z) + ownShoot.OwnGameObject.transform.position;
 //     }
 //   }
 

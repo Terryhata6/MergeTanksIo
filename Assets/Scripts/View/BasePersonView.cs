@@ -11,7 +11,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     public PerkManager PerkManager => _perkManager;
 
     #region Fields
-    private Shooter _shooter;
+    [SerializeField]protected Shooter _shooter = new Shooter();
 
     // Player Level Up
     [SerializeField, Range(1, 5)] private int _level = 1;
@@ -46,6 +46,9 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         }
         InitColliderCenterAndSize();
         TankShotProjectileRecordTransform();
+
+        _shooter.Init(this.gameObject, this);
+        _perkManager = new PerkManager(_viewParams, _shooter);
     }
 
     //<< Doonn
@@ -64,12 +67,12 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     }
     //>>END
 
-    public void InitializeShooter(Shooter shooter)
-    {
-        if(shooter == null) return;
-        _shooter = shooter;
-        _perkManager = new PerkManager(_viewParams, _shooter);
-    }
+    // public void InitializeShooter(Shooter shooter)
+    // {
+    //     if(shooter == null) return;
+    //     _shooter = shooter;
+    //     _perkManager = new PerkManager(_viewParams, _shooter);
+    // }
 
     public void ChangeTankMesh(int index)
     {
@@ -213,7 +216,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         if (ViewParams.IsDead())
         {
             Debug.Log(GetType().ToString() + " DEAD");
-           // GameEvents.Current.PersonDead(this); // Временно Отключил для Тестов
+            GameEvents.Current.PersonDead(this); // Временно Отключил для Тестов
             Destroy(gameObject);
         }
     }

@@ -47,6 +47,7 @@ public class EnemyView : BasePersonView, IHaveAim, ITransaction
         {
             return;
         }
+        if(_shooter == null) return;
         _points = transaction.Value;
         PerkManager.AddPerk(transaction.Perk);
     }

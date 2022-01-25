@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2750924625520642418}
   - component: {fileID: 2750924625520642430}
   - component: {fileID: 3261821368539663791}
-  - component: {fileID: 312650254067247622}
   - component: {fileID: 727677575477533411}
   m_Layer: 0
   m_Name: PlayerTank
@@ -90,24 +89,8 @@ MonoBehaviour:
   _boundSize: 0
   _debuffList: []
   _state: 0
---- !u!114 &312650254067247622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2750924625520642424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e53294eccb00fc44dbba8356e94300b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speedProjectile: 15
-  _damage: 10
-  _sequentialShots: 0
-  _shootInterval: 1
-  _projectileList: []
-  _speed: 200
+  _newPerkManager:
+    _playerPerks: []
 --- !u!65 &727677575477533411
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5208545700885542777}
   - component: {fileID: 5208545700885542773}
   - component: {fileID: -6846491970631796437}
-  - component: {fileID: 983147516948102266}
   - component: {fileID: -337218138280446990}
   m_Layer: 0
   m_Name: EnemyTank
@@ -73,6 +72,13 @@ MonoBehaviour:
     _ownShooterPerkList: []
     _ownProjectileModList: []
     _frozenPerkList: []
+  _shooter:
+    _speedProjectile: 30
+    _damage: 10
+    _sequentialShots: 0
+    _shootInterval: 1
+    _projectileList: []
+    _speed: 0
   _level: 1
   _shotProjectileTransform: []
   _tankMeshes:
@@ -89,24 +95,6 @@ MonoBehaviour:
     Shield: 0
   _boundSize: 0
   _debuffList: []
---- !u!114 &983147516948102266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5208545700885542771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e53294eccb00fc44dbba8356e94300b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speedProjectile: 15
-  _damage: 10
-  _sequentialShots: 0
-  _shootInterval: 1
-  _projectileList: []
-  _speed: 0
 --- !u!65 &-337218138280446990
 BoxCollider:
   m_ObjectHideFlags: 0

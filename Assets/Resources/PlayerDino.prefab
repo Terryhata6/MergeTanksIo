@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 390832967228485277}
   - component: {fileID: 5490722893125004901}
   - component: {fileID: 3889967548911070788}
-  - component: {fileID: 5843029806375029978}
   - component: {fileID: -5809177810517125689}
   - component: {fileID: 125507853190592550}
   m_Layer: 0
@@ -84,24 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5843029806375029978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4984206795606681658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e53294eccb00fc44dbba8356e94300b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speedProjectile: 10
-  _damage: 10
-  _sequentialShots: 0
-  _shootInterval: 1
-  _projectileList: []
-  _speed: 0
 --- !u!54 &-5809177810517125689
 Rigidbody:
   m_ObjectHideFlags: 0

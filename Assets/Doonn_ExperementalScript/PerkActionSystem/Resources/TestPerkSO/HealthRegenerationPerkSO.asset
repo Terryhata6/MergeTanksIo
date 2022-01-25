@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56c9e6e5ce6343f43ae0ffaafa2699c8, type: 3}
+  m_Name: HealthRegenerationPerkSO
+  m_EditorClassIdentifier: 
+  _name: 
+  _description: 
+  _typePerk: 0
+  _actions:
+  - {fileID: 11400000, guid: 64f7760adfde2a946a644271fa5cfb2b, type: 2}
+  - {fileID: 11400000, guid: 89898cc3e2fcb5c4ab66bf6e186c8876, type: 2}

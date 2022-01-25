@@ -10,6 +10,9 @@ public abstract class BasePlayerStateModel : IPlayerState
             view.UpdateDebuff();
             if (view.PerkManager == null) return;
             view.PerkManager.ExecutePerks(view.ViewParams);
+
+            if (view.NewPerkManager == null) return;
+            view.NewPerkManager.NewExecutePerks(view);
         }
     }
 }
