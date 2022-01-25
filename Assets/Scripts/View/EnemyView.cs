@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Polarith.AI.Move;
 using UnityEngine;
 
-public class EnemyView : BasePersonView, IHaveAim
+public class EnemyView : BasePersonView, IHaveAim, ITransaction
 {
     #region  Private fields
     private EnemyState _state;
@@ -187,4 +187,30 @@ public class EnemyView : BasePersonView, IHaveAim
         }
         base.IsDead();
     }
+
+    //Doonn Покупка 
+    protected override void StartTransaction()
+    {
+        if (ViewParams.IsDead())
+        {
+            return;
+        }
+        base.StartTransaction();
+        Transaction transaction = new Transaction();
+        transaction.Value = _points;
+        transaction.WhoBuy = gameObject;
+        StoreSystem.SetBuy(transaction);
+    }
+
+    public void CompleteTransaction(Transaction transaction)
+    {
+        if (ViewParams.IsDead())
+        {
+            return;
+        }
+        if(_shooter == null) return;
+        _points = transaction.Value;
+        PerkManager.AddPerk(transaction.Perk);
+    }
+    //
 }

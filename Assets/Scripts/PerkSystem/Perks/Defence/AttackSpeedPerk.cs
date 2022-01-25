@@ -16,8 +16,8 @@ public class AttackSpeedPerk : AbstractPerk
 
   public override void Activate(Shooter ownShooter)
   {
+    if(ownShooter == null) return;
     base.Activate(ownShooter);
-
     float newSpeed = AttackSpeed(ownShooter.ShootInterval);
     ownShooter.ChangeShootInterval(newSpeed);
 

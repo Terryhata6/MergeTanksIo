@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class Shooter : MonoBehaviour
+[System.Serializable]
+public class Shooter
 {
     #region Shooter Params
     [SerializeField] private float _speedProjectile = 30f;
@@ -32,20 +32,24 @@ public class Shooter : MonoBehaviour
     private List<AbstractPerk> _perkProjectileList;
     public List<AbstractPerk> PerkProjectileList => _perkProjectileList;
 
-    private IEnumerator Start()
+    private GameObject _ownGameObject;
+    public GameObject OwnGameObject => _ownGameObject;
+    public void Init(GameObject ownGameObject, BasePersonView basePerson) //IEnumerator Start
     {
-        yield return null;
-        if (TryGetComponent(out _basePlayer))
+        _ownGameObject = ownGameObject;
+        //yield return null;
+        //if (TryGetComponent(out _basePlayer))
         {
             _projectileController = MainController.Current.GetController<ProjectileController>();
             _projectileController.AddShooterToList(this);
-            _basePlayer.InitializeShooter(this);
+            //_basePlayer.InitializeShooter(this);
+            _basePlayer = basePerson;
             _pool = _projectileController.Pool;
         }
-        else
+        //else
         {
-            Debug.Log("not found", this.gameObject);
-            yield break;
+            //Debug.Log("not found", this.gameObject);
+           // yield break;
         }
         GameEvents.Current.OnRemoveBaseProjectile += RemoveProjectile;
     }
@@ -104,7 +108,7 @@ public class Shooter : MonoBehaviour
         if(_temporalProjectile == null) return _temporalProjectile;
         _temporalProjectile.transform.position = position;
         _temporalProjectile.transform.rotation = rotation;
-        _temporalProjectile.SetIdParent(this.gameObject);
+        _temporalProjectile.SetIdParent(_ownGameObject);
         
 
         return _temporalProjectile;
@@ -168,8 +172,9 @@ public class Shooter : MonoBehaviour
     public void RotationCircleProjectile()
     {
         if (_circleProjectileWeapon == null) return;
+        if (_ownGameObject == null) return;
 
-        _circleProjectileWeapon.transform.position = transform.position;
+        _circleProjectileWeapon.transform.position = _ownGameObject.transform.position;
         _circleProjectileWeapon.transform.Rotate(Vector3.up * Time.deltaTime * _speed);
     }
 

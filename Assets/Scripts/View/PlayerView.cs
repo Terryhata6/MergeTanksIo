@@ -25,10 +25,10 @@ public class PlayerView : BasePersonView, ITransaction
     protected override void StartTransaction()
     {
         base.StartTransaction();
-       Transaction transaction = new Transaction();
-       transaction.Value = _points;
-       transaction.WhoBuy = gameObject;
-       StoreSystem.SetBuy(transaction);
+        Transaction transaction = new Transaction();
+        transaction.Value = _points;
+        transaction.WhoBuy = gameObject;
+        StoreSystem.SetBuy(transaction);
     }
 
     public void CompleteTransaction(Transaction transaction)
@@ -37,14 +37,28 @@ public class PlayerView : BasePersonView, ITransaction
         PerkManager.AddPerk(transaction.Perk);
     }
 
+    // Тест Новой Системы Перков
+    [SerializeField] private BlackRainbow.PerkManager.PerkManager _newPerkManager;
+    public BlackRainbow.PerkManager.PerkManager NewPerkManager => _newPerkManager;
+
     /// <summary>
     /// Test UI PERK
     /// </summary>
+
+    void Start()
+    {
+        _newPerkManager = new BlackRainbow.PerkManager.PerkManager(this);
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GetPoints(10);
+            //GetPoints(10);
+            //var ss = Resources.Load<BlackRainbow.PerkSystem.AbstractPerkSO>("TestPerkSO/AddMaxHealthPerk");
+            var ss = Resources.Load<BlackRainbow.PerkSystem.AbstractPerkSO>("TestPerkSO/HealthRegenerationPerkSO");
+            Debug.Log(ss);
+            var inst = Instantiate(ss);
+            _newPerkManager.AddPerk(inst);
         }
         // if (Input.GetKeyDown(KeyCode.Space))
         // {
