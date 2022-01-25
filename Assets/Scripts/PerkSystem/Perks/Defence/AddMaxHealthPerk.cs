@@ -15,15 +15,16 @@ public class AddMaxHealthPerk : AbstractPerk
 
   public override void Activate(ViewParamsComponent viewParams)
   {
-    _ownViewParams = viewParams;
-    var newHealth = _ownViewParams.MaxHealth + _addHealth;
-    _ownViewParams.ChangeMaxHealth(newHealth);
+    if(viewParams == null) return;
+    base.Activate(viewParams);
+    var newHealth = viewParams.MaxHealth + _addHealth;
+    viewParams.ChangeMaxHealth(newHealth);
   }
 
   public override void Deactivate(ViewParamsComponent viewParams)
   {
-    var newHealth = _ownViewParams.MaxHealth - _addHealth * _perkData.Level;
-    _ownViewParams.ChangeMaxHealth(newHealth);
+    var newHealth = viewParams.MaxHealth - _addHealth * _perkData.Level;
+    viewParams.ChangeMaxHealth(newHealth);
   }
 
   protected override void InternalAddLevel()

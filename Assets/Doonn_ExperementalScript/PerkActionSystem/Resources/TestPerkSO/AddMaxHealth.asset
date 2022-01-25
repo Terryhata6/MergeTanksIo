@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31f860fd9e5c3af4b9813242baa798d5, type: 3}
+  m_Name: AddMaxHealth
+  m_EditorClassIdentifier: 
+  _name: 
+  _description: 
+  _typePerk: 0
+  _actions:
+  - {fileID: 11400000, guid: 805ab98f3115c724d971ba7d86c16cdb, type: 2}

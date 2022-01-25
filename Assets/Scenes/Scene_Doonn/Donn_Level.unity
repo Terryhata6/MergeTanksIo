@@ -215,6 +215,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3261821368539663791, guid: f22f3b307b48fb14cb29b4f9d1704945, type: 3}
+      propertyPath: _points
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3261821368539663791, guid: f22f3b307b48fb14cb29b4f9d1704945, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -370,7 +374,6 @@ MonoBehaviour:
     RotationSpeed: 0
     Shield: 0
   _boundSize: 0
-  _garbageDeath: {fileID: 1407740635462064990, guid: bb8af3449512f3d4893a8a3430cba935, type: 3}
   _debuffList: []
 --- !u!1 &705507993
 GameObject:

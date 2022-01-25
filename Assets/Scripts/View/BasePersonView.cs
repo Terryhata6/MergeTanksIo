@@ -1,6 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
 
 public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, IStatusEffect
 {
@@ -11,7 +11,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     public PerkManager PerkManager => _perkManager;
 
     #region Fields
-    private Shooter _shooter;
+    [SerializeField]protected Shooter _shooter = new Shooter();
 
     // Player Level Up
     [SerializeField, Range(1, 5)] private int _level = 1;
@@ -45,8 +45,11 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         {
             _bounds[i] = _tankMeshes[i].GetComponent<MeshFilter>().sharedMesh.bounds;
         }
-       InitColliderCenterAndSize();
+        InitColliderCenterAndSize();
         TankShotProjectileRecordTransform();
+
+        _shooter.Init(this.gameObject, this);
+        _perkManager = new PerkManager(_viewParams, _shooter);
     }
 
     //<< Doonn
@@ -65,11 +68,12 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     }
     //>>END
 
-    public void InitializeShooter(Shooter shooter)
-    {
-        _shooter = shooter;
-        _perkManager = new PerkManager(_viewParams, _shooter);
-    }
+    // public void InitializeShooter(Shooter shooter)
+    // {
+    //     if(shooter == null) return;
+    //     _shooter = shooter;
+    //     _perkManager = new PerkManager(_viewParams, _shooter);
+    // }
 
     public void ChangeTankMesh(int index)
     {
@@ -116,14 +120,14 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         if (CheckTankMeshesList(_tankMeshes) == false) return;
         if (_tankMeshes.Count < 5) return;
         if (Level >= 5) return; // << Хард Код (Level >= 5)
-        
+
         _level++;
         ChangeTankMesh(Level);
         TankShotProjectileRecordTransform();
         UpParams();
     }
 
-    private void UpParams( )
+    private void UpParams()
     {
         _viewParams.ChangeMaxHealth(_viewParams.MaxHealth * 1.5f);
         _viewParams.ChangeHealth(_viewParams.Health + _viewParams.MaxHealth * 0.5f);
@@ -141,14 +145,14 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     //>>Doonn
     private void CheckStorePrice()
     {
-        // if (_points >= StoreSystem.Price)
-        // {
-        //     Debug.Log("Можно Покупать: Цена = " + StoreSystem.Price + " Points: " + _points);
-        //     StartTransaction();
-        // }
+        if (_points >= StoreSystem.Price)
+        {
+            Debug.Log("Можно Покупать: Цена = " + StoreSystem.Price + " Points: " + _points);
+            StartTransaction();
+        }
     }
 
-    protected virtual void StartTransaction(){}
+    protected virtual void StartTransaction() { }
 
     //<<END
     // Запись Трансформов от куда вылетают Снаряды
@@ -208,13 +212,13 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         ViewParams.ChangeHealth(ViewParams.Health - damage);
         IsDead();
     }
-    
+
     public virtual void IsDead()
     {
         if (ViewParams.IsDead())
         {
             Debug.Log(GetType().ToString() + " DEAD");
-            GameEvents.Current.PersonDead(this);
+            GameEvents.Current.PersonDead(this); // Временно Отключил для Тестов
             Destroy(gameObject);
         }
     }

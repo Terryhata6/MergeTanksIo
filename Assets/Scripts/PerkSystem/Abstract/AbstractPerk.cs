@@ -13,7 +13,9 @@ public abstract class AbstractPerk : ScriptableObject
     protected ViewParamsComponent _ownViewParams;
     public virtual void Activate(ViewParamsComponent ownViewParams)
     {
+        if(ownViewParams == null) return;
         _ownViewParams = ownViewParams;
+        //Debug.Log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ " + ownViewParams);
     }
     public virtual void Deactivate(ViewParamsComponent ownViewParams) { }
 
@@ -27,7 +29,10 @@ public abstract class AbstractPerk : ScriptableObject
     protected Shooter _ownShooter;
     public virtual void Activate(Shooter ownShooter)
     {
+        if(ownShooter == null) return;
+
         _ownShooter = ownShooter;
+        //Debug.Log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ: " + ownShooter);
     }
     public virtual void Deactivate(Shooter ownShooter) { }
     public virtual void ActivateBuff(Shooter ownShooter) { }
@@ -49,7 +54,11 @@ public abstract class AbstractPerk : ScriptableObject
 
     public virtual void ActivateModification(BaseProjectile ownProjectile) 
     { 
+        if(ownProjectile == null) return;
+
         _ownProjectile = ownProjectile;
+        //Debug.Log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ: " + ownProjectile);
+
     }
 
     public virtual void ActivateHit(BaseProjectile ownProjectile, GameObject target)
