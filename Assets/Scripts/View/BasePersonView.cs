@@ -38,6 +38,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     #region {Author:Doonn}
     public void Awake()
     {
+        ChangeTankMesh(1);
         _bounds = new Bounds[_tankMeshes.Count];
         _boxCollider = GetComponent<BoxCollider>();
         for (int i = 0; i < _tankMeshes.Count; i++)
@@ -60,8 +61,8 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
             {
                 // _sphereColl.radius = (_bounds[i].size.x / 2);
                 // _sphereColl.center = new Vector3(0, _bounds[i].size.x / 2 , 0);
-                _boxCollider.size = _bounds[i].size;
-                _boxCollider.center = new Vector3(0, _bounds[i].size.y / 2, 0);
+                _boxCollider.size = new Vector3(_bounds[i].size.x,5f,_bounds[i].size.z);
+                _boxCollider.center = new Vector3(0, _boxCollider.size.y / 2, 0);
             }
         }
     }
@@ -94,7 +95,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     {
         if (other.layer.Equals((int) Layers.Collectables) && _viewParams.IsDead() == false)
         {
-            if ((other.transform.position - transform.position).magnitude < 2f)
+            if ((other.transform.position - transform.position).magnitude < 3f)
             {
                 other.SetActive(false);
                 GetPoints(other.GetComponent<CollectableItem>().Points);
@@ -128,9 +129,10 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
 
     private void UpParams()
     {
-        _viewParams.MaxHealth *= 1.5f;
-        _viewParams.MoveSpeed *= 0.75f;
-        _viewParams.RotationSpeed *= 0.75f; // ПЕРЕНЕСИ В VIEWPARAMS 
+        _viewParams.ChangeMaxHealth(_viewParams.MaxHealth * 1.5f);
+        _viewParams.ChangeHealth(_viewParams.Health + _viewParams.MaxHealth * 0.5f);
+        _viewParams.ChangeMoveSpeed(_viewParams.MoveSpeed * 0.75f);
+        _viewParams.ChangeRotationSpeed(_viewParams.MoveSpeed * 0.75f);
     }
 
     //Enter Alt 07.12

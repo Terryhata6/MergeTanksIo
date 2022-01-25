@@ -150,7 +150,7 @@ MonoBehaviour:
   _spawner: {fileID: 7769086342474379856}
   _collectablesParams: {fileID: 666884599802450034}
   _environment: {fileID: 3269137481132405754}
-  _aim: {fileID: 1603020612543225194}
+  _aim: {fileID: 1081454447136141807}
   _virtualCam: {fileID: 1417898868509129094}
   _spray: {fileID: 5035535478597943395}
   _mergeObj: {fileID: 3921307059266348679, guid: 2d4b94c0ca9b5294ea3d0716a48c1a1e, type: 3}
@@ -431,6 +431,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1488054474152122810}
     m_Modifications:
+    - target: {fileID: 2397651298548555268, guid: 223fb40aaa7cab14fae176984d7a8ed5, type: 3}
+      propertyPath: PlanarInterpolation.Constraint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5598683954240315286, guid: 223fb40aaa7cab14fae176984d7a8ed5, type: 3}
       propertyPath: m_Name
       value: Env
@@ -509,8 +513,14 @@ MonoBehaviour:
   m_Script: {fileID: 1274429404, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1603020612543225194 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7951729815446327332, guid: 223fb40aaa7cab14fae176984d7a8ed5, type: 3}
+--- !u!114 &1081454447136141807 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8603902740870724769, guid: 223fb40aaa7cab14fae176984d7a8ed5, type: 3}
   m_PrefabInstance: {fileID: 8675387407715732814}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac78d37f93e44f3a81b88e9e6e3e4b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -7,14 +7,14 @@ public class LevelConfig : MonoBehaviour
     [SerializeField] private PersonSpawner _spawner;
     [SerializeField] private CollectablesParam _collectablesParams;
     [SerializeField] private AIMSteeringPerceiver _environment;
-    [SerializeField] private GameObject _aim;
+    [SerializeField] private AIMComponents _aim;
     [SerializeField] private CinemachineVirtualCamera _virtualCam;
     [SerializeField] private CollectableSpray _spray;
     [SerializeField] private GameObject _mergeObj;
 
     public PersonSpawner Spawner => _spawner;
     public CollectablesParam CollectableParams => _collectablesParams;
-    public GameObject Aim => _aim;
+    public AIMComponents Aim => _aim;
     public CinemachineVirtualCamera VirtualCam => _virtualCam;
     public AIMSteeringPerceiver Environment => _environment;
     public CollectableSpray Spray => _spray;

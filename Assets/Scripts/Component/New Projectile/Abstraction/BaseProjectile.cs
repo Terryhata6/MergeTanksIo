@@ -21,10 +21,10 @@ public abstract class BaseProjectile : MonoBehaviour
 
     private bool _ricoshetIsActive;
 
-    // private void Start()
-    // {
-    //     transform.localScale = _defaultScale;
-    // }
+    private void Start()
+    {
+        _lifeTime = 3f;
+    }
 
     public void SetIdParent(GameObject idParent)
     {
@@ -39,16 +39,19 @@ public abstract class BaseProjectile : MonoBehaviour
 
     private void OnEnable()
     {
+        //_modList = new List<BaseProjectilePerk>();
         _ricoshetIsActive = false;
-        Invoke("Coroutine", _lifeTime);
+        StartCoroutine(LifeTime(_lifeTime));
+        // Invoke("Coroutine", _lifeTime);
+        //StartCoroutine(Coroutine());
     }
 
-    private void Coroutine()
-    {
-        Disable();
-    }
+    // private void Coroutine()
+    // {
+    //     Disable();
+    // }
 
-    protected void Disable()
+    private void Disable()
     {
         if (_circlePerkActivate == false)
         {
@@ -57,6 +60,9 @@ public abstract class BaseProjectile : MonoBehaviour
             RemoveBaseProjectile();
             _modList.Clear();
             RemoveDebuffList();
+
+            // if (_modList == null) return;
+            // _modList = null;
         }
     }
 
@@ -81,18 +87,19 @@ public abstract class BaseProjectile : MonoBehaviour
             _target = other.gameObject;
             if (other.gameObject.TryGetComponent(out BasePersonView target))
             {
-                for(int i = 0; i < _debuffList.Count; i++)
+                foreach (var projectileDebuff in _debuffList)
                 {
-                    _debuffList[i].ActivateModification(this);
-                    target.AddDebuffList(_debuffList[i]);
+                    projectileDebuff.ActivateModification(this);
+                    target.AddDebuffList(projectileDebuff);
                 }
 
             }
-            for (int i = 0; i < _modList.Count; i++)
+            foreach (var mod in _modList)
             {
-                _modList[i].ActivateHit(this, _target);
+                mod.ActivateHit(this, _target);
             }
-            Interact(other);
+            InternalTriggerEnter(other);
+            Disable();
         }
         // if (_ricoshetIsActive)
         // {
@@ -104,7 +111,7 @@ public abstract class BaseProjectile : MonoBehaviour
         // }
     }
 
-    protected abstract void Interact(Collider otherCollider);
+    protected abstract void InternalTriggerEnter(Collider otherCollider);
 
     public void AddModification(AbstractPerk modification)
     {
@@ -118,6 +125,10 @@ public abstract class BaseProjectile : MonoBehaviour
         {
             AddDebuffList(modification);
         }
+        // else if (modification.ModificationType == BaseProjectilePerk.TypeModification.Buff)
+        // {
+        //     // TODO AddBuffList(modification);
+        // }
     }
 
 
@@ -131,6 +142,16 @@ public abstract class BaseProjectile : MonoBehaviour
     private void RemoveDebuffList()
     {
         _debuffList.Clear();
+    }
+
+    private IEnumerator LifeTime(float lifetime)
+    {
+        while (lifetime >= 0)
+        {
+            lifetime -= Time.deltaTime;
+            yield return null;
+        }
+        Disable();
     }
     //<<END
 }

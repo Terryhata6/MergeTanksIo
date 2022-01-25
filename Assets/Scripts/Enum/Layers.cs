@@ -5,5 +5,6 @@ public enum Layers
     Enemies = 8,
     Decoration = 9,
     Ground = 10,
-    Merge = 11
+    Merge = 11,
+    BorderOfMap
 }

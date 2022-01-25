@@ -17,6 +17,7 @@ public class PersonSpawner : MonoBehaviour
     private int j;
     private List<float> _time;
     private PersonType _playerType;
+    private List<PersonType> _enemyTypes;
     private void Awake()
     {
         _playerDino = Resources.Load<GameObject>("PlayerDino");
@@ -27,6 +28,7 @@ public class PersonSpawner : MonoBehaviour
         _spawns = new Queue<Transform>();
         _time = new List<float>();
         _personConfs = new Dictionary<PersonType, PersonConf>();
+        _enemyTypes = new List<PersonType>();
         _playerType = PersonType.PlayerTank;
         
         _personConfs.Add(PersonType.EnemyDino,
@@ -37,6 +39,9 @@ public class PersonSpawner : MonoBehaviour
             new PersonConf(MainController.Current.GetController<PlayerController>(), _playerDino));
         _personConfs.Add(PersonType.PlayerTank,
             new PersonConf(MainController.Current.GetController<PlayerController>(), _playerTank));
+
+        _enemyTypes.Add(PersonType.EnemyDino);
+        _enemyTypes.Add(PersonType.EnemyTank);
         
         ShuffleSpawns();
         
@@ -99,7 +104,7 @@ public class PersonSpawner : MonoBehaviour
     }
     private PersonType RandomEnemyType()
     {
-        return (PersonType) Random.Range((int) PersonType.EnemyTank, (int) PersonType.EnemyDino + 1);
+        return _enemyTypes[Random.Range(0, _enemyTypes.Count)];
     }
     private void ShuffleSpawns()
     {
