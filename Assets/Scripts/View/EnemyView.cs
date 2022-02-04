@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Polarith.AI.Move;
 using UnityEngine;
 
-public class EnemyView : BasePersonView, IHaveAim, ITransaction
+public class EnemyView : BasePersonView, IHaveAim
 {
     #region  Private fields
     private EnemyState _state;
@@ -13,21 +13,21 @@ public class EnemyView : BasePersonView, IHaveAim, ITransaction
     private float _reactionTime;
     private float _coolDown;
     #endregion
-    
+
     #region Access Fields
     public bool OnBorderOfMap => _onBorderOfMap;
     public float ReactionTime
     {
-        get => _reactionTime; 
-        set => _reactionTime=value;
+        get => _reactionTime;
+        set => _reactionTime = value;
     }
 
     public float CoolDown
     {
-        get => _coolDown; 
-        set => _coolDown=value;
+        get => _coolDown;
+        set => _coolDown = value;
     }
-    
+
     public EnemyState State
     {
         set => _state = value;
@@ -76,7 +76,28 @@ public class EnemyView : BasePersonView, IHaveAim, ITransaction
         }
     }
     #endregion
-    
+
+    #region {Author:Doonn}
+    [SerializeField] protected PerkManager _perkManager;
+    public PerkManager PerkManager => _perkManager;
+
+    [SerializeField] protected Shooter _shooter = new Shooter();
+
+    public override void Awake()
+    {
+        base.Awake();
+        _shooter.Init(this);
+        _perkManager = new PerkManager(_viewParams, _shooter);
+    }
+
+    public void GivePerk(AbstractPerk perk)
+    {
+        if(perk == null) return;
+        _perkManager.AddPerk(perk);
+    }
+    #endregion
+    //<<Doonn
+
     private void Start()
     {
         _onBorderOfMap = false;
@@ -85,16 +106,16 @@ public class EnemyView : BasePersonView, IHaveAim, ITransaction
             _reactionTime = 0.5f;
         }
     }
-    
+
     public void SetSeekers(List<SeekDictionary> dict)
     {
         _seekers = new Dictionary<SeekLabels, AIMSeek>();
         for (int i = 0; i < dict.Count; i++)
         {
-            _seekers.Add(dict[i].Label,dict[i].Seek);
+            _seekers.Add(dict[i].Label, dict[i].Seek);
         }
     }
-    
+
     public void ChangeSeekMultiplier(SeekLabels label, float multiplier)
     {
         if (_seekers.ContainsKey(label))
@@ -107,7 +128,7 @@ public class EnemyView : BasePersonView, IHaveAim, ITransaction
     {
         for (int i = 0; i < _seekers.Count; i++)
         {
-            ChangeSeekMultiplier((SeekLabels)i , 0.1f);
+            ChangeSeekMultiplier((SeekLabels) i, 0.1f);
         }
     }
 
@@ -115,10 +136,10 @@ public class EnemyView : BasePersonView, IHaveAim, ITransaction
     {
         for (int i = 0; i < _seekers.Count; i++)
         {
-            _seekers[(SeekLabels)i].enabled = false;
+            _seekers[(SeekLabels) i].enabled = false;
         }
     }
-    
+
     public void TurnOnSeek(SeekLabels label)
     {
         TurnOffAllSeek();
@@ -132,16 +153,16 @@ public class EnemyView : BasePersonView, IHaveAim, ITransaction
     {
         for (int i = 0; i < _seekers.Count; i++)
         {
-            _seekers[(SeekLabels)i].enabled = true;
+            _seekers[(SeekLabels) i].enabled = true;
         }
     }
-    
+
     public void SetSeekPriory(SeekLabels label)
     {
         TurnLowPrioryAllSeekers();
         if (_seekers.ContainsKey(label))
         {
-            ChangeSeekMultiplier(label , 1f);
+            ChangeSeekMultiplier(label, 1f);
         }
     }
 
@@ -149,22 +170,22 @@ public class EnemyView : BasePersonView, IHaveAim, ITransaction
     {
         _coolDown -= Time.deltaTime;
     }
-    
+
     public void Move(Vector3 dir)
     {
         transform.rotation = Quaternion.Slerp(
             transform.rotation,
-            Quaternion.LookRotation(dir), 
+            Quaternion.LookRotation(dir),
             Time.deltaTime * ViewParams.RotationSpeed);
         transform.position += transform.forward * Time.deltaTime * ViewParams.MoveSpeed;
     }
 
     public void GetAimDirect(out Vector3 dir)
     {
-        dir = Context.DecidedDirection; 
+        dir = Context.DecidedDirection;
         dir.y = 0f;
     }
-    
+
     public override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
@@ -178,7 +199,7 @@ public class EnemyView : BasePersonView, IHaveAim, ITransaction
             _onBorderOfMap = true;
         }
     }
-    
+
     public override void IsDead()
     {
         if (ViewParams.IsDead())
@@ -187,30 +208,4 @@ public class EnemyView : BasePersonView, IHaveAim, ITransaction
         }
         base.IsDead();
     }
-
-    //Doonn Покупка 
-    protected override void StartTransaction()
-    {
-        if (ViewParams.IsDead())
-        {
-            return;
-        }
-        base.StartTransaction();
-        Transaction transaction = new Transaction();
-        transaction.Value = _points;
-        transaction.WhoBuy = gameObject;
-        StoreSystem.SetBuy(transaction);
-    }
-
-    public void CompleteTransaction(Transaction transaction)
-    {
-        if (ViewParams.IsDead())
-        {
-            return;
-        }
-        if(_shooter == null) return;
-        _points = transaction.Value;
-        PerkManager.AddPerk(transaction.Perk);
-    }
-    //
 }

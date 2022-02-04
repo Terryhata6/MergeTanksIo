@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,29 +5,17 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
 {
     [SerializeField] protected int _points; //EnterAlt
     public int Points => _points; //EnterAlt
-    #region {Author:Doonn}
-    [SerializeField] protected PerkManager _perkManager;
-    public PerkManager PerkManager => _perkManager;
 
     #region Fields
-    [SerializeField]protected Shooter _shooter = new Shooter();
-
     // Player Level Up
     [SerializeField, Range(1, 5)] private int _level = 1;
     public int Level => _level;
-
-    // Shot Project Transform
-    [SerializeField] private List<Transform> _shotProjectileTransform;
-    public List<Transform> ShotProjectileTransform => _shotProjectileTransform;
-
     #endregion
 
     [SerializeField] private List<GameObject> _tankMeshes;
 
-    #endregion
-
     #region Player Params
-    [SerializeField] private ViewParamsComponent _viewParams = new ViewParamsComponent();
+    [SerializeField] protected ViewParamsComponent _viewParams = new ViewParamsComponent();
     public ViewParamsComponent ViewParams => _viewParams;
     #endregion
     private Bounds[] _bounds;
@@ -36,7 +23,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     private BoxCollider _boxCollider;
 
     #region {Author:Doonn}
-    public void Awake()
+    public virtual void Awake()
     {
         ChangeTankMesh(1);
         _bounds = new Bounds[_tankMeshes.Count];
@@ -46,10 +33,6 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
             _bounds[i] = _tankMeshes[i].GetComponent<MeshFilter>().sharedMesh.bounds;
         }
         InitColliderCenterAndSize();
-        TankShotProjectileRecordTransform();
-
-        _shooter.Init(this.gameObject, this);
-        _perkManager = new PerkManager(_viewParams, _shooter);
     }
 
     //<< Doonn
@@ -61,19 +44,12 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
             {
                 // _sphereColl.radius = (_bounds[i].size.x / 2);
                 // _sphereColl.center = new Vector3(0, _bounds[i].size.x / 2 , 0);
-                _boxCollider.size = new Vector3(_bounds[i].size.x,5f,_bounds[i].size.z);
+                _boxCollider.size = new Vector3(_bounds[i].size.x, 5f, _bounds[i].size.z);
                 _boxCollider.center = new Vector3(0, _boxCollider.size.y / 2, 0);
             }
         }
     }
     //>>END
-
-    // public void InitializeShooter(Shooter shooter)
-    // {
-    //     if(shooter == null) return;
-    //     _shooter = shooter;
-    //     _perkManager = new PerkManager(_viewParams, _shooter);
-    // }
 
     public void ChangeTankMesh(int index)
     {
@@ -115,7 +91,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         }
     }
     //Enter Alt
-    private void GetMerge()
+    protected virtual void GetMerge()
     {
         if (CheckTankMeshesList(_tankMeshes) == false) return;
         if (_tankMeshes.Count < 5) return;
@@ -123,7 +99,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
 
         _level++;
         ChangeTankMesh(Level);
-        TankShotProjectileRecordTransform();
+        //TankShotProjectileRecordTransform();
         UpParams();
     }
 
@@ -139,47 +115,10 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
     protected void GetPoints(int points) //<< Поменял с private на protected для тестов
     {
         _points += points;
-        CheckStorePrice(); //<<Doonn
+        _viewParams.AddExperiance(points, this.gameObject);
     }
-
-    //>>Doonn
-    private void CheckStorePrice()
-    {
-        if (_points >= StoreSystem.Price)
-        {
-            Debug.Log("Можно Покупать: Цена = " + StoreSystem.Price + " Points: " + _points);
-            StartTransaction();
-        }
-    }
-
-    protected virtual void StartTransaction() { }
 
     //<<END
-    // Запись Трансформов от куда вылетают Снаряды
-    public void TankShotProjectileRecordTransform()
-    {
-        if (_tankMeshes == null) return;
-        bool checkListIsEmpty = _tankMeshes.TrueForAll(x => x != null);
-
-        if (!checkListIsEmpty)
-        {
-            Debug.Log("List Slot Empty");
-            return;
-        }
-
-        foreach (GameObject Tank in _tankMeshes)
-        {
-            if (Tank.activeInHierarchy)
-            {
-                _shotProjectileTransform.Clear();
-                int CountChild = Tank.transform.childCount;
-                for (int i = 0; i < CountChild; i++)
-                {
-                    _shotProjectileTransform.Add(Tank.transform.GetChild(i));
-                }
-            }
-        }
-    }
 
     private bool CheckTankMeshesList(List<GameObject> tankMeshes)
     {
@@ -192,15 +131,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         return true;
     }
 
-    public void Attack()
-    {
-        if (_viewParams.IsDead().Equals(true))
-        {
-            return;
-        }
-        if (_shooter == null) return;
-        _shooter.Shooting(_perkManager.OwnProjectileModList);
-    }
+    public virtual void Attack() { }
 
     public void TakeDamage(float damage)
     {
@@ -208,7 +139,6 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         {
             return;
         }
-        //Debug.Log("Нанес Повреждение");
         ViewParams.ChangeHealth(ViewParams.Health - damage);
         IsDead();
     }
@@ -218,7 +148,7 @@ public abstract class BasePersonView : BaseObjectView, IApplyDamage, IDead, ISta
         if (ViewParams.IsDead())
         {
             Debug.Log(GetType().ToString() + " DEAD");
-            GameEvents.Current.PersonDead(this); // Временно Отключил для Тестов
+            GameEvents.Current.PersonDead(this); 
             Destroy(gameObject);
         }
     }

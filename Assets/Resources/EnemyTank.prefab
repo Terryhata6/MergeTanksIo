@@ -67,20 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _points: 0
-  _perkManager:
-    _ownPlayerPerkList: []
-    _ownShooterPerkList: []
-    _ownProjectileModList: []
-    _frozenPerkList: []
-  _shooter:
-    _speedProjectile: 30
-    _damage: 10
-    _sequentialShots: 0
-    _shootInterval: 1
-    _projectileList: []
-    _speed: 0
   _level: 1
-  _shotProjectileTransform: []
   _tankMeshes:
   - {fileID: 5267408001498998918}
   - {fileID: 2945773170363313983}
@@ -93,8 +80,24 @@ MonoBehaviour:
     MoveSpeed: 5
     RotationSpeed: 5
     Shield: 0
+    _level: 1
+    _experience: 0
+    _needExperianceToLevelUp: 100
   _boundSize: 0
   _debuffList: []
+  _perkManager:
+    _ownPlayerPerkList: []
+    _ownShooterPerkList: []
+    _ownProjectileModList: []
+    _frozenPerkList: []
+  _shooter:
+    _shotProjectileTransform: []
+    _speedProjectile: 30
+    _damage: 10
+    _sequentialShots: 0
+    _shootInterval: 1
+    _projectileList: []
+    _speed: 0
 --- !u!65 &-337218138280446990
 BoxCollider:
   m_ObjectHideFlags: 0

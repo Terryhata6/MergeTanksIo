@@ -1,8 +1,14 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerView : BasePersonView, ITransaction
+public class PlayerView : BasePersonView
 {
+    #region {Author:Doonn}
+    [SerializeField] protected PerkManager _perkManager;
+    public PerkManager PerkManager => _perkManager;
+
+    [SerializeField] protected Shooter _shooter = new Shooter();
+    #endregion
+
     [SerializeField] private PlayerState _state = PlayerState.Idle;
 
     public PlayerState State => _state;
@@ -10,6 +16,48 @@ public class PlayerView : BasePersonView, ITransaction
     public void SetState(PlayerState state)
     {
         _state = state;
+    }
+
+    public override void Awake()
+    {
+        base.Awake();
+        _shooter.Init(this);
+        _perkManager = new PerkManager(_viewParams, _shooter);
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log("Подписался");
+        GameEvents.Current.OnSelectPerk += GivePerk;
+    }
+
+    public void OnDisable()
+    {
+        Debug.Log("Отписался");
+        GameEvents.Current.OnSelectPerk -= GivePerk;
+    }
+
+    private void GivePerk(AbstractPerk perk)
+    {
+        if(perk == null) return;
+        _perkManager.AddPerk(perk);
+    }
+
+    protected override void GetMerge()
+    {
+        base.GetMerge();
+        _shooter.RecalcProjectileTransform();
+    }
+
+    public override void Attack()
+    {
+        base.Attack();
+        if (_viewParams.IsDead().Equals(true))
+        {
+            return;
+        }
+        if (_shooter == null) return;
+        _shooter.Shooting(_perkManager.OwnProjectileModList);
     }
 
     public override void IsDead()
@@ -22,29 +70,18 @@ public class PlayerView : BasePersonView, ITransaction
         base.IsDead();
     }
 
-    protected override void StartTransaction()
-    {
-        base.StartTransaction();
-        Transaction transaction = new Transaction();
-        transaction.Value = _points;
-        transaction.WhoBuy = gameObject;
-        StoreSystem.SetBuy(transaction);
-    }
-
-    public void CompleteTransaction(Transaction transaction)
-    {
-        _points = transaction.Value;
-        PerkManager.AddPerk(transaction.Perk);
-    }
-
+    //////////////////////////////////
+    /////////////////////////////////////
+    /// <summary>
+    /// Test New PerkActionSystem
+    /// </summary>
     // Тест Новой Системы Перков
     [SerializeField] private BlackRainbow.PerkManager.PerkManager _newPerkManager;
     public BlackRainbow.PerkManager.PerkManager NewPerkManager => _newPerkManager;
 
     /// <summary>
-    /// Test UI PERK
+    /// Test New PerkActionSystem
     /// </summary>
-
     void Start()
     {
         _newPerkManager = new BlackRainbow.PerkManager.PerkManager(this);
@@ -53,61 +90,10 @@ public class PlayerView : BasePersonView, ITransaction
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //GetPoints(10);
-            //var ss = Resources.Load<BlackRainbow.PerkSystem.AbstractPerkSO>("TestPerkSO/AddMaxHealthPerk");
             var ss = Resources.Load<BlackRainbow.PerkSystem.AbstractPerkSO>("TestPerkSO/HealthRegenerationPerkSO");
             Debug.Log(ss);
             var inst = Instantiate(ss);
             _newPerkManager.AddPerk(inst);
         }
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     GameEvents.Current.SetSelectPerks(LoadPerksSystem.GetRandomPerkList(3));
-        // }
-        // if (Input.GetKeyDown(KeyCode.LeftControl))
-        // {
-        //     GameEvents.Current.OnSelectPerk += Perk;
-        // }
-        // if (Input.GetKeyDown(KeyCode.Q))
-        // {
-        //     var ss = LoadPerksSystem.GetOnePerkByName("ExplosiveProjectile");
-        //     var inst = Instantiate(ss);
-        //     PerkManager.AddPerk(inst);
-        // }
-        // if (Input.GetKeyDown(KeyCode.W))
-        // {
-        //     var ss = LoadPerksSystem.GetOnePerkByName("PenetrationShoot");
-        //     var inst = Instantiate(ss);
-        //     PerkManager.AddPerk(inst);
-        // }
-        // if (Input.GetKeyDown(KeyCode.E))
-        // {
-        //     var ss = LoadPerksSystem.GetOnePerkByName("PoisonProjectile");
-        //     var inst = Instantiate(ss);
-        //     PerkManager.AddPerk(inst);
-        // }
-        // if (Input.GetKeyDown(KeyCode.R))
-        // {
-        //     var ss = LoadPerksSystem.GetOnePerkByName("ProjectileSize");
-        //     var inst = Instantiate(ss);
-        //     PerkManager.AddPerk(inst);
-        // }
-        // if (Input.GetKeyDown(KeyCode.A))
-        // {
-        //     var ss = LoadPerksSystem.GetOnePerkByName("RepulsiveProjectilesPerk");
-        //     var inst = Instantiate(ss);
-        //     PerkManager.AddPerk(inst);
-        // }
-        // if (Input.GetKeyDown(KeyCode.S))
-        // {
-        //     var ss = LoadPerksSystem.GetOnePerkByName("RicochetPerk");
-        //     var inst = Instantiate(ss);
-        //     PerkManager.AddPerk(inst);
-        // }
     }
-
-    // void Perk(AbstractPerk perk)
-    // {
-    //     Debug.Log("Get UI PERK: " + perk);
-    // }
 }

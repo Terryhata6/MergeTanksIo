@@ -7,8 +7,6 @@ public class GameEvents
 {
     public static GameEvents Current = new GameEvents();
 
-    // public event Action<Projectile> OnRemoveProjectile;
-
     public event Action<BaseProjectile> OnRemoveBaseProjectile;
 
     public void RemoveBaseProjectile(BaseProjectile baseProjectile)
@@ -23,12 +21,6 @@ public class GameEvents
         OnCollectablesParamSet?.Invoke(cp);
     }
 
-
-
-    // public void RemoveProjectile(Projectile projectile)
-    // {
-    //     OnRemoveProjectile?.Invoke(projectile);
-    // 
     public event Action<CollectableItem> OnItemCollected;
     public void ItemCollected(CollectableItem coin)
     {
@@ -59,7 +51,7 @@ public class GameEvents
     {
         OnPersonDead?.Invoke(view);
     }
-    
+
     public event Action<CollectableSpray> OnSprayAvaible;
 
     public void SprayAvaible(CollectableSpray spray)
@@ -81,7 +73,6 @@ public class GameEvents
         OnVirtualCamSet?.Invoke(camera);
     }
 
-
     public event Action<PersonType> OnPlayerTypeChoose;
 
     public void PlayerTypeChoose(PersonType type)
@@ -102,23 +93,30 @@ public class GameEvents
         OnCollectableDisable?.Invoke(col);
     }
 
+    #region LevelUpEvent
+    public event Action<GameObject> OnLevelUp;
+    public void LevelUp(GameObject ownObject)
+    {
+        OnLevelUp?.Invoke(ownObject);
+    }
+    #endregion
+
     #region Perks
     public event Action<List<AbstractPerk>> OnSetSelectPerks;
     public void SetSelectPerks(List<AbstractPerk> perks)
     {
         OnSetSelectPerks?.Invoke(perks);
     }
-
     public event Action<AbstractPerk> OnSelectPerk;
     public void SelectPerk(AbstractPerk perk)
     {
         OnSelectPerk?.Invoke(perk);
     }
+    #endregion
+
     public event Action<GameObject> OnMergeObj;
     public void MergeObj(GameObject Obj)
     {
         OnMergeObj?.Invoke(Obj);
     }
-    
-    #endregion
 }

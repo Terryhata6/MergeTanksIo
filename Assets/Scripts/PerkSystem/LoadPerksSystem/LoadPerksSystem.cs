@@ -24,16 +24,14 @@ public static class LoadPerksSystem
         return AllPerks;
     }
 
-
-
-//<< UI
+    //<< UI
     public static List<AbstractPerk> GetRandomPerkList(int returnCountPerk)
     {
         List<AbstractPerk> perks = new List<AbstractPerk>();
 
         for (int i = 0; i < returnCountPerk; i++)
         {
-            int randomIndex = Random.Range(0, AllPerks.Length-1);
+            int randomIndex = Random.Range(0, AllPerks.Length - 1);
             var getPerkFromIndex = AllPerks[randomIndex];
 
             if (!perks.Contains(getPerkFromIndex))
@@ -46,5 +44,38 @@ public static class LoadPerksSystem
             }
         }
         return perks;
+    }
+
+    public static List<AbstractPerk> GetRandomPerkList(AbstractPerk[] perks, int returnCountPerk)
+    {
+        List<AbstractPerk> maxLevelPerksFreez = new List<AbstractPerk>();
+        List<AbstractPerk> returnPerks = new List<AbstractPerk>();
+        for (int i = 0; i < perks.Length; i++)
+        {
+            if (perks[i] == null) continue;
+            if (perks[i].PerkData.Level >= perks[i].PerkData.MaxLevel)
+            {
+                maxLevelPerksFreez.Add(perks[i]);
+            }
+        }
+
+        for (int i = 0; i < returnCountPerk; i++)
+        {
+            int countLoop = i;
+            int randomIndex = Random.Range(0, AllPerks.Length - 1);
+            var getPerkFromIndex = AllPerks[randomIndex];
+
+            if (maxLevelPerksFreez.Find(perk => getPerkFromIndex))
+            {
+                i--;
+                if(countLoop >= AllPerks.Length) break;
+            }
+            else
+            {
+                returnPerks.Add(getPerkFromIndex);
+            }
+        }
+
+        return returnPerks;
     }
 }

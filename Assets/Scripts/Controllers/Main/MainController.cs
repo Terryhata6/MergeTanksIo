@@ -26,6 +26,7 @@ public class MainController : MonoBehaviour
         AddController(new CollectableController());
         AddController(new EnemyController());
         AddController(new ProjectileController()); //<< Doonn
+        AddController(new GivePerkController()); //<< Doonn
         AddController(new UIController());
 
 

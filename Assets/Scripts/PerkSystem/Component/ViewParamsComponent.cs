@@ -62,4 +62,22 @@ public class ViewParamsComponent
         return false;
     }
     #endregion
+
+
+    #region LevelUp
+    [SerializeField] private int _level = 1;
+    [SerializeField] private int _experience = 0;
+    [SerializeField] private int _needExperianceToLevelUp = 100;
+
+    public void AddExperiance(int exp, GameObject ownGameObject)
+    {
+        _experience += exp;
+        if (_experience >= _needExperianceToLevelUp)
+        {
+            _level++;
+            GameEvents.Current.LevelUp(ownGameObject);
+            _experience -= _needExperianceToLevelUp;
+        }
+    }
+    #endregion
 }

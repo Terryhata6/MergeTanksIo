@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Shooter
+public class Shooter : AbstractShooter
 {
     #region Shooter Params
     [SerializeField] private float _speedProjectile = 30f;
@@ -20,7 +19,6 @@ public class Shooter
 
     private ObjectPool<Projectile> _pool;
     public ObjectPool<Projectile> Pool => _pool;
-    private List<Transform> _projectileTransList = new List<Transform>();
     private BasePersonView _basePlayer; //<<
     private Projectile _temporalProjectile;
 
@@ -32,25 +30,14 @@ public class Shooter
     private List<AbstractPerk> _perkProjectileList;
     public List<AbstractPerk> PerkProjectileList => _perkProjectileList;
 
-    private GameObject _ownGameObject;
-    public GameObject OwnGameObject => _ownGameObject;
-    public void Init(GameObject ownGameObject, BasePersonView basePerson) //IEnumerator Start
+    public void Init(BasePersonView basePerson) //IEnumerator Start
     {
-        _ownGameObject = ownGameObject;
-        //yield return null;
-        //if (TryGetComponent(out _basePlayer))
-        {
-            _projectileController = MainController.Current.GetController<ProjectileController>();
-            _projectileController.AddShooterToList(this);
-            //_basePlayer.InitializeShooter(this);
-            _basePlayer = basePerson;
-            _pool = _projectileController.Pool;
-        }
-        //else
-        {
-            //Debug.Log("not found", this.gameObject);
-           // yield break;
-        }
+        _basePlayer = basePerson;
+        _ownGameObject = _basePlayer.gameObject;
+        TankShotProjectileRecordTransform(_ownGameObject);
+        _projectileController = MainController.Current.GetController<ProjectileController>();
+        _projectileController.AddShooterToList(this);
+        _pool = _projectileController.Pool;
         GameEvents.Current.OnRemoveBaseProjectile += RemoveProjectile;
     }
 
@@ -63,6 +50,7 @@ public class Shooter
         }
         else
         {
+            // TODO
             // Sequential();
         }
 
@@ -73,12 +61,10 @@ public class Shooter
         _tempInterval += Time.deltaTime;
         if (_tempInterval >= _shootInterval)
         {
-            _projectileTransList = _basePlayer.ShotProjectileTransform;
-
-            for (int i = 0; i < _projectileTransList.Count; i++)
+            for (int i = 0; i < _shotProjectileTransform.Count; i++)
             {
-                _temporalProjectile = ShootPooledProjectile(_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation);
-                if(_temporalProjectile == null) return;
+                _temporalProjectile = ShootPooledProjectile(_shotProjectileTransform[i].transform.position, _shotProjectileTransform[i].transform.rotation);
+                if (_temporalProjectile == null) return;
                 _temporalProjectile = ProjectileModification();
                 AddProjectile(_temporalProjectile);
             }
@@ -86,30 +72,13 @@ public class Shooter
         }
     }
 
-    // private void Sequential()
-    // {
-    //     _projectileTransList = _player.ShotProjectileTransform;
-    //     for (int i = 0; i < _projectileTransList.Count; i++)
-    //     {
-    //         _tempInterval += Time.deltaTime;
-    //         while (_tempInterval >= _shootInterval / _projectileTransList.Count)
-    //         {
-    //             _projectileList.Add(ShootPooledProjectile(_projectileTransList[i].transform.position, _projectileTransList[i].transform.rotation));
-
-    //             _tempInterval = 0;
-    //         }
-
-    //     }
-    // }
-
     private Projectile ShootPooledProjectile(Vector3 position, Quaternion rotation)
     {
         _temporalProjectile = _pool.GetObject();
-        if(_temporalProjectile == null) return _temporalProjectile;
+        if (_temporalProjectile == null) return _temporalProjectile;
         _temporalProjectile.transform.position = position;
         _temporalProjectile.transform.rotation = rotation;
         _temporalProjectile.SetIdParent(_ownGameObject);
-        
 
         return _temporalProjectile;
     }
@@ -163,8 +132,6 @@ public class Shooter
             _projectileList[i].Move();
         }
     }
-
-
 
     #region Circle Projectile
     [SerializeField] private float _speed;
